@@ -1,0 +1,14 @@
+version: "3"
+services:
+  pg:
+    image: postgres:alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: "oslokokeboka"
+      POSTGRES_USER: "oslokokeboka"
+      POSTGRES_DB: "oslokokeboka"
+    volumes:
+      - pg-data:/var/lib/postgresql/data/
+volumes:
+  pg-data:

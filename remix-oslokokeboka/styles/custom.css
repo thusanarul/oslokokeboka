@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+    html {
+        font-family: 'UniversElse', system-ui, sans-serif;
+        background-color: theme('colors.darkestwine');
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    h2 {
+        font-size: 28px;
+        line-height: 31px;
+        color: theme('colors.salmon')
+    }
+
+    p {
+        font-size: 17px;
+        line-height: 21px;
+        letter-spacing: 0.01em;
+        color: theme('colors.salmon')
+    }
+
+    input, textarea, select {
+        -moz-appearance:none; /* Firefox */
+        -webkit-appearance:none; /* Safari and Chrome */
+        appearance:none;
+    }
+
+
+    /* Removes horrible arrows from number input */
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    button {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -web-box-sizing: border-box;
+    }
+
+    select {
+        background: transparent;
+        background-position: right 20px top 50%;
+        background-image: theme('backgroundImage.chevron');
+        background-repeat: no-repeat;
+        background-size: 12px 8px;
+    }
+
+    input:not([type=checkbox]), textarea, select {
+        @apply w-full bg-darkwine text-salmon border-b-salmon border-b-[1px] placeholder:text-salmon px-[16px] py-[16px] rounded-t-[4px];
+    }
+
+    input:not([type=checkbox]):focus, textarea:focus, select:focus {
+        outline: 1px solid theme('colors.salmon');
+    }
+
+    input[type=checkbox]{
+        @apply outline-salmon outline-[1px] hover:cursor-pointer bg-darkwine placeholder:text-salmon rounded-[4px] h-[34px] w-[34px];
+    }
+
+    input[type=checkbox]:checked{
+        @apply outline-salmon outline-[2px] border-darkwine border-[4px] bg-salmon rounded-[4px];
+    }
+    
+}
+
+@layer components {
+    .orange-button {
+        background-color: theme('colors.ochre');
+        color: theme('colors.darkwine');
+        padding: 16px;
+        border-radius: 6px;
+
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 20px;
+        text-align: center;
+    }
+
+    .red-button {
+        background-color: theme('colors.salmon');
+        color: theme('colors.darkestwine');
+        border-radius: 6px;
+    }
+
+    .inverted-red-button {
+        background-color: theme('colors.darkestwine');
+        color: theme('colors.salmon');
+        border-radius: 6px;
+        border: 1px solid theme('colors.salmon')
+    }
+
+    .form-indicator {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -web-box-sizing: border-box;
+        border-radius: 4px;
+
+        background-color: theme('colors.darkwine');
+        height: 12px;
+    }
+
+    .body-text {
+        @apply text-[17px] leading-[21px] tracking-[.01em];
+    }
+
+    @font-face {
+        font-family: "UniversElse";
+        font-weight: 400;
+        font-display: auto;
+        src: url("/fonts/universelse-regular-webfont.woff") format('woff');
+    }
+    
+    @font-face {
+        font-family: "UniversElse";
+        font-weight: 300;
+        font-display: auto;
+        src: url("/fonts/universelse-light-webfont.woff") format('woff');
+    }
+    
+    @font-face {
+        font-family: "UniversElse";
+        font-weight: 700;
+        font-display: auto;
+        src: url("/fonts/universelse-bold-webfont.woff") format('woff');
+    }
+}
