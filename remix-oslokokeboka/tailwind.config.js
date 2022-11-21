@@ -30,7 +30,8 @@ module.exports = {
         'body': ['UniversElse']
       },
       backgroundImage: {
-        'chevron': "url('/images/svg/chevron.svg')"
+        'chevron': "url('/images/svg/chevron.svg')",
+        'check': "url('/images/svg/check.svg')"
       }
     },
   },

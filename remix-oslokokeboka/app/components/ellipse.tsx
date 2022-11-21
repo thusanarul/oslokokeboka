@@ -1,4 +1,4 @@
-export const Ellipse = ({ className }: { className: string }) => {
+const Ellipse = ({ className }: { className: string }) => {
   return (
     <svg
       className={className}
@@ -10,3 +10,5 @@ export const Ellipse = ({ className }: { className: string }) => {
     </svg>
   );
 };
+
+export default Ellipse;

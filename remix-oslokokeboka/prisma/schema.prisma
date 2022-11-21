@@ -19,6 +19,7 @@ model RecipeSubmission {
 
 model RecipeField {
   id                 Int               @id @default(autoincrement())
+  index              String
   step               Int
   name               String
   inputType          InputType

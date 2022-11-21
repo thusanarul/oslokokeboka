@@ -1,4 +1,4 @@
-export const Chevron = ({ className }: { className: string }) => {
+const Chevron = ({ className }: { className: string }) => {
   return (
     // <svg
     //   className="self-end h-5 w-5"
@@ -25,3 +25,5 @@ export const Chevron = ({ className }: { className: string }) => {
     </svg>
   );
 };
+
+export default Chevron;

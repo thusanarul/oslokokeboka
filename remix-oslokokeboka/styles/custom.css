@@ -70,9 +70,12 @@
     }
 
     input[type=checkbox]:checked{
-        @apply outline-salmon outline-[2px] border-darkwine border-[4px] bg-salmon rounded-[4px];
+        background-image: theme('backgroundImage.check');
+        background-color: theme('colors.salmon');
+        background-size: 80%;
+        background-position: center center;
+        background-repeat: no-repeat;
     }
-    
 }
 
 @layer components {

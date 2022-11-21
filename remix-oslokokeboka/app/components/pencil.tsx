@@ -1,4 +1,4 @@
-export const Pencil = ({ className }: { className: string }) => {
+const Pencil = ({ className }: { className: string }) => {
   return (
     <svg
       className={className}
@@ -13,3 +13,5 @@ export const Pencil = ({ className }: { className: string }) => {
     </svg>
   );
 };
+
+export default Pencil;

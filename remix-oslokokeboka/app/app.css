@@ -540,15 +540,12 @@ input[type=checkbox]:hover {
   cursor: pointer;
 }
 
-input[type=checkbox]:checked {
-  border-radius: 4px;
-  border-width: 4px;
-  --tw-border-opacity: 1;
-  border-color: rgb(38 6 29 / var(--tw-border-opacity));
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 120 128 / var(--tw-bg-opacity));
-  outline-width: 2px;
-  outline-color: #FF7880;
+input[type=checkbox]:checked{
+  background-image: url('/images/svg/check.svg');
+  background-color: #FF7880;
+  background-size: 80%;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
 *, ::before, ::after {
@@ -826,6 +823,10 @@ input[type=checkbox]:checked {
   height: 85px;
 }
 
+.h-\[20px\] {
+  height: 20px;
+}
+
 .h-\[85vh\] {
   height: 85vh;
 }
@@ -842,10 +843,6 @@ input[type=checkbox]:checked {
   height: 10px;
 }
 
-.h-\[20px\] {
-  height: 20px;
-}
-
 .w-5 {
   width: 1.25rem;
 }
@@ -860,26 +857,6 @@ input[type=checkbox]:checked {
 
 .w-\[408px\] {
   width: 408px;
-}
-
-.w-\[85vw\] {
-  width: 85vw;
-}
-
-.w-\[12px\] {
-  width: 12px;
-}
-
-.w-\[10px\] {
-  width: 10px;
-}
-
-.w-1\/2 {
-  width: 50%;
-}
-
-.w-\[68px\] {
-  width: 68px;
 }
 
 .w-\[208px\] {
@@ -902,6 +879,26 @@ input[type=checkbox]:checked {
   width: 55px;
 }
 
+.w-\[85vw\] {
+  width: 85vw;
+}
+
+.w-\[12px\] {
+  width: 12px;
+}
+
+.w-\[10px\] {
+  width: 10px;
+}
+
+.w-1\/2 {
+  width: 50%;
+}
+
+.w-\[68px\] {
+  width: 68px;
+}
+
 .w-\[18\%\] {
   width: 18%;
 }
@@ -914,12 +911,12 @@ input[type=checkbox]:checked {
   width: 8%;
 }
 
-.flex-auto {
-  flex: 1 1 auto;
-}
-
 .flex-none {
   flex: none;
+}
+
+.flex-auto {
+  flex: 1 1 auto;
 }
 
 .grid-cols-2 {
@@ -958,20 +955,20 @@ input[type=checkbox]:checked {
   gap: 2px;
 }
 
-.gap-\[48px\] {
-  gap: 48px;
-}
-
-.gap-\[8px\] {
-  gap: 8px;
-}
-
 .gap-\[16px\] {
   gap: 16px;
 }
 
 .gap-\[12px\] {
   gap: 12px;
+}
+
+.gap-\[48px\] {
+  gap: 48px;
+}
+
+.gap-\[8px\] {
+  gap: 8px;
 }
 
 .self-end {
@@ -1032,14 +1029,14 @@ input[type=checkbox]:checked {
   padding: 16px;
 }
 
-.py-\[16px\] {
-  padding-top: 16px;
-  padding-bottom: 16px;
-}
-
 .py-\[20px\] {
   padding-top: 20px;
   padding-bottom: 20px;
+}
+
+.py-\[16px\] {
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 
 .pl-\[16px\] {
@@ -1048,6 +1045,11 @@ input[type=checkbox]:checked {
 
 .pr-\[20px\] {
   padding-right: 20px;
+}
+
+.text-paper {
+  --tw-text-opacity: 1;
+  color: rgb(233 223 214 / var(--tw-text-opacity));
 }
 
 .text-white {
@@ -1063,11 +1065,6 @@ input[type=checkbox]:checked {
 .text-salmon {
   --tw-text-opacity: 1;
   color: rgb(255 120 128 / var(--tw-text-opacity));
-}
-
-.text-paper {
-  --tw-text-opacity: 1;
-  color: rgb(233 223 214 / var(--tw-text-opacity));
 }
 
 .opacity-70 {

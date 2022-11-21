@@ -10,11 +10,8 @@ import {
   useLoaderData,
   useNavigate,
 } from "@remix-run/react";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Chevron } from "~/components/chevron";
-import { Pencil } from "~/components/pencil";
+import { useState } from "react";
 import invariant from "tiny-invariant";
-import { Ellipse } from "~/components/ellipse";
 import { Prisma, InputType, RecipeSubmission } from "@prisma/client";
 
 import { db } from "~/utils/db.server";
@@ -24,23 +21,63 @@ import form_1 from "~/form-input/form-1";
 import form_2 from "~/form-input/form-2";
 import form_3 from "~/form-input/form-3";
 import form_4 from "~/form-input/form-4";
+import AdderInput from "~/components/input-fields/adder";
+import TextInput from "~/components/input-fields/text-input";
+import { InputHTMLElement } from "~/components/input-fields/shared";
+import Chevron from "~/components/chevron";
+import Ellipse from "~/components/ellipse";
 
+/*
+Denne har blitt morsom
+
+infoText er der bare pga consent.
+errorText kan kanskje være sitt eget objekt?
+required trenger ikke å være nullable?
+
+defaultValue var tenkt til å populere hvis formen er delvis fylt inn?
+choices er der bare hvis det er dropdown og adder
+
+Kan hardkode consent?? fakk it hvorfor ikke liksom
+
+*/
 export type RecipeFormField = {
   index: string;
   name: string;
   title: string;
-  errorText?: string;
   required?: boolean;
   infoText?: string[];
-  input: {
-    type: "text" | "textarea" | "dropdown" | "adder" | "consent";
-    placeholder: string;
-    defaultValue?: string;
-    choices?: {
-      value: string | number;
-      text: string;
-    }[];
-  };
+  defaultValue?: string;
+  input: BasicInputField | ChoicesInputField;
+};
+
+export type RecipeFormFieldError = {
+  index: string;
+  name: string;
+  errorText: string;
+};
+
+export type RecipeFormFieldValue = {
+  index: string;
+  name: string;
+  value: string;
+};
+
+export type RecipeErrors = Record<string, RecipeFormFieldError>;
+
+export type RecipeFilled = Record<string, RecipeFormFieldValue>;
+
+type BasicInputField = {
+  type: "text" | "textarea" | "consent";
+  placeholder: string;
+};
+
+type ChoicesInputField = {
+  type: "dropdown" | "adder";
+  placeholder: string;
+  choices: {
+    value: string | number;
+    text: string;
+  }[];
 };
 
 type step = "next" | "previous" | "cancel" | "submit";
@@ -61,20 +98,17 @@ const inputTypeMap = {
   consent: InputType.CONSENT,
 };
 
-// 08.09
-// Able to save to database, and it upserts.
-// Redirecting to the next step is not fully implemented yet. Missing creating the actual form heh.
 // Next step: task 1 or 2
 
 // TODO
 // task: Make the rest of the form, and make sure redirecting and saving the form works.
-// task: fieldinfocus as a hook? would help refactoring? make it cleaner
+// task: save highest form step filled to localstorage or something
 // task: Create admin panel to view submitted recipes. Can be pretty simple.
 // task: Create image upload and consent input
 // task: edit ingredients submission.
 // task: Make opacity depended on scroll also. Have only implemented lazy version
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params, request }) => {
   invariant(params.step, `form step is required`);
   const currentStep: number = parseInt(params.step);
 
@@ -82,19 +116,41 @@ export const loader: LoaderFunction = async ({ params }) => {
     return redirect("/");
   }
 
-  console.log(`loader: ${currentStep}`);
+  // session or localstorage?
+  const session = await getSession(request.headers.get("Cookie"));
+  let submission: RecipeSubmission | null = null;
+  const filled: RecipeFilled = {};
 
-  // NICE TO HAVE: as of 08.09 not implemented?
-  //       Check if form has already been partially submitted
-  //       If so, populate defaultValue in RecipeFormField
-  //       see if gthere
+  if (session.has("formId")) {
+    console.log("Found formId");
+    submission = await db.recipeSubmission.findUnique({
+      where: {
+        id: session.get("formId"),
+      },
+    });
+  }
 
-  // Also, actually return the correct form hehe
-  // This pattern of defining of what the current form is, could give me complications
+  if (submission) {
+    const f = await db.recipeField.findMany({
+      where: {
+        recipeSubmissionId: submission.id,
+        step: currentStep,
+      },
+    });
 
-  return json<{ step: number; form: RecipeFormField[] }>({
+    f.forEach((val, i) => {
+      filled[val.index] = {
+        index: val.index,
+        name: val.name,
+        value: val.inputValue,
+      };
+    });
+  }
+
+  return json<{ step: number; form: RecipeFormField[]; filled: RecipeFilled }>({
     step: currentStep,
     form: steps[currentStep].form,
+    filled: filled,
   });
 };
 
@@ -103,15 +159,13 @@ export const action: ActionFunction = async ({ params, request }) => {
 
   invariant(params.step, `form step is required`);
   const currentStep: number = parseInt(params.step);
-  // Do this better by actually returning the correct form
-  // This pattern of defining of what the current form is, could give me complications
-  // yes michael jackson dangerous
 
   if (currentStep < 0 || currentStep > steps.length) {
     return redirect("/");
   }
 
   const currentForm: RecipeFormField[] = steps[currentStep].form;
+  const errors: RecipeErrors = {};
 
   const formData = await request.formData();
 
@@ -123,22 +177,38 @@ export const action: ActionFunction = async ({ params, request }) => {
   formData.forEach((val, key, _) => {
     const s = currentForm.find((field) => field.name === key);
 
+    // more types of validation?
     if (s?.required && val.toString().trim() === "") {
-      s.errorText = "This field can not be left blank";
+      errors[s.index] = {
+        index: s.index,
+        name: s.name,
+        errorText: "This field can not be left blank",
+      };
     }
 
     // Flip hasError boolean if errorText has been added
-    if (s?.errorText && !hasError) {
+    if (!hasError && Object.keys(errors).length > 0) {
       hasError = true;
     }
   });
 
   if (hasError) {
     console.log("Form has error");
-    return json<{ step: number; form: RecipeFormField[] }>({
-      step: currentStep,
-      form: currentForm,
-    });
+    return json<{
+      step: number;
+      form: RecipeFormField[];
+      errors: RecipeErrors;
+    }>(
+      {
+        step: currentStep,
+        form: currentForm,
+        errors,
+      },
+      {
+        status: 400,
+        statusText: "Error when validating form",
+      }
+    );
   }
 
   /*
@@ -157,11 +227,18 @@ export const action: ActionFunction = async ({ params, request }) => {
 
     session.set("formId", submission.id);
   } else {
-    submission = await db.recipeSubmission.findUniqueOrThrow({
+    let s = await db.recipeSubmission.findUnique({
       where: {
         id: session.get("formId"),
       },
     });
+
+    if (!s) {
+      console.log("Could not fetch formId stored in Session Cookie");
+      return;
+    }
+
+    submission = s;
   }
 
   formData.forEach(async (val, key, _) => {
@@ -193,6 +270,7 @@ export const action: ActionFunction = async ({ params, request }) => {
       create: {
         step: currentStep,
         name: s.name,
+        index: s.index,
         inputType: inputTypeMap[s.input.type],
         inputValue: val.toString(),
         recipeSubmissionId: submission.id,
@@ -217,22 +295,31 @@ export const action: ActionFunction = async ({ params, request }) => {
 };
 
 export default function RecipeIndex() {
-  const loaderData: { step: number; form: RecipeFormField[] } = useLoaderData();
-  const actionData: { step: number; form: RecipeFormField[] } | undefined =
-    useActionData();
+  const loaderData: {
+    step: number;
+    form: RecipeFormField[];
+    filled: RecipeFilled;
+  } = useLoaderData();
+  const actionData:
+    | { step: number; form: RecipeFormField[]; errors: RecipeErrors }
+    | undefined = useActionData();
   const navigate = useNavigate();
 
   let currentForm: RecipeFormField[];
   let currentStep: number;
+  let errors: RecipeErrors;
+  let filled: RecipeFilled;
 
   // Lærdom: loaderData er aldri undefined
   //         Kan skrive dette på en bedre måte
   if (actionData !== undefined) {
     currentForm = actionData.form;
     currentStep = actionData.step;
+    errors = actionData.errors;
   } else if (loaderData !== undefined) {
     currentForm = loaderData.form;
     currentStep = loaderData.step;
+    filled = loaderData.filled;
   } else {
     // Show error page?
     return null;
@@ -252,6 +339,7 @@ export default function RecipeIndex() {
                 type="button"
                 key={`step_${index}`}
                 aria-label={step.name}
+                disabled={currentStep !== index}
                 className={`form-indicator ${step.timeInPercentage} ${stepColor}`}
                 onClick={() => {
                   navigate(`/create-recipe/${index}`);
@@ -276,6 +364,11 @@ export default function RecipeIndex() {
           <Form method="post" className="h-full mb-[24px]" id="recipe-form">
             <div className="flex flex-col gap-[48px]">
               {currentForm.map((field) => {
+                const defaultValue =
+                  filled && filled[field.index] !== undefined
+                    ? filled[field.index].value
+                    : null;
+
                 return (
                   <div className="flex flex-col" key={`outer_${field.name}`}>
                     <label
@@ -297,12 +390,15 @@ export default function RecipeIndex() {
                         field={field}
                         onFocus={() => setFieldInFocus(field.index)}
                         onHover={() => setFieldInFocus(field.index)}
+                        defaultValue={defaultValue}
                       />
                     </label>
-                    {field.errorText ? (
+                    {errors && errors[field.index] !== undefined ? (
                       <span className="flex mt-[8px] gap-[8px]">
                         <Ellipse className={"self-center w-[10px] h-[10px]"} />
-                        <p className="text-ochre">{field.errorText}</p>
+                        <p className="text-ochre">
+                          {errors[field.index].errorText}
+                        </p>
                       </span>
                     ) : null}
                   </div>
@@ -318,7 +414,6 @@ export default function RecipeIndex() {
                     navigate("/");
                   } else {
                     if (currentStep > 0 && currentStep < steps.length) {
-                      console.log("hei");
                       navigate(`/create-recipe/${currentStep - 1}`);
                     }
                   }
@@ -328,7 +423,10 @@ export default function RecipeIndex() {
                   ? "Cancel"
                   : "Previous"}
               </button>
-              <button className="p-[16px] red-button w-[68px] flex-auto justify-center">
+              <button
+                type="submit"
+                className="p-[16px] red-button w-[68px] flex-auto justify-center"
+              >
                 {steps[currentStep].previousStep === "submit"
                   ? "Submit"
                   : "Next"}
@@ -341,24 +439,27 @@ export default function RecipeIndex() {
   );
 }
 
-type InputHTMLElement =
-  | HTMLInputElement
-  | HTMLTextAreaElement
-  | HTMLSelectElement
-  | HTMLDivElement;
-
 const InputField = ({
   field,
   onFocus,
   onHover,
+  defaultValue,
 }: {
   field: RecipeFormField;
   onFocus: React.FocusEventHandler<InputHTMLElement> | undefined;
   onHover: React.MouseEventHandler<InputHTMLElement> | undefined;
+  defaultValue: string | null;
 }) => {
   switch (field.input.type) {
     case "text":
-      return <TextInput field={field} onFocus={onFocus} onHover={onHover} />;
+      return (
+        <TextInput
+          field={field}
+          onFocus={onFocus}
+          onHover={onHover}
+          defaultValue={defaultValue}
+        />
+      );
     case "textarea":
       return (
         <textarea
@@ -368,11 +469,17 @@ const InputField = ({
           rows={8}
           onFocus={onFocus}
           onMouseOver={onHover}
+          defaultValue={defaultValue ?? undefined}
         ></textarea>
       );
     case "dropdown":
       return (
-        <select name={field.name} onFocus={onFocus} onMouseOver={onHover}>
+        <select
+          name={field.name}
+          onFocus={onFocus}
+          onMouseOver={onHover}
+          defaultValue={defaultValue ?? undefined}
+        >
           {field.input.choices?.map((choice, index) => (
             <option key={`option_${field.name}_${index}`} value={choice.value}>
               {choice.text}
@@ -389,159 +496,14 @@ const InputField = ({
             type={"checkbox"}
             onFocus={onFocus}
             onMouseOver={onHover}
+            defaultValue={defaultValue ?? undefined}
           />
           <label className="text-salmon">{field.input.placeholder}</label>
         </div>
       );
     case "adder":
-      // TODO: Refactor and move into own file probably
-      // TODO: Implement edit-button, and discuss with Shub what this is supposed to look like
-
-      // Rendering with Browser only apis: https://remix.run/docs/en/v1/guides/constraints#rendering-with-browser-only-apis
-      const [items, setItems] = useState<
-        {
-          name: string;
-          amount: string;
-          unit_type: string;
-        }[]
-      >([]);
-
-      useEffect(() => {
-        const saved = localStorage.getItem(`adder-${field.name}`);
-        if (!saved) {
-          return;
-        }
-
-        setItems(JSON.parse(saved));
-      }, []);
-
-      const nameEl = useRef<HTMLInputElement | null>(null);
-      const amountEl = useRef<HTMLInputElement | null>(null);
-      const unitTypeEl = useRef<HTMLSelectElement | null>(null);
-
-      const submittedItems = items
-        .map((item) => `${item.name}:${item.amount}:${item.unit_type}`)
-        .join(";");
-
-      return (
-        <div
-          className="flex flex-col gap-[16px]"
-          onFocus={onFocus}
-          onMouseOver={onHover}
-        >
-          <input type="hidden" name={field.name} value={submittedItems} />
-          <div className={items.length > 0 ? "flex flex-col" : "hidden"}>
-            {items.map((item, index) => (
-              <span
-                key={`submitted_item_${index}`}
-                className="w-full h-full flex justify-between border-b-[0.5px] border-b-paper py-[20px] "
-              >
-                <p className="text-paper w-[208px] whitespace-normal">
-                  {item.name}
-                </p>
-                <p className="text-paper">
-                  {item.amount} {item.unit_type}
-                </p>
-                <button type="button" className="flex-none w-[18px]">
-                  <Pencil className="w-full h-[20px]" />
-                </button>
-              </span>
-            ))}
-          </div>
-          <input
-            name={`ignore-name_${field.name}`}
-            type={"text"}
-            className="w-full"
-            ref={nameEl}
-          />
-          <div className="flex w-full gap-[12px]">
-            <input
-              name={`ignore-amount_${field.name}`}
-              type={"number"}
-              className="flex-auto w-[92px]"
-              ref={amountEl}
-            />
-            <select
-              name={`ignore-unit_${field.name}`}
-              className="flex-auto w-[145px]"
-              ref={unitTypeEl}
-            >
-              {field.input.choices?.map((choice, index) => (
-                <option
-                  key={`option_unit_${field.name}_${index}`}
-                  value={choice.value}
-                >
-                  {choice.text}
-                </option>
-              ))}
-            </select>
-            <button
-              type="button"
-              className="flex-auto w-[55px] red-button"
-              onClick={() => {
-                // TODO: Create UI that displays error message
-                if (
-                  !nameEl.current?.value ||
-                  !amountEl.current?.value ||
-                  !unitTypeEl.current?.value
-                ) {
-                  return;
-                }
-                const i = [
-                  ...items,
-                  {
-                    name: nameEl.current.value,
-                    amount: amountEl.current.value,
-                    unit_type: unitTypeEl.current.value,
-                  },
-                ];
-
-                setItems(i);
-                localStorage.setItem(`adder-${field.name}`, JSON.stringify(i));
-              }}
-            >
-              +
-            </button>
-          </div>
-        </div>
-      );
+      return <AdderInput field={field} onFocus={onFocus} onHover={onHover} />;
   }
-  return null;
-};
-
-const TextInput = ({
-  field,
-  onFocus,
-  onHover,
-}: {
-  field: RecipeFormField;
-  onFocus: React.FocusEventHandler<InputHTMLElement> | undefined;
-  onHover: React.MouseEventHandler<InputHTMLElement> | undefined;
-}) => {
-  const [prepopulate, setPrepopulate] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    const saved = localStorage.getItem(`input-${field.name}`);
-    if (!saved) {
-      return;
-    }
-
-    setPrepopulate(saved);
-  }, []);
-
-  return (
-    <input
-      name={field.name}
-      type={"text"}
-      placeholder={field.input.placeholder}
-      onFocus={onFocus}
-      onMouseOver={onHover}
-      onChange={(node) => {
-        localStorage.setItem(`input-${field.name}`, node.currentTarget.value);
-      }}
-      value={prepopulate}
-    />
-  );
 };
 
 const steps: FormStep[] = [
