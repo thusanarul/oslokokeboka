@@ -1,0 +1,9 @@
+# Remix related ignores
+
+remix-oslokokeboka/node_modules
+remix-oslokokeboka/.cache
+remix-oslokokeboka/build
+remix-oslokokeboka/public/build
+remix-oslokokeboka/public/.DS_Store
+remix-oslokokeboka/.env
+remix-oslokokeboka/README.md
