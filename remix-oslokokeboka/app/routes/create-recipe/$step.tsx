@@ -28,25 +28,13 @@ import Chevron from "~/components/chevron";
 import Ellipse from "~/components/ellipse";
 
 /*
-Denne har blitt morsom
-
-infoText er der bare pga consent.
-errorText kan kanskje være sitt eget objekt?
 required trenger ikke å være nullable?
-
-defaultValue var tenkt til å populere hvis formen er delvis fylt inn?
-choices er der bare hvis det er dropdown og adder
-
-Kan hardkode consent?? fakk it hvorfor ikke liksom
-
 */
 export type RecipeFormField = {
   index: string;
   name: string;
   title: string;
   required?: boolean;
-  infoText?: string[];
-  defaultValue?: string;
   input: BasicInputField | ChoicesInputField;
 };
 
@@ -178,12 +166,14 @@ export const action: ActionFunction = async ({ params, request }) => {
     const s = currentForm.find((field) => field.name === key);
 
     // more types of validation?
-    if (s?.required && val.toString().trim() === "") {
+    if (s?.required) {
+      if (val.toString().trim() === "") {
       errors[s.index] = {
         index: s.index,
         name: s.name,
         errorText: "This field can not be left blank",
       };
+    }
     }
 
     // Flip hasError boolean if errorText has been added
@@ -379,13 +369,6 @@ export default function RecipeIndex() {
                     >
                       <p>{field.index}</p>
                       <h2 className="mb-[8px]">{field.title}</h2>
-                      {field.infoText ? (
-                        <span className="flex flex-col gap-[16px]">
-                          {field.infoText.map((val, _) => (
-                            <p>{val}</p>
-                          ))}
-                        </span>
-                      ) : null}
                       <InputField
                         field={field}
                         onFocus={() => setFieldInFocus(field.index)}
@@ -489,7 +472,19 @@ const InputField = ({
       );
     case "consent":
       return (
-        <div className={"flex gap-[16px] items-center mt-[8px]"}>
+        <>
+          <div className="flex flex-col gap-[16px]">
+            <p>
+              On this we require to store information that you provide us to
+              create recipe entries that are then visualised on the Oslo Recipes
+              page.
+            </p>
+            <p>
+              Before we can publish your recipe, we need your consent to use it
+              on our website. You can contact us to take it down at any point in
+              the future if you change your mind.
+            </p>
+            <span className={"flex gap-[16px] items-center mt-[8px]"}>
           <input
             name={field.name}
             id={field.name}
@@ -497,9 +492,15 @@ const InputField = ({
             onFocus={onFocus}
             onMouseOver={onHover}
             defaultValue={defaultValue ?? undefined}
+                value={"yes"}
+                required
           />
-          <label className="text-salmon">{field.input.placeholder}</label>
+              <label htmlFor="consent" className="text-salmon">
+                {field.input.placeholder}
+              </label>
+            </span>
         </div>
+        </>
       );
     case "adder":
       return <AdderInput field={field} onFocus={onFocus} onHover={onHover} />;
