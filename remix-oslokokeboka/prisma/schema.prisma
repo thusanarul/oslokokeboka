@@ -10,9 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// prolly need visible flag or something
 model RecipeSubmission {
   id        String        @id @default(uuid())
   fields    RecipeField[]
+  completed Boolean       @default(false)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
 }

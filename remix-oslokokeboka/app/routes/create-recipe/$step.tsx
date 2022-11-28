@@ -99,23 +99,26 @@ const inputTypeMap = {
 export const loader: LoaderFunction = async ({ params, request }) => {
   invariant(params.step, `form step is required`);
   const currentStep: number = parseInt(params.step);
+  const session = await getSession(request.headers.get("Cookie"));
 
   if (currentStep < 0 || currentStep > steps.length) {
     return redirect("/");
   }
 
   // session or localstorage?
-  const session = await getSession(request.headers.get("Cookie"));
   let submission: RecipeSubmission | null = null;
   const filled: RecipeFilled = {};
 
   if (session.has("formId")) {
     console.log("Found formId");
-    submission = await db.recipeSubmission.findUnique({
-      where: {
-        id: session.get("formId"),
-      },
-    });
+    submission =
+      await db.recipeSubmission.findUnique<Prisma.RecipeSubmissionFindUniqueArgs>(
+        {
+          where: {
+            id: session.get("formId"),
+          },
+        }
+      );
   }
 
   if (submission) {
@@ -168,12 +171,12 @@ export const action: ActionFunction = async ({ params, request }) => {
     // more types of validation?
     if (s?.required) {
       if (val.toString().trim() === "") {
-      errors[s.index] = {
-        index: s.index,
-        name: s.name,
-        errorText: "This field can not be left blank",
-      };
-    }
+        errors[s.index] = {
+          index: s.index,
+          name: s.name,
+          errorText: "This field can not be left blank",
+        };
+      }
     }
 
     // Flip hasError boolean if errorText has been added
@@ -275,7 +278,19 @@ export const action: ActionFunction = async ({ params, request }) => {
     });
   });
 
-  const nextStep = `create-recipe/${currentStep + 1}`;
+  let nextStep = `create-recipe/${currentStep + 1}`;
+  if (steps[currentStep].nextStep === "submit") {
+    await db.recipeSubmission.update<Prisma.RecipeSubmissionUpdateArgs>({
+      where: {
+        id: submission.id,
+      },
+      data: {
+        completed: true,
+      },
+    });
+    session.unset("formId");
+    nextStep = `create-recipe/submit`;
+  }
 
   return redirect(nextStep, {
     headers: {
@@ -351,7 +366,12 @@ export default function RecipeIndex() {
         </button>
         {/* The form associated with the current step*/}
         <div className="mt-[32px]">
-          <Form method="post" className="h-full mb-[24px]" id="recipe-form">
+          <Form
+            method="post"
+            className="h-full mb-[24px]"
+            id="recipe-form"
+            action={`/create-recipe/${currentStep}`}
+          >
             <div className="flex flex-col gap-[48px]">
               {currentForm.map((field) => {
                 const defaultValue =
@@ -410,9 +430,7 @@ export default function RecipeIndex() {
                 type="submit"
                 className="p-[16px] red-button w-[68px] flex-auto justify-center"
               >
-                {steps[currentStep].previousStep === "submit"
-                  ? "Submit"
-                  : "Next"}
+                {steps[currentStep].nextStep === "submit" ? "Submit" : "Next"}
               </button>
             </div>
           </Form>
@@ -485,21 +503,21 @@ const InputField = ({
               the future if you change your mind.
             </p>
             <span className={"flex gap-[16px] items-center mt-[8px]"}>
-          <input
-            name={field.name}
-            id={field.name}
-            type={"checkbox"}
-            onFocus={onFocus}
-            onMouseOver={onHover}
-            defaultValue={defaultValue ?? undefined}
+              <input
+                name={field.name}
+                id={field.name}
+                type={"checkbox"}
+                onFocus={onFocus}
+                onMouseOver={onHover}
+                defaultValue={defaultValue ?? undefined}
                 value={"yes"}
                 required
-          />
+              />
               <label htmlFor="consent" className="text-salmon">
                 {field.input.placeholder}
               </label>
             </span>
-        </div>
+          </div>
         </>
       );
     case "adder":
