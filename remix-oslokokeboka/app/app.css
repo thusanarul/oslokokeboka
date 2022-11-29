@@ -703,9 +703,43 @@ input[type=checkbox]:checked{
   src: url("/fonts/universelse-bold-webfont.woff") format('woff');
 }
 
+.m-auto {
+  margin: auto;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.my-0 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.my-12 {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.my-\[32px\] {
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.my-auto {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.my-\[64px\] {
+  margin-top: 64px;
+  margin-bottom: 64px;
 }
 
 .mt-\[18px\] {
@@ -856,6 +890,10 @@ input[type=checkbox]:checked{
   width: 8%;
 }
 
+.w-auto {
+  width: auto;
+}
+
 .flex-none {
   flex: none;
 }
@@ -936,8 +974,17 @@ input[type=checkbox]:checked{
   border-radius: 4px;
 }
 
+.border-2 {
+  border-width: 2px;
+}
+
 .border-b-\[0\.5px\] {
   border-bottom-width: 0.5px;
+}
+
+.border-white {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity));
 }
 
 .border-b-paper {
@@ -974,6 +1021,10 @@ input[type=checkbox]:checked{
   padding: 16px;
 }
 
+.p-4 {
+  padding: 1rem;
+}
+
 .py-\[20px\] {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -990,6 +1041,10 @@ input[type=checkbox]:checked{
 
 .pr-\[20px\] {
   padding-right: 20px;
+}
+
+.align-middle {
+  vertical-align: middle;
 }
 
 .text-white {

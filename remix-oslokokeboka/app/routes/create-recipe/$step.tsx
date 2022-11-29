@@ -15,7 +15,7 @@ import invariant from "tiny-invariant";
 import { Prisma, InputType, RecipeSubmission } from "@prisma/client";
 
 import { db } from "~/utils/db.server";
-import { commitSession, getSession } from "~/session";
+import { commitSession, getSession } from "~/session.server";
 import form_0 from "~/form-input/form-0";
 import form_1 from "~/form-input/form-1";
 import form_2 from "~/form-input/form-2";

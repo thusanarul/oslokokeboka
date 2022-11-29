@@ -1,7 +1,7 @@
 import { createCookieSessionStorage } from "@remix-run/node"; // or "@remix-run/cloudflare"
 import { getDomainByEnv } from "./utils/functions";
 
-const { getSession, commitSession, destroySession } =
+export let sessionStorage =
   createCookieSessionStorage({
     cookie: {
       name: "__session",
@@ -15,4 +15,4 @@ const { getSession, commitSession, destroySession } =
     },
   });
 
-export { getSession, commitSession, destroySession };
+export let { getSession, commitSession, destroySession } = sessionStorage;
