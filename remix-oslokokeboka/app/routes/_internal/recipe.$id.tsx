@@ -54,7 +54,10 @@ export default function Recipe() {
 
   return (
     <div className="w-full h-screen">
-      <section id="recipe" className="flex flex-col w-[90%] bg-white mx-auto">
+      <section
+        id="recipe"
+        className="flex flex-col w-[90%] max-w-[540px] bg-white mx-auto"
+      >
         <InfoBox recipe={recipe} />
       </section>
       <div></div>
@@ -78,7 +81,7 @@ const InfoBox = ({ recipe }: { recipe: Recipe }) => {
           {recipe["who-are-you"].inputValue}
         </p>
       </span>
-      <dl className="flex justify-between bg-purple py-[20px] pl-[20px] pr-[40px]">
+      <dl className="flex gap justify-between bg-purple py-[20px] pl-[20px] pr-[40px]">
         <span>
           <dt className="text-salmon text-[12px]">Type</dt>
           <dl className="text-paper text-[17px]">
