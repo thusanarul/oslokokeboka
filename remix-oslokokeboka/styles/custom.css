@@ -11,6 +11,11 @@
         text-rendering: optimizeLegibility;
     }
 
+    h1 {
+        font-size: 29px;
+        line-height: 33px;
+    }
+
     h2 {
         font-size: 28px;
         line-height: 31px;
