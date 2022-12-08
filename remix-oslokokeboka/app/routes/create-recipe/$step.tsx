@@ -10,7 +10,7 @@ import {
   useLoaderData,
   useNavigate,
 } from "@remix-run/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { Prisma, InputType, RecipeSubmission } from "@prisma/client";
 
@@ -76,6 +76,7 @@ type FormStep = {
   form: RecipeFormField[];
   nextStep: step;
   previousStep: step;
+  tooltipInfo: string;
 };
 
 const inputTypeMap = {
@@ -330,28 +331,50 @@ export default function RecipeIndex() {
     return null;
   }
   const [fieldInFocus, setFieldInFocus] = useState(currentForm[0].index);
+  const [tooltipStep, setTooltipStep] = useState<FormStep | false>(false);
+  const tooltipTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   return (
     <div className="h-full flex justify-center">
       <main className="h-[85vh] w-[85vw] flex flex-col self-center">
         {/* Either fetch from localstorage, associate with form value or render the default text */}
         <h2 className="">Your Recipe*</h2>
-        <div className="w-full flex justify-between mt-[18px]">
+        <div className="w-full flex justify-between mt-[18px] relative">
           {steps.map((step, index) => {
-            const stepColor = currentStep === index ? "bg-salmon" : "";
+            let stepColor = currentStep === index ? "bg-salmon" : "";
+            if (tooltipStep != false) {
+              stepColor = step === tooltipStep ? "bg-ochre" : stepColor;
+            }
+
             return (
               <button
                 type="button"
                 key={`step_${index}`}
                 aria-label={step.name}
-                disabled={currentStep !== index}
                 className={`form-indicator ${step.timeInPercentage} ${stepColor}`}
                 onClick={() => {
-                  navigate(`/create-recipe/${index}`);
+                  setTooltipStep(step);
+                  if (tooltipTimeout.current) {
+                    clearTimeout(tooltipTimeout.current);
+                  }
+                  tooltipTimeout.current = setTimeout(() => {
+                    setTooltipStep(false);
+                  }, 2000);
+                  //navigate(`/create-recipe/${index}`);
                 }}
-              />
+              ></button>
             );
           })}
+          <span
+            className={`absolute left-[25%] top-[24px] z-10 tooltip transition ease-in-out ${
+              !tooltipStep ? "invisible" : ""
+            }`}
+          >
+            <p className="text-darkestwine font-bold mb-[12px]">
+              {tooltipStep && tooltipStep.name}
+            </p>
+            {tooltipStep && tooltipStep.tooltipInfo}
+          </span>
         </div>
         <p className="mt-[12px]">{steps[currentStep].name}</p>
         {/* Dropdown button that shows hint for form as text */}
@@ -527,11 +550,12 @@ const InputField = ({
 
 const steps: FormStep[] = [
   {
-    name: "Personal Info",
+    name: "Info",
     timeInPercentage: "w-[18%]",
     form: form_0,
     nextStep: "next",
     previousStep: "cancel",
+    tooltipInfo: "Tell us a bit about yourself and the dish.",
   },
   {
     name: "Why this dish",
@@ -539,6 +563,7 @@ const steps: FormStep[] = [
     form: form_1,
     nextStep: "next",
     previousStep: "previous",
+    tooltipInfo: "Tell us why you chose this recipe, and why it is special.",
   },
   {
     name: "Preparation Information",
@@ -546,6 +571,7 @@ const steps: FormStep[] = [
     form: form_2,
     nextStep: "next",
     previousStep: "previous",
+    tooltipInfo: "How many people will this dish serve?",
   },
   {
     name: "Ingredients and instructions",
@@ -553,6 +579,7 @@ const steps: FormStep[] = [
     form: form_3,
     nextStep: "next",
     previousStep: "previous",
+    tooltipInfo: "Tell us what we need and how to make the dish.",
   },
   {
     name: "Consent",
@@ -560,5 +587,6 @@ const steps: FormStep[] = [
     form: form_4, // change this when required components are ready
     nextStep: "submit",
     previousStep: "previous",
+    tooltipInfo: "Upload images if you have any.",
   },
 ];
