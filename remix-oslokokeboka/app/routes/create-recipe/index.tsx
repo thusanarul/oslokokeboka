@@ -1,5 +1,5 @@
 import { LoaderFunction, redirect } from "@remix-run/node";
 
 export const loader: LoaderFunction = async ({ params }) => {
-  return redirect("0");
+  return redirect("/create-recipe/0");
 };
