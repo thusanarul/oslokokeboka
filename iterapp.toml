@@ -1,0 +1,5 @@
+applings = [
+    "remix-oslokokeboka"
+]
+
+[postgres]

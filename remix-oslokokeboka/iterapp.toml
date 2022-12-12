@@ -1,0 +1,3 @@
+readiness_path = "/health"
+port = 3000
+emoji = "✨"
