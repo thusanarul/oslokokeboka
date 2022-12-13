@@ -68,7 +68,7 @@ type ChoicesInputField = {
   }[];
 };
 
-type step = "next" | "previous" | "cancel" | "submit";
+type step = "next" | "previous" | "cancel" | "preview";
 
 type FormStep = {
   name: string;
@@ -280,17 +280,8 @@ export const action: ActionFunction = async ({ params, request }) => {
   });
 
   let nextStep = `create-recipe/${currentStep + 1}`;
-  if (steps[currentStep].nextStep === "submit") {
-    await db.recipeSubmission.update<Prisma.RecipeSubmissionUpdateArgs>({
-      where: {
-        id: submission.id,
-      },
-      data: {
-        completed: true,
-      },
-    });
-    session.unset("formId");
-    nextStep = `create-recipe/submit`;
+  if (steps[currentStep].nextStep === "preview") {
+    nextStep = `create-recipe/preview`;
   }
 
   return redirect(nextStep, {
@@ -453,7 +444,7 @@ export default function RecipeIndex() {
                 type="submit"
                 className="p-[16px] red-button w-[68px] flex-auto justify-center"
               >
-                {steps[currentStep].nextStep === "submit" ? "Submit" : "Next"}
+                {steps[currentStep].nextStep === "preview" ? "Preview" : "Next"}
               </button>
             </div>
           </Form>
@@ -585,7 +576,7 @@ const steps: FormStep[] = [
     name: "Consent",
     timeInPercentage: "w-[8%]",
     form: form_4, // change this when required components are ready
-    nextStep: "submit",
+    nextStep: "preview",
     previousStep: "previous",
     tooltipInfo: "Upload images if you have any.",
   },

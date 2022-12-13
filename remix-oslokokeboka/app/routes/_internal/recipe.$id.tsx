@@ -1,4 +1,4 @@
-import { InputType } from "@prisma/client";
+import { SubmissionState } from "@prisma/client";
 import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
@@ -14,7 +14,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     where: {
       recipeSubmissionId: params.id,
       RecipeSubmission: {
-        completed: true,
+        state: SubmissionState.COMPLETED,
       },
     },
     select: {

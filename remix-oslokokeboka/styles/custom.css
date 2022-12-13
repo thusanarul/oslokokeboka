@@ -113,6 +113,12 @@
     text-align: center;
   }
 
+  .orange-button-slim {
+    background-color: theme("colors.ochre");
+    color: theme("colors.darkestwine");
+    border-radius: 6px;
+  }
+
   .red-button {
     background-color: theme("colors.salmon");
     color: theme("colors.darkestwine");
