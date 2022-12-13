@@ -106,7 +106,6 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     return redirect("/");
   }
 
-  // session or localstorage?
   let submission: RecipeSubmission | null = null;
   const filled: RecipeFilled = {};
 
@@ -523,8 +522,8 @@ const InputField = ({
                 type={"checkbox"}
                 onFocus={onFocus}
                 onMouseOver={onHover}
-                defaultValue={defaultValue ?? undefined}
-                value={"yes"}
+                //defaultValue={defaultValue ?? undefined}
+                value={"agreed"}
                 required
               />
               <label htmlFor="consent" className="text-salmon">
