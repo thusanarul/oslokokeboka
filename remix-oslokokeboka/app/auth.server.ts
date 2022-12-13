@@ -24,7 +24,8 @@ let googleStrategy = new GoogleStrategy(
 
     const email = profile.emails[0].value;
 
-    const admins = ["piruthusan@gmail.com"]
+    // save admins in db?
+    const admins = process.env.ADMINS!.split(",")
 
     if (!admins.includes(email)) {
         console.log("Not admin user tried to log in")
