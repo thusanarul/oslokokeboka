@@ -1,6 +1,10 @@
 
 
 export const getDomainByEnv = () => {
-    // TODO: include check for different hosts
-    return 'localhost'
+    switch (process.env.HOPS_ENV) {
+        case "localhost":
+            return 'localhost'
+        case "test":
+            return "iterapp.no"
+    }
 }
