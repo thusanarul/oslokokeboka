@@ -235,9 +235,9 @@ export const action: ActionFunction = async ({ params, request }) => {
   }
 
   formData.forEach(async (val, key, _) => {
-    const s = currentForm.find((field) => field.name === key);
+    const field = currentForm.find((field) => field.name === key);
 
-    if (!s) {
+    if (!field) {
       return;
     }
 
@@ -245,7 +245,7 @@ export const action: ActionFunction = async ({ params, request }) => {
     // should be unique enough to check step, name, and submissionId
     const prevInput: Prisma.RecipeFieldScalarWhereInput = {
       step: currentStep,
-      name: s.name,
+      name: field.name,
       recipeSubmissionId: submission.id,
     };
 
@@ -255,6 +255,8 @@ export const action: ActionFunction = async ({ params, request }) => {
       },
     });
 
+    const inputValue = val.toString();
+
     // Create upsert arguments
     const input: Prisma.RecipeFieldUpsertArgs = {
       where: {
@@ -262,18 +264,18 @@ export const action: ActionFunction = async ({ params, request }) => {
       },
       create: {
         step: currentStep,
-        name: s.name,
-        index: s.index,
-        inputType: inputTypeMap[s.input.type],
-        inputValue: val.toString(),
+        name: field.name,
+        index: field.index,
+        inputType: inputTypeMap[field.input.type],
+        inputValue: inputValue,
         recipeSubmissionId: submission.id,
       },
       update: {
-        inputValue: val.toString(),
+        inputValue: inputValue,
       },
     };
 
-    const f = await db.recipeField.upsert({
+    await db.recipeField.upsert({
       ...input,
     });
   });
