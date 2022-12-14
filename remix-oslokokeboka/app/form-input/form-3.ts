@@ -6,14 +6,15 @@ const form_3: RecipeFormField[] = [
       name: "ingredients",
       title: "Ingredients",
       input: {
-        type: "adder",
-        placeholder: "Add ingredient",
-        choices: [
-          { value: "pcs", text: "pcs" },
-          { value: "tbsp", text: "tbsp" },
-        ],
+        type: "textarea",
+        placeholder:
+          "Add ingredients and amount seperated by a newline.\n\n \
+For example:\n \
+2 onions\n \
+1 tablespoon sugar\n \
+3 teaspoons of honey",
       },
-    },
+  },
     {
         index: "10",
         name: "how-to",

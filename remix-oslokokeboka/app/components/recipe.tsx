@@ -66,7 +66,9 @@ const HowTo = ({ recipe }: { recipe: Recipe }) => {
 };
 
 const Ingredients = ({ recipe }: { recipe: Recipe }) => {
-  const ingredients = recipe["ingredients"].inputValue.split(";");
+  // ingredients are saved in a textarea with newline split.
+  // should have maybe been transformed before inserting into db?
+  const ingredients = recipe["ingredients"].inputValue.split("\n");
 
   return (
     <div className="flex flex-col gap-[2px]">
@@ -74,23 +76,13 @@ const Ingredients = ({ recipe }: { recipe: Recipe }) => {
         <p className="text-[15px]">To make this, you will need</p>
       </span>
       {ingredients.map((val, index) => {
-        const ingredient = val.split(":");
-
-        if (ingredient.length != 3) {
-          return;
-        }
-
         return (
-          <div
+          <span
             key={`ingredient-${index}`}
-            className="flex  bg-darkwine py-[20px] pl-[20px] pr-[40px] justify-between"
+            className="bg-darkwine py-[20px] pl-[20px] pr-[40px]"
           >
-            <p className="text-[17px] text-paper">{ingredient[0]}</p>
-            <span className="flex">
-              <p className="text-[17px] text-paper">{ingredient[1]}</p>
-              <p className="text-[17px] text-paper">{ingredient[2]}</p>
-            </span>
-          </div>
+            <p className="text-[17px] text-paper">{val}</p>
+          </span>
         );
       })}
     </div>
