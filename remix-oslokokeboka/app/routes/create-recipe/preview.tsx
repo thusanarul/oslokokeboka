@@ -14,7 +14,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   const session = await getSession(request.headers.get("Cookie"));
 
   if (!session.has("formId")) {
-    return null;
+    return redirect("/create-recipe/0");
   }
 
   const recipeFields = await db.recipeField.findMany({
@@ -84,20 +84,17 @@ export default function RecipePreview() {
 
   return (
     <main className="w-full h-screen">
-      <div className="py-[100px]">
+      <div className="py-[100px] w-[90%] max-w-[540px] mx-auto">
         <section
           id="preview-info"
-          className="px-[20px] py-[20px] w-[90%] max-w-[540px] mx-auto border-blue border-[1px] rounded-[4px] flex justify-center"
+          className="px-[20px] py-[20px] border-blue border-[1px] rounded-[4px] flex justify-center"
         >
           <p className="text-blue text-center">
             Preview your recipe below and then confirm your submission!
           </p>
         </section>
 
-        <section
-          id="recipe"
-          className="flex flex-col w-[90%] max-w-[540px] mx-auto gap-[10px] mt-[32px]"
-        >
+        <section id="recipe" className="flex flex-col gap-[10px] mt-[32px]">
           <Recipe recipe={recipe} />
           <Form
             method="post"

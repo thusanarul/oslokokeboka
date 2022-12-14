@@ -1,5 +1,5 @@
 import { SubmissionState } from "@prisma/client";
-import { json, LoaderFunction } from "@remix-run/node";
+import { json, LoaderFunction, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useEffect } from "react";
 import invariant from "tiny-invariant";
@@ -22,7 +22,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   });
 
   if (!recipeName) {
-    return;
+    return redirect("/create-recipe/0");
   }
 
   return json<{ id: string; name: string }>({
@@ -59,7 +59,7 @@ export default function ThankYou() {
 
   return (
     <main className="w-full h-screen">
-      <section className="flex flex-col w-[90%] gap-[24px] mx-auto pt-[100px]">
+      <section className="flex flex-col w-[90%] max-w-[540px] gap-[24px] mx-auto pt-[100px]">
         <h1 className="text-salmon">
           {recipeInfo.name} was successfully submitted!
         </h1>
