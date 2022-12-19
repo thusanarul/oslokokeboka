@@ -24,12 +24,13 @@ import form_4 from "~/form-input/form-4";
 import AdderInput from "~/components/input-fields/adder";
 import TextInput from "~/components/input-fields/text-input";
 import { InputHTMLElement } from "~/components/input-fields/shared";
-import Chevron from "~/components/chevron";
 import Ellipse from "~/components/ellipse";
+import { useTranslation } from "react-i18next";
 
 /*
 required trenger ikke å være nullable?
 */
+
 export type RecipeFormField = {
   index: string;
   name: string;
@@ -70,13 +71,19 @@ type ChoicesInputField = {
 
 type step = "next" | "previous" | "cancel" | "preview";
 
+type i18nString = {
+  en: string;
+  no: string;
+};
+type i18nKey = keyof i18nString;
+
 type FormStep = {
-  name: string;
+  name: i18nString;
   timeInPercentage: string;
   form: RecipeFormField[];
   nextStep: step;
   previousStep: step;
-  tooltipInfo: string;
+  tooltipInfo: i18nString;
 };
 
 const inputTypeMap = {
@@ -292,6 +299,10 @@ export const action: ActionFunction = async ({ params, request }) => {
   });
 };
 
+export let handle = {
+  i18n: "create-recipe",
+};
+
 export default function RecipeIndex() {
   const loaderData: {
     step: number;
@@ -302,6 +313,8 @@ export default function RecipeIndex() {
     | { step: number; form: RecipeFormField[]; errors: RecipeErrors }
     | undefined = useActionData();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation("create-recipe");
+  const lang = i18n.language as i18nKey; // Nothing gets rendered if this fails. Maybe a safer check?
 
   let currentForm: RecipeFormField[];
   let currentStep: number;
@@ -330,7 +343,7 @@ export default function RecipeIndex() {
     <div className="h-full flex justify-center">
       <main className="h-[85vh] w-[85vw] flex flex-col self-center">
         {/* Either fetch from localstorage, associate with form value or render the default text */}
-        <h2 className="">Your Recipe*</h2>
+        <h2 className="">{t("your-recipe")}</h2>
         <div className="w-full flex justify-between mt-[18px] relative">
           {steps.map((step, index) => {
             let stepColor = currentStep === index ? "bg-salmon" : "";
@@ -342,7 +355,7 @@ export default function RecipeIndex() {
               <button
                 type="button"
                 key={`step_${index}`}
-                aria-label={step.name}
+                aria-label={step.name[lang]}
                 className={`form-indicator ${step.timeInPercentage} ${stepColor}`}
                 onClick={() => {
                   setTooltipStep(step);
@@ -363,22 +376,12 @@ export default function RecipeIndex() {
             }`}
           >
             <p className="text-darkestwine font-bold mb-[12px]">
-              {tooltipStep && tooltipStep.name}
+              {tooltipStep && tooltipStep.name[lang]}
             </p>
-            {tooltipStep && tooltipStep.tooltipInfo}
+            {tooltipStep && tooltipStep.tooltipInfo[lang]}
           </span>
         </div>
-        <p className="mt-[12px]">{steps[currentStep].name}</p>
-        {/* Dropdown button that shows hint for form as text */}
-        {/* TODO: implement text view and make this it's own component */}
-        <button
-          type="button"
-          className="mt-[18px] h-[51px] bg-blue rounded-[4px] text-white py-[16px] pl-[16px] pr-[20px] body-text inline-flex justify-between"
-        >
-          Form assistance
-          {/* animate chevron onclick? */}
-          <Chevron className={"self-center h-[8px] w-[12px]"} />
-        </button>
+        <p className="mt-[12px]">{steps[currentStep].name[lang]}</p>
         {/* The form associated with the current step*/}
         <div className="mt-[32px]">
           <Form
@@ -542,43 +545,61 @@ const InputField = ({
 
 const steps: FormStep[] = [
   {
-    name: "Info",
+    name: {
+      en: "The Story",
+      no: "Historien",
+    },
     timeInPercentage: "w-[18%]",
     form: form_0,
     nextStep: "next",
     previousStep: "cancel",
-    tooltipInfo: "Tell us a bit about yourself and the dish.",
+    tooltipInfo: {
+      en: "Tell us the story behind the dish",
+      no: "Fortell oss om historien bak retten",
+    },
   },
   {
-    name: "Why this dish",
+    name: { en: "The Recipe", no: "Oppskriften" },
     timeInPercentage: "w-[28%]",
     form: form_1,
     nextStep: "next",
     previousStep: "previous",
-    tooltipInfo: "Tell us why you chose this recipe, and why it is special.",
+    tooltipInfo: {
+      en: "Tell us what ingredients we need, and how we make this dish",
+      no: "Fortell oss om ingrediensene vi trenger, og hvordan vi lager retten",
+    },
   },
   {
-    name: "Preparation Information",
+    name: { en: "The Recipe II", no: "Oppskriften II" },
     timeInPercentage: "w-[28%]",
     form: form_2,
     nextStep: "next",
     previousStep: "previous",
-    tooltipInfo: "How many people will this dish serve?",
+    tooltipInfo: {
+      en: "Tell us a bit more about this dish",
+      no: "Fortell oss litt mer om retten",
+    },
   },
   {
-    name: "Ingredients and instructions",
+    name: { en: "The Chef", no: "Kokken" },
     timeInPercentage: "w-[8%]",
     form: form_3,
     nextStep: "next",
     previousStep: "previous",
-    tooltipInfo: "Tell us what we need and how to make the dish.",
+    tooltipInfo: {
+      en: "Tell us a bit about yourself",
+      no: "Fortell oss litt om deg selv",
+    },
   },
   {
-    name: "Consent",
+    name: { en: "Sharing your recipe", no: "Deling av din oppskrift" },
     timeInPercentage: "w-[8%]",
-    form: form_4, // change this when required components are ready
+    form: form_4,
     nextStep: "preview",
     previousStep: "previous",
-    tooltipInfo: "Upload images if you have any.",
+    tooltipInfo: {
+      en: "Information about sharing your recipe, and asking for consent",
+      no: "Informasjon om deling av din oppskrift, og forespørsel om tillatelse",
+    },
   },
 ];
