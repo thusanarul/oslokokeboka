@@ -93,10 +93,10 @@ const AuthorSays = ({ recipe }: { recipe: Recipe }) => {
   return (
     <div className="flex flex-col gap-[2px]">
       <span className="bg-purple py-[20px] pl-[20px] pr-[40px]">
-        <p className="text-[15px]">{recipe["who-are-you"].inputValue} says</p>
+        <p className="text-[15px]">{recipe["name"].inputValue} says</p>
       </span>
       <span className="bg-purple py-[20px] pl-[20px] pr-[40px]">
-        <p className="text-[17px]">{recipe["who-are-you"].inputValue}</p>
+        <p className="text-[17px]">{recipe["the-story"].inputValue}</p>
       </span>
     </div>
   );
@@ -109,13 +109,11 @@ const InfoBox = ({ recipe }: { recipe: Recipe }) => {
         <h1 className="text-paper">{recipe["name-of-dish"].inputValue}</h1>
       </span>
       <span className="bg-purple py-[20px] pl-[20px] pr-[40px]">
-        <h2 className="text-paper text-[17px]">
-          {recipe["who-are-you"].inputValue}
-        </h2>
+        <h2 className="text-paper text-[17px]">{recipe["name"].inputValue}</h2>
       </span>
       <span className="bg-purple py-[20px] pl-[20px] pr-[40px]">
         <p className="text-salmon text-[17px]">
-          {recipe["who-are-you"].inputValue}
+          {recipe["neighbourhood"].inputValue}
         </p>
       </span>
       <dl className="flex gap justify-between bg-purple py-[20px] pl-[20px] pr-[40px]">

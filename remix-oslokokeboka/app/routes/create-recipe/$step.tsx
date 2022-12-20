@@ -192,7 +192,7 @@ export const action: ActionFunction = async ({ params, request }) => {
     }
   });
 
-  if (hasError) {
+  if (hasError && !process.env.OVERRIDE_FORM_VALIDATION) {
     console.log("Form has error");
     return json<{
       step: number;
@@ -341,7 +341,7 @@ export default function RecipeIndex() {
 
   return (
     <div className="h-full flex justify-center">
-      <main className="h-[85vh] w-[85vw] flex flex-col self-center">
+      <main className="h-[85vh] w-[85vw] max-w-[900px] flex flex-col self-center">
         {/* Either fetch from localstorage, associate with form value or render the default text */}
         <h2 className="">{t("your-recipe")}</h2>
         <div className="w-full flex justify-between mt-[18px] relative">
@@ -364,8 +364,7 @@ export default function RecipeIndex() {
                   }
                   tooltipTimeout.current = setTimeout(() => {
                     setTooltipStep(false);
-                  }, 2000);
-                  //navigate(`/create-recipe/${index}`);
+                  }, 1250);
                 }}
               ></button>
             );
@@ -512,13 +511,17 @@ const InputField = ({
           <div className="flex flex-col gap-[16px]">
             <p>
               On this we require to store information that you provide us to
-              create recipe entries that are then visualised on the Oslo Recipes
+              create recipe entries that are then visualized on the Oslo Recipes
               page.
             </p>
             <p>
               Before we can publish your recipe, we need your consent to use it
               on our website. You can contact us to take it down at any point in
               the future if you change your mind.
+            </p>
+            <p>
+              All recipes will be credited to the submitter as your chosen
+              display name, now and in the future.
             </p>
             <span className={"flex gap-[16px] items-center mt-[8px]"}>
               <input
@@ -582,24 +585,24 @@ const steps: FormStep[] = [
   },
   {
     name: { en: "The Chef", no: "Kokken" },
-    timeInPercentage: "w-[8%]",
+    timeInPercentage: "w-[16%]",
     form: form_3,
-    nextStep: "next",
+    nextStep: "preview",
     previousStep: "previous",
     tooltipInfo: {
       en: "Tell us a bit about yourself",
       no: "Fortell oss litt om deg selv",
     },
   },
-  {
-    name: { en: "Sharing your recipe", no: "Deling av din oppskrift" },
-    timeInPercentage: "w-[8%]",
-    form: form_4,
-    nextStep: "preview",
-    previousStep: "previous",
-    tooltipInfo: {
-      en: "Information about sharing your recipe, and asking for consent",
-      no: "Informasjon om deling av din oppskrift, og forespørsel om tillatelse",
-    },
-  },
+  // {
+  //   name: { en: "Sharing your recipe", no: "Deling av din oppskrift" },
+  //   timeInPercentage: "w-[8%]",
+  //   form: form_4,
+  //   nextStep: "preview",
+  //   previousStep: "previous",
+  //   tooltipInfo: {
+  //     en: "Information about sharing your recipe, and asking for consent",
+  //     no: "Informasjon om deling av din oppskrift, og forespørsel om tillatelse",
+  //   },
+  // },
 ];

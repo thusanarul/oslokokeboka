@@ -4,7 +4,7 @@ import { RecipeFormField } from "~/routes/create-recipe/$step";
 
 const form_2: RecipeFormField[] = [
     {
-        index: "07",
+        index: "06",
         name: "how-many-servings",
         title: "How many servings does this dish make?",
         input: {
@@ -25,7 +25,7 @@ const form_2: RecipeFormField[] = [
           },
     },
     {
-        index: "08",
+        index: "07",
         name: "what-kind-of-dish",
         title: "What kind of dish is this?",
         input: {
