@@ -1,3 +1,7 @@
 {
-  "your-recipe": "Din oppskrift*"
+  "your-recipe": "Din oppskrift*",
+  "preview": "Forhåndsvisning",
+  "next": "Neste",
+  "cancel": "Avbryt",
+  "previous": "Forrige"
 }

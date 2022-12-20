@@ -20,7 +20,6 @@ import form_0 from "~/form-input/form-0";
 import form_1 from "~/form-input/form-1";
 import form_2 from "~/form-input/form-2";
 import form_3 from "~/form-input/form-3";
-import form_4 from "~/form-input/form-4";
 import AdderInput from "~/components/input-fields/adder";
 import TextInput from "~/components/input-fields/text-input";
 import { InputHTMLElement } from "~/components/input-fields/shared";
@@ -34,7 +33,7 @@ required trenger ikke å være nullable?
 export type RecipeFormField = {
   index: string;
   name: string;
-  title: string;
+  title: i18nString;
   required?: boolean;
   input: BasicInputField | ChoicesInputField;
 };
@@ -57,12 +56,12 @@ export type RecipeFilled = Record<string, RecipeFormFieldValue>;
 
 type BasicInputField = {
   type: "text" | "textarea" | "consent";
-  placeholder: string;
+  placeholder: i18nString;
 };
 
 type ChoicesInputField = {
   type: "dropdown" | "adder";
-  placeholder: string;
+  placeholder: i18nString;
   choices: {
     value: string | number;
     text: string;
@@ -75,7 +74,8 @@ type i18nString = {
   en: string;
   no: string;
 };
-type i18nKey = keyof i18nString;
+
+export type i18nKey = keyof i18nString;
 
 type FormStep = {
   name: i18nString;
@@ -314,7 +314,7 @@ export default function RecipeIndex() {
     | undefined = useActionData();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation("create-recipe");
-  const lang = i18n.language as i18nKey; // Nothing gets rendered if this fails. Maybe a safer check?
+  const lang = i18n.language as i18nKey; // Nothing gets rendered if this fails. Maybe a type cast?
 
   let currentForm: RecipeFormField[];
   let currentStep: number;
@@ -405,9 +405,10 @@ export default function RecipeIndex() {
                       htmlFor={field.name}
                     >
                       <p>{field.index}</p>
-                      <h2 className="mb-[8px]">{field.title}</h2>
+                      <h2 className="mb-[8px]">{field.title[lang]}</h2>
                       <InputField
                         field={field}
+                        lang={lang}
                         onFocus={() => setFieldInFocus(field.index)}
                         onHover={() => setFieldInFocus(field.index)}
                         defaultValue={defaultValue}
@@ -425,10 +426,10 @@ export default function RecipeIndex() {
                 );
               })}
             </div>
-            <div className="w-1/2 flex mt-[42px] gap-[16px] justify-start">
+            <div className="flex w-fit mt-[42px] gap-[16px] justify-start">
               <button
                 type="button"
-                className="flex-auto inverted-red-button"
+                className="flex-auto py-[16px] min-w-[120px] px-[28px] inverted-red-button"
                 onClick={() => {
                   if (steps[currentStep].previousStep === "cancel") {
                     navigate("/");
@@ -440,14 +441,16 @@ export default function RecipeIndex() {
                 }}
               >
                 {steps[currentStep].previousStep === "cancel"
-                  ? "Cancel"
-                  : "Previous"}
+                  ? t("cancel")
+                  : t("previous")}
               </button>
               <button
                 type="submit"
-                className="p-[16px] red-button w-[68px] flex-auto justify-center"
+                className="flex-auto min-w-[120px] px-[28px] red-button"
               >
-                {steps[currentStep].nextStep === "preview" ? "Preview" : "Next"}
+                {steps[currentStep].nextStep === "preview"
+                  ? t("preview")
+                  : t("next")}
               </button>
             </div>
           </Form>
@@ -459,11 +462,13 @@ export default function RecipeIndex() {
 
 const InputField = ({
   field,
+  lang,
   onFocus,
   onHover,
   defaultValue,
 }: {
   field: RecipeFormField;
+  lang: i18nKey;
   onFocus: React.FocusEventHandler<InputHTMLElement> | undefined;
   onHover: React.MouseEventHandler<InputHTMLElement> | undefined;
   defaultValue: string | null;
@@ -473,6 +478,7 @@ const InputField = ({
       return (
         <TextInput
           field={field}
+          lang={lang}
           onFocus={onFocus}
           onHover={onHover}
           defaultValue={defaultValue}
@@ -482,7 +488,7 @@ const InputField = ({
       return (
         <textarea
           name={field.name}
-          placeholder={field.input.placeholder}
+          placeholder={field.input.placeholder[lang]}
           form="recipe-form"
           rows={8}
           onFocus={onFocus}
@@ -497,6 +503,7 @@ const InputField = ({
           onFocus={onFocus}
           onMouseOver={onHover}
           defaultValue={defaultValue ?? undefined}
+          placeholder={field.input.placeholder[lang]}
         >
           {field.input.choices?.map((choice, index) => (
             <option key={`option_${field.name}_${index}`} value={choice.value}>
@@ -535,7 +542,7 @@ const InputField = ({
                 required
               />
               <label htmlFor="consent" className="text-salmon">
-                {field.input.placeholder}
+                {field.input.placeholder[lang]}
               </label>
             </span>
           </div>

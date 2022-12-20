@@ -6,10 +6,10 @@ const form_2: RecipeFormField[] = [
     {
         index: "06",
         name: "how-many-servings",
-        title: "How many servings does this dish make?",
+        title: {en: "How many servings does this recipe make?", no: "Hvor mange porsjoner lager denne oppskriften?"},
         input: {
             type: "dropdown",
-            placeholder: "Select amount",
+            placeholder: {en: "Select amount", no: "Velg mengde"},
             choices: [
               { value: 1, text: "1" },
               { value: 2, text: "2" },
@@ -27,10 +27,10 @@ const form_2: RecipeFormField[] = [
     {
         index: "07",
         name: "what-kind-of-dish",
-        title: "What kind of dish is this?",
+        title: {en: "What kind of dish is this?", no: "Hva slags rett er dette?"},
         input: {
             type: "dropdown",
-            placeholder: "Select amount",
+            placeholder: {en: "Select type of dish", no: "Velg type rett"},
             choices: [
               { value: "hm", text: "This would be a category" },
             ],

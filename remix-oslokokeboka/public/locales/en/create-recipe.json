@@ -1,3 +1,7 @@
 {
-  "your-recipe": "Your recipe*"
+  "your-recipe": "Your recipe*",
+  "preview": "Preview",
+  "next": "Next",
+  "cancel": "Cancel",
+  "previous": "Previous"
 }

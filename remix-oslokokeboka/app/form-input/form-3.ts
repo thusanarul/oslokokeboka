@@ -4,28 +4,28 @@ const form_3: RecipeFormField[] = [
   {
     index: "08",
     name: "name",
-    title: "What's your name?",
+    title: {en: "What's your name?", no: "Hva er navnet ditt?"},
     input: {
       type: "text",
-      placeholder: "Your name is...",
+      placeholder: {en: "Your name is...", no: "Ditt navn er..."},
     },
   },
   {
     index: "09",
     name: "email",
-    title: "What's your email?",
+    title: {en: "What's your email?", no: "Hva er e-postadressen din?"},
     input: {
       type: "text",
-      placeholder: "Your email...",
+      placeholder: {en: "Your email...", no: "Din e-postadresse..."},
     },
   },
   {
     index: "10",
     name: "neighbourhood",
-    title: "What's your neighbourhood?", // TODO: talk to shub about the "'"
+    title: {en: "What's your neighbourhood?", no: "Hvilket nabolag er ditt?"}, // TODO: talk to shub about the "'"
     input: {
       type: "dropdown",
-      placeholder: "Select your bydel",
+      placeholder: {en: "Select your neighbourhood", no: "Velg ditt nabolag"},
       choices: [
         { value: "gamle-oslo", text: "Gamle Oslo" },
         { value: "grünerløkka", text: "Grünerløkka" },
@@ -39,21 +39,21 @@ const form_3: RecipeFormField[] = [
   {
     index: "11",
     name: "tags",
-    title: "Tags (optional)",
+    title: {en: "Tags (optional)", no: "Tags (frivillig)"},
     input: {
       type: "text",
-      placeholder: "Add a tag to group in a custom collection",
+      placeholder: {en: "Add a tag to group in a custom collection", no: "Legg til en tag for å kunne gruppere i en samling"},
     },
   },
   {
     index: "12",
     name: "consent",
-    title: "Sharing your recipe",
+    title: {en: "Sharing your recipe", no: "Deling av din oppskrift"},
     required: true,
     input: {
       type: "consent",
       placeholder:
-        "Check this box to give consent.",
+        {en: "Check this box to give consent.", no: "Huk av på boksen for å gi samtykke"},
     },
 },
 ];

@@ -105,7 +105,7 @@ export default function RecipePreview() {
               type="button"
               className="flex-auto inverted-red-button"
               onClick={() => {
-                navigate(`/create-recipe/4`);
+                navigate(`/create-recipe/3`);
               }}
             >
               Previous
