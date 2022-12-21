@@ -1,3 +1,9 @@
 {
-  "infoText": "Preview your recipe below and then confirm the submission!"
+  "infoText": "Sjekk ut oppskriften under og bekreft innsendelsen din!",
+  "type": "Type rett",
+  "serves": "Porsjoner",
+  "says": "sier",
+  "to-make-this": "For å lage dette trenger du",
+  "do-the-following": "Gjør følgende",
+  "additional-info": "Ekstra info"
 }

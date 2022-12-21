@@ -41,7 +41,7 @@ export type RecipeFormField = {
 export type RecipeFormFieldError = {
   index: string;
   name: string;
-  errorText: string;
+  errorText: i18nString;
 };
 
 export type RecipeFormFieldValue = {
@@ -181,7 +181,10 @@ export const action: ActionFunction = async ({ params, request }) => {
         errors[s.index] = {
           index: s.index,
           name: s.name,
-          errorText: "This field can not be left blank",
+          errorText: {
+            en: "This field can not be left blank",
+            no: "Dette feltet kan ikke være tomt",
+          },
         };
       }
     }
@@ -192,7 +195,7 @@ export const action: ActionFunction = async ({ params, request }) => {
     }
   });
 
-  if (hasError && !process.env.OVERRIDE_FORM_VALIDATION) {
+  if (hasError && process.env.OVERRIDE_FORM_VALIDATION !== "true") {
     console.log("Form has error");
     return json<{
       step: number;
@@ -313,7 +316,7 @@ export default function RecipeIndex() {
     | { step: number; form: RecipeFormField[]; errors: RecipeErrors }
     | undefined = useActionData();
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation("create-recipe");
+  const { t, i18n } = useTranslation(["create-recipe", "common"]);
   const lang = i18n.language as i18nKey; // Nothing gets rendered if this fails. Maybe a type cast?
 
   let currentForm: RecipeFormField[];
@@ -418,7 +421,7 @@ export default function RecipeIndex() {
                       <span className="flex mt-[8px] gap-[8px]">
                         <Ellipse className={"self-center w-[10px] h-[10px]"} />
                         <p className="text-ochre">
-                          {errors[field.index].errorText}
+                          {errors[field.index].errorText[lang]}
                         </p>
                       </span>
                     ) : null}
@@ -441,16 +444,16 @@ export default function RecipeIndex() {
                 }}
               >
                 {steps[currentStep].previousStep === "cancel"
-                  ? t("cancel")
-                  : t("previous")}
+                  ? t("cancel", { ns: "common" })
+                  : t("previous", { ns: "common" })}
               </button>
               <button
                 type="submit"
                 className="flex-auto min-w-[120px] px-[28px] red-button"
               >
                 {steps[currentStep].nextStep === "preview"
-                  ? t("preview")
-                  : t("next")}
+                  ? t("preview", { ns: "common" })
+                  : t("next", { ns: "common" })}
               </button>
             </div>
           </Form>

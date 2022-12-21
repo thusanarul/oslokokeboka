@@ -1,3 +1,8 @@
 {
-    "greeting": "Hello"
+  "greeting": "Hello",
+  "preview": "Preview",
+  "next": "Next",
+  "cancel": "Cancel",
+  "previous": "Previous",
+  "submit": "Submit"
 }

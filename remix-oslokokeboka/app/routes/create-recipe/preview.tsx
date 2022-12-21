@@ -6,6 +6,7 @@ import {
   redirect,
 } from "@remix-run/node";
 import { Form, useLoaderData, useNavigate } from "@remix-run/react";
+import { useTranslation } from "react-i18next";
 import { Recipe } from "~/components/recipe";
 import { commitSession, getSession } from "~/session.server";
 import { db } from "~/utils/db.server";
@@ -78,9 +79,14 @@ export const action: ActionFunction = async ({ params, request }) => {
   });
 };
 
+export let handle = {
+  i18n: "preview",
+};
+
 export default function RecipePreview() {
   const recipe: Recipe = useLoaderData();
   const navigate = useNavigate();
+  const { t } = useTranslation(["preview", "common"]);
 
   return (
     <main className="w-full h-screen">
@@ -89,13 +95,11 @@ export default function RecipePreview() {
           id="preview-info"
           className="px-[20px] py-[20px] border-blue border-[1px] rounded-[4px] flex justify-center"
         >
-          <p className="text-blue text-center">
-            Preview your recipe below and then confirm your submission!
-          </p>
+          <p className="text-blue text-center">{t("infoText")}</p>
         </section>
 
         <section id="recipe" className="flex flex-col gap-[10px] mt-[32px]">
-          <Recipe recipe={recipe} />
+          <Recipe recipe={recipe} t={t} />
           <Form
             method="post"
             id="preview-actions"
@@ -108,13 +112,13 @@ export default function RecipePreview() {
                 navigate(`/create-recipe/3`);
               }}
             >
-              Previous
+              {t("previous", { ns: "common" })}
             </button>
             <button
               type="submit"
               className="p-[16px] orange-button-slim w-[68px] flex-auto justify-center"
             >
-              Submit
+              {t("submit", { ns: "common" })}
             </button>
           </Form>
         </section>

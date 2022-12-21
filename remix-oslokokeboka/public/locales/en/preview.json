@@ -1,3 +1,9 @@
 {
-  "infoText": "Preview your recipe below and then confirm the submission!"
+  "infoText": "Preview your recipe below and then confirm the submission!",
+  "type": "Type of dish",
+  "serves": "Serves",
+  "says": "says",
+  "to-make-this": "To make this, you will need",
+  "do-the-following": "Do the following",
+  "additional-info": "Additional Info"
 }
