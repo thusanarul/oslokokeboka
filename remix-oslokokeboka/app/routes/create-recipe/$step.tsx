@@ -24,7 +24,7 @@ import AdderInput from "~/components/input-fields/adder";
 import TextInput from "~/components/input-fields/text-input";
 import { InputHTMLElement } from "~/components/input-fields/shared";
 import Ellipse from "~/components/ellipse";
-import { useTranslation } from "react-i18next";
+import { TFunction, useTranslation } from "react-i18next";
 
 /*
 required trenger ikke å være nullable?
@@ -411,6 +411,7 @@ export default function RecipeIndex() {
                       <h2 className="mb-[8px]">{field.title[lang]}</h2>
                       <InputField
                         field={field}
+                        t={t}
                         lang={lang}
                         onFocus={() => setFieldInFocus(field.index)}
                         onHover={() => setFieldInFocus(field.index)}
@@ -465,12 +466,14 @@ export default function RecipeIndex() {
 
 const InputField = ({
   field,
+  t,
   lang,
   onFocus,
   onHover,
   defaultValue,
 }: {
   field: RecipeFormField;
+  t: TFunction<("create-recipe" | "common")[]>;
   lang: i18nKey;
   onFocus: React.FocusEventHandler<InputHTMLElement> | undefined;
   onHover: React.MouseEventHandler<InputHTMLElement> | undefined;
@@ -519,20 +522,9 @@ const InputField = ({
       return (
         <>
           <div className="flex flex-col gap-[16px]">
-            <p>
-              On this we require to store information that you provide us to
-              create recipe entries that are then visualized on the Oslo Recipes
-              page.
-            </p>
-            <p>
-              Before we can publish your recipe, we need your consent to use it
-              on our website. You can contact us to take it down at any point in
-              the future if you change your mind.
-            </p>
-            <p>
-              All recipes will be credited to the submitter as your chosen
-              display name, now and in the future.
-            </p>
+            <p>{t("consent-1")}</p>
+            <p>{t("consent-2")}</p>
+            <p>{t("consent-3")}</p>
             <span className={"flex gap-[16px] items-center mt-[8px]"}>
               <input
                 name={field.name}

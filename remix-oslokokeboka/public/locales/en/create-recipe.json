@@ -1,3 +1,6 @@
 {
-  "your-recipe": "Your recipe*"
+  "your-recipe": "Your recipe*",
+  "consent-1": "On this we require to store information that you provide us to create recipe entries that are then visualized on our pages.",
+  "consent-2": "Before we can publish your recipe, we need your consent to use it on our website. You can contact us to take it down at any point in the future if you change your mind.",
+  "consent-3": "All recipes will be credited to the submitter as your chosen display name, now and in the future."
 }

@@ -22,7 +22,7 @@ For eksempel:\n \
     {
       index: "04",
       name: "how-to",
-      title: {en: "How do you make the dish?", no: "Hvordan lager du retten?"},
+      title: {en: "How do you make the dish?", no: "Hvordan lager man retten?"},
       input: {
         type: "textarea",
         placeholder:
