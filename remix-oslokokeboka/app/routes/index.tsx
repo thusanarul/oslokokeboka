@@ -5,6 +5,19 @@ export default function Index() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  const infoComponents = [
+    {
+      id: "what-are-we-looking-for",
+      imgSrc: "images/food/pumpkin.png",
+      imgAlt: "pumpkin",
+    },
+    {
+      id: "why-are-we-doing-this",
+      imgSrc: "images/food/tuna.png",
+      imgAlt: "tuna",
+    },
+  ];
+
   return (
     <div className="flex flex-col gap-[52px] w-full md:w-[85%] md:max-w-[550px] md:mx-auto">
       <h1 className="text-salmon w-full px-home">OSLO KOKEBOKA</h1>
@@ -23,36 +36,22 @@ export default function Index() {
         </button>
       </section>
       <div className="flex gap-[20px] px-home overflow-x-scroll scrollbar-hide">
-        <section
-          className="flex flex-col gap-[30px] md:w-[50%] md:max-w-[260px]"
-          id="what-are-we-looking-for"
-        >
-          <h2 className="h-[64px] text-paper">
-            {t("what-are-we-looking-for-header")}
-          </h2>
-          <img
-            className="min-w-[260px] h-[305px]"
-            src={"images/food/pumpkin.png"}
-          />
-          <p className="text-paper text-[12px] leading-[17px]">
-            {t("what-are-we-looking-for-text")}
-          </p>
-        </section>
-        <section
-          className="flex flex-col gap-[30px] md:w-[50%] md:max-w-[260px]"
-          id="why-are-we-doing-this"
-        >
-          <h2 className="h-[64px] text-paper">
-            {t("why-are-we-doing-this-header")}
-          </h2>
-          <img
-            className="min-w-[260px] h-[305px]"
-            src={"images/food/tuna.png"}
-          />
-          <p className="text-paper text-[12px] leading-[17px]">
-            {t("why-are-we-doing-this-text")}
-          </p>
-        </section>
+        {infoComponents.map((el) => (
+          <section
+            className="flex flex-col gap-[30px] md:w-[50%] md:max-w-[260px]"
+            id={el.id}
+          >
+            <h2 className="h-[64px] text-paper">{t(`${el.id}-header`)}</h2>
+            <img
+              className="min-w-[260px] h-[305px]"
+              src={el.imgSrc}
+              alt={el.imgAlt}
+            />
+            <p className="text-paper text-[12px] leading-[17px]">
+              {t(`${el.id}-text`)}
+            </p>
+          </section>
+        ))}
       </div>
     </div>
   );
