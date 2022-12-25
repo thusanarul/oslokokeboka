@@ -1,49 +1,49 @@
 import { RecipeFormField } from "~/routes/create-recipe/$step";
 
 const form_1: RecipeFormField[] = [
-    {
-      index: "03",
-      name: "ingredients",
-      title: {en: "Ingredients", no: "Ingredienser"},
-      input: {
-        type: "textarea",
-        placeholder:
-          {en: "Add ingredients and amount seperated by a newline.\n\n \
+  {
+    index: "03",
+    name: "ingredients",
+    title: { en: "Ingredients", no: "Ingredienser" },
+    input: {
+      type: "textarea",
+      placeholder:
+      {
+        en: "Add ingredients and amount seperated by a newline.\n\n \
 For example:\n \
 2 onions\n \
 1 tablespoon sugar\n \
 3 teaspoons of honey",
-      no: "Legg til ingredienser og mengde separert med en ny linje.\n\n \
+        no: "Legg til ingredienser og mengde separert med en ny linje.\n\n \
 For eksempel:\n \
 2 løk\n \
 1 spiseskje sukker\n \
-3 teskje med honning"}},
+3 teskje med honning"}
     },
-    {
-      index: "04",
-      name: "how-to",
-      title: {en: "How do you make the dish?", no: "Hvordan lager man retten?"},
-      input: {
-        type: "textarea",
-        placeholder:
-          {en: "The instructions on how to put this dish together. The steps can either be listed, separated by spaces or free form. \
+  },
+  {
+    index: "04",
+    name: "how-to",
+    title: { en: "How do you make the dish?", no: "Hvordan lager man retten?" },
+    input: {
+      type: "textarea",
+      placeholder:
+      {
+        en: "The instructions on how to put this dish together. The steps can either be listed, separated by spaces or free form. \
           \n\nRemember: the more descriptive and organized the instructions are, the easier it is for someone else to make the dish!",
         no: "Instruksjonene for å lage retten. Stegene kan enten listes ut, være delt i mellomrom eller være fritekst. \
         \n\nHusk: jo mer deskriptiv og organisert instruksjonene er, desto lettere vil det være for noen andre å lage retten!"},
-      },
     },
-    {
-      index: "05",
-      name: "additional-notes",
-      title: {en: "Any bonus thoughts or notes?", no: "Noen ekstra tanker eller notater?"},
-      input: {
-        type: "text",
-        placeholder: {en: "Here you can share tips and tricks!", no: "Her kan du dele tips og triks!"},
-      },
+  },
+  {
+    index: "05",
+    name: "additional-notes",
+    title: { en: "Any bonus thoughts or notes?", no: "Noen ekstra tanker eller notater?" },
+    input: {
+      type: "text",
+      placeholder: { en: "Here you can share tips and tricks!", no: "Her kan du dele tips og triks!" },
     },
+  },
 ];
 
 export default form_1;
-  
-  
-  
