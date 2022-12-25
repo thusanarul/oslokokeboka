@@ -6,10 +6,10 @@ export default function Index() {
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col gap-[52px] w-full md:w-[85%] md:max-w-[600px] md:mx-auto">
-      <h1 className="text-salmon w-full px-[24px] md:px-0">OSLO KOKEBOKA</h1>
+    <div className="flex flex-col gap-[52px] w-full md:w-[85%] md:max-w-[550px] md:mx-auto">
+      <h1 className="text-salmon w-full px-home">OSLO KOKEBOKA</h1>
       <section
-        className="flex flex-col px-[24px] md:px-0 gap-[30px]"
+        className="flex flex-col px-home gap-[30px]"
         id="what-is-kokeboka"
       >
         <h2 className="text-paper">{t("what-is-kokeboka")}</h2>
@@ -22,9 +22,9 @@ export default function Index() {
           {t("submit-your-recipe")}
         </button>
       </section>
-      <div className="flex gap-[20px] px-[24px] md:px-0 overflow-x-scroll">
+      <div className="flex gap-[20px] px-home overflow-x-scroll scrollbar-hide">
         <section
-          className="flex flex-col gap-[30px] md:w-[50%]"
+          className="flex flex-col gap-[30px] md:w-[50%] md:max-w-[260px]"
           id="what-are-we-looking-for"
         >
           <h2 className="h-[64px] text-paper">
@@ -39,7 +39,7 @@ export default function Index() {
           </p>
         </section>
         <section
-          className="flex flex-col gap-[30px] md:w-[50%]"
+          className="flex flex-col gap-[30px] md:w-[50%] md:max-w-[260px]"
           id="why-are-we-doing-this"
         >
           <h2 className="h-[64px] text-paper">

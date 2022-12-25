@@ -14,7 +14,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function Internal() {
   const isLoggedIn = useLoaderData();
   return (
-    <main className="h-screen w-auto">
+    <div className="h-screen w-auto">
       {isLoggedIn ? (
         <Outlet />
       ) : (
@@ -28,6 +28,6 @@ export default function Internal() {
           </button>
         </Form>
       )}
-    </main>
+    </div>
   );
 }

@@ -344,7 +344,7 @@ export default function RecipeIndex() {
 
   return (
     <div className="h-full flex justify-center">
-      <main className="h-[85vh] w-[85vw] max-w-[900px] flex flex-col self-center">
+      <div className="h-[85vh] w-[85vw] max-w-[900px] flex flex-col self-center">
         {/* Either fetch from localstorage, associate with form value or render the default text */}
         <h2 className="">{t("your-recipe")}</h2>
         <div className="w-full flex justify-between mt-[18px] relative">
@@ -459,7 +459,7 @@ export default function RecipeIndex() {
             </div>
           </Form>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

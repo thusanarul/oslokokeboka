@@ -85,6 +85,27 @@
     background-position: center center;
     background-repeat: no-repeat;
   }
+
+  @font-face {
+    font-family: "UniversElse";
+    font-weight: 400;
+    font-display: auto;
+    src: url("/fonts/universelse-regular-webfont.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "UniversElse";
+    font-weight: 300;
+    font-display: auto;
+    src: url("/fonts/universelse-light-webfont.woff") format("woff");
+  }
+
+  @font-face {
+    font-family: "UniversElse";
+    font-weight: 700;
+    font-display: auto;
+    src: url("/fonts/universelse-bold-webfont.woff") format("woff");
+  }
 }
 
 @layer components {
@@ -135,25 +156,11 @@
   .body-text {
     @apply text-[17px] leading-[21px] tracking-[.01em];
   }
+}
 
-  @font-face {
-    font-family: "UniversElse";
-    font-weight: 400;
-    font-display: auto;
-    src: url("/fonts/universelse-regular-webfont.woff") format("woff");
-  }
+@layer utilities {
 
-  @font-face {
-    font-family: "UniversElse";
-    font-weight: 300;
-    font-display: auto;
-    src: url("/fonts/universelse-light-webfont.woff") format("woff");
-  }
-
-  @font-face {
-    font-family: "UniversElse";
-    font-weight: 700;
-    font-display: auto;
-    src: url("/fonts/universelse-bold-webfont.woff") format("woff");
+  .px-home {
+    @apply px-[24px] md:px-0;
   }
 }

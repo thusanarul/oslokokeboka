@@ -4,6 +4,7 @@ import { useLoaderData } from "@remix-run/react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import invariant from "tiny-invariant";
+import { ContactUs } from "~/components/contact-us";
 import { db } from "~/utils/db.server";
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -66,22 +67,17 @@ export default function ThankYou() {
   }, [recipeInfo.id]);
 
   return (
-    <main className="w-full h-screen">
+    <div className="w-full h-screen">
       <section className="flex flex-col w-[90%] max-w-[540px] gap-[24px] mx-auto pt-[100px]">
         <h1 className="text-salmon">
           {recipeInfo.name} {t("headerText")}
         </h1>
         <p>{t("infoText")}</p>
-        <p>
-          {t("contactUs")}{" "}
-          <a className="underline" href="mailto:info@oslokokeboka.no">
-            info@oslokokeboka.no
-          </a>
-        </p>
+        <ContactUs />
         <button className="mt-[30px] p-[16px] w-fit orange-button-slim ">
           {t("view-recipes")}
         </button>
       </section>
-    </main>
+    </div>
   );
 }

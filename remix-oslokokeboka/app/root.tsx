@@ -12,11 +12,13 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useMatches,
 } from "@remix-run/react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import i18next from "~/i18next.server";
 import styles from "./app.css";
+import { Footer } from "./components/footer";
 
 export const loader: LoaderFunction = async ({ request }) => {
   let locale = await i18next.getLocale(request);
@@ -55,6 +57,14 @@ export default function App() {
 
   let { i18n } = useTranslation();
 
+  let matches = useMatches();
+
+  const ignoreRoutes = ["_internal", "create-recipe"];
+
+  const dontRenderHeaderAndFooter = matches.some((el) =>
+    ignoreRoutes.some((val) => el.id.startsWith(`routes/${val}`))
+  );
+
   // This hook will change the i18n instance language to the current locale
   // detected by the loader, this way, when we do something to change the
   // language, this locale will change and i18next will load the correct
@@ -66,8 +76,11 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="h-screen">
-        <Outlet />
+      <body className="flex flex-col justify-between min-h-screen">
+        <main className="">
+          <Outlet />
+        </main>
+        {!dontRenderHeaderAndFooter && <Footer />}
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

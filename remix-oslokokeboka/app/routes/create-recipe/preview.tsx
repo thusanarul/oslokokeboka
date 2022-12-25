@@ -89,7 +89,7 @@ export default function RecipePreview() {
   const { t } = useTranslation(["preview", "common"]);
 
   return (
-    <main className="w-full h-screen">
+    <div className="w-full h-screen">
       <div className="py-[100px] w-[90%] max-w-[540px] mx-auto">
         <section
           id="preview-info"
@@ -123,6 +123,6 @@ export default function RecipePreview() {
           </Form>
         </section>
       </div>
-    </main>
+    </div>
   );
 }

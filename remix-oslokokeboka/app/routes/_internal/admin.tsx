@@ -20,9 +20,9 @@ export default function Admin() {
   console.log(data);
 
   return (
-    <main className="text-white">
+    <div className="text-white">
       hei
       <div></div>
-    </main>
+    </div>
   );
 }
