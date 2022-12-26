@@ -6,6 +6,7 @@ import {
 } from "@remix-run/node";
 import {
   Form,
+  Link,
   useActionData,
   useLoaderData,
   useNavigate,
@@ -315,7 +316,6 @@ export default function RecipeIndex() {
   const actionData:
     | { step: number; form: RecipeFormField[]; errors: RecipeErrors }
     | undefined = useActionData();
-  const navigate = useNavigate();
   const { t, i18n } = useTranslation(["create-recipe", "common"]);
   const lang = i18n.language as i18nKey; // Nothing gets rendered if this fails. Maybe a type cast?
 
@@ -343,122 +343,119 @@ export default function RecipeIndex() {
   const tooltipTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   return (
-    <div className="h-full flex justify-center">
-      <div className="h-[85vh] w-[85vw] max-w-[900px] flex flex-col self-center">
-        {/* Either fetch from localstorage, associate with form value or render the default text */}
-        <h2 className="">{t("your-recipe")}</h2>
-        <div className="w-full flex justify-between mt-[18px] relative">
-          {steps.map((step, index) => {
-            let stepColor = currentStep === index ? "bg-salmon" : "";
-            if (tooltipStep != false) {
-              stepColor = step === tooltipStep ? "bg-ochre" : stepColor;
-            }
+    <div className="w-[85%] max-w-[550px] flex flex-col mx-auto self-start">
+      {/* Either fetch from localstorage, associate with form value or render the default text */}
+      <h1 className="text-salmon">{t("your-recipe")}</h1>
+      <div className="w-full flex justify-between mt-[18px] relative">
+        {steps.map((step, index) => {
+          let stepColor = currentStep === index ? "bg-salmon" : "";
+          if (tooltipStep != false) {
+            stepColor = step === tooltipStep ? "bg-ochre" : stepColor;
+          }
 
-            return (
-              <button
-                type="button"
-                key={`step_${index}`}
-                aria-label={step.name[lang]}
-                className={`form-indicator ${step.timeInPercentage} ${stepColor}`}
-                onClick={() => {
-                  setTooltipStep(step);
-                  if (tooltipTimeout.current) {
-                    clearTimeout(tooltipTimeout.current);
-                  }
-                  tooltipTimeout.current = setTimeout(() => {
-                    setTooltipStep(false);
-                  }, 1250);
-                }}
-              ></button>
-            );
-          })}
-          <span
-            className={`absolute left-[25%] top-[24px] z-10 tooltip transition ease-in-out ${
-              !tooltipStep ? "invisible" : ""
-            }`}
-          >
-            <p className="text-darkestwine font-bold mb-[12px]">
-              {tooltipStep && tooltipStep.name[lang]}
-            </p>
-            {tooltipStep && tooltipStep.tooltipInfo[lang]}
-          </span>
-        </div>
-        <p className="mt-[12px]">{steps[currentStep].name[lang]}</p>
-        {/* The form associated with the current step*/}
-        <div className="mt-[32px]">
-          <Form
-            method="post"
-            className="h-full mb-[24px]"
-            id="recipe-form"
-            action={`/create-recipe/${currentStep}`}
-          >
-            <div className="flex flex-col gap-[48px]">
-              {currentForm.map((field) => {
-                const defaultValue =
-                  filled && filled[field.index] !== undefined
-                    ? filled[field.index].value
-                    : null;
+          return (
+            <button
+              type="button"
+              key={`step_${index}`}
+              aria-label={step.name[lang]}
+              className={`form-indicator ${step.timeInPercentage} ${stepColor}`}
+              onClick={() => {
+                setTooltipStep(step);
+                if (tooltipTimeout.current) {
+                  clearTimeout(tooltipTimeout.current);
+                }
+                tooltipTimeout.current = setTimeout(() => {
+                  setTooltipStep(false);
+                }, 1250);
+              }}
+            ></button>
+          );
+        })}
+        <span
+          className={`absolute left-[25%] top-[24px] z-10 tooltip transition ease-in-out ${
+            !tooltipStep ? "invisible" : ""
+          }`}
+        >
+          <p className="text-darkestwine font-bold mb-[12px]">
+            {tooltipStep && tooltipStep.name[lang]}
+          </p>
+          {tooltipStep && tooltipStep.tooltipInfo[lang]}
+        </span>
+      </div>
+      <p className="mt-[12px]">{steps[currentStep].name[lang]}</p>
+      {/* The form associated with the current step*/}
+      <div className="mt-[32px]">
+        <Form
+          method="post"
+          className="h-full mb-[24px]"
+          id="recipe-form"
+          action={`/create-recipe/${currentStep}`}
+        >
+          <div className="flex flex-col gap-[48px]">
+            {currentForm.map((field) => {
+              const defaultValue =
+                filled && filled[field.index] !== undefined
+                  ? filled[field.index].value
+                  : null;
 
-                return (
-                  <div className="flex flex-col" key={`outer_${field.name}`}>
-                    <label
-                      className={`flex flex-col gap-[8px] ${
-                        field.index !== fieldInFocus ? "opacity-70" : ""
-                      }`}
-                      htmlFor={field.name}
-                    >
-                      <p>{field.index}</p>
-                      <h2 className="mb-[8px]">{field.title[lang]}</h2>
-                      <InputField
-                        field={field}
-                        t={t}
-                        lang={lang}
-                        onFocus={() => setFieldInFocus(field.index)}
-                        onHover={() => setFieldInFocus(field.index)}
-                        defaultValue={defaultValue}
-                      />
-                    </label>
-                    {errors && errors[field.index] !== undefined ? (
-                      <span className="flex mt-[8px] gap-[8px]">
-                        <Ellipse className={"self-center w-[10px] h-[10px]"} />
-                        <p className="text-ochre">
-                          {errors[field.index].errorText[lang]}
-                        </p>
-                      </span>
-                    ) : null}
-                  </div>
-                );
-              })}
-            </div>
-            <div className="flex w-fit mt-[42px] gap-[16px] justify-start">
-              <button
-                type="button"
-                className="flex-auto py-[16px] min-w-[120px] px-[28px] inverted-red-button"
-                onClick={() => {
-                  if (steps[currentStep].previousStep === "cancel") {
-                    navigate("/");
-                  } else {
-                    if (currentStep > 0 && currentStep < steps.length) {
-                      navigate(`/create-recipe/${currentStep - 1}`);
-                    }
-                  }
-                }}
+              return (
+                <div className="flex flex-col" key={`outer_${field.name}`}>
+                  <label
+                    className={`flex flex-col gap-[8px] ${
+                      field.index !== fieldInFocus ? "opacity-70" : ""
+                    }`}
+                    htmlFor={field.name}
+                  >
+                    <p>{field.index}</p>
+                    <h2 className="mb-[8px]">{field.title[lang]}</h2>
+                    <InputField
+                      field={field}
+                      t={t}
+                      lang={lang}
+                      onFocus={() => setFieldInFocus(field.index)}
+                      onHover={() => setFieldInFocus(field.index)}
+                      defaultValue={defaultValue}
+                    />
+                  </label>
+                  {errors && errors[field.index] !== undefined ? (
+                    <span className="flex mt-[8px] gap-[8px]">
+                      <Ellipse className={"self-center w-[10px] h-[10px]"} />
+                      <p className="text-ochre">
+                        {errors[field.index].errorText[lang]}
+                      </p>
+                    </span>
+                  ) : null}
+                </div>
+              );
+            })}
+          </div>
+          <div className="flex w-fit mt-[42px] gap-[16px] justify-start">
+            {steps[currentStep].previousStep === "cancel" && (
+              <Link
+                to={"/"}
+                className="flex-auto text-center py-[16px] min-w-[120px] px-[28px] inverted-red-button"
               >
-                {steps[currentStep].previousStep === "cancel"
-                  ? t("cancel", { ns: "common" })
-                  : t("previous", { ns: "common" })}
-              </button>
-              <button
-                type="submit"
-                className="flex-auto min-w-[120px] px-[28px] red-button"
+                {t("cancel", { ns: "common" })}
+              </Link>
+            )}
+            {currentStep > 0 && currentStep < steps.length && (
+              <Link
+                to={`/create-recipe/${currentStep - 1}`}
+                className="flex-auto text-center py-[16px] min-w-[120px] px-[28px] inverted-red-button"
               >
-                {steps[currentStep].nextStep === "preview"
-                  ? t("preview", { ns: "common" })
-                  : t("next", { ns: "common" })}
-              </button>
-            </div>
-          </Form>
-        </div>
+                {t("previous", { ns: "common" })}
+              </Link>
+            )}
+            <button
+              type="submit"
+              className="flex-auto min-w-[120px] px-[28px] red-button"
+            >
+              {steps[currentStep].nextStep === "preview"
+                ? t("preview", { ns: "common" })
+                : t("next", { ns: "common" })}
+            </button>
+          </div>
+        </Form>
       </div>
     </div>
   );

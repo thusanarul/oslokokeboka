@@ -1,8 +1,7 @@
-import { useNavigate } from "@remix-run/react";
+import { Link, useNavigate } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
 
 export default function Index() {
-  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const infoComponents = [
@@ -26,14 +25,9 @@ export default function Index() {
         id="what-is-kokeboka"
       >
         <h2 className="text-paper">{t("what-is-kokeboka")}</h2>
-        <button
-          onClick={() => {
-            navigate("/create-recipe/0");
-          }}
-          className="orange-button w-fit"
-        >
+        <Link to={"/create-recipe/0"} className="orange-button w-fit">
           {t("submit-your-recipe")}
-        </button>
+        </Link>
       </section>
       <div className="flex gap-[20px] px-home overflow-x-scroll scrollbar-hide">
         {infoComponents.map((el) => (
