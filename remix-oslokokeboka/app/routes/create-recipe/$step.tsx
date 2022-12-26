@@ -307,7 +307,7 @@ export let handle = {
   i18n: "create-recipe",
 };
 
-export default function RecipeIndex() {
+export default function RecipeStep() {
   const loaderData: {
     step: number;
     form: RecipeFormField[];
