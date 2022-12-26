@@ -8,6 +8,8 @@ export const Header = () => {
 
   const location = useLocation();
 
+  const [pathname, setPathname] = useState("");
+
   let [hideHome, setHideHome] = useState<boolean>(true);
 
   const languages = [
@@ -22,7 +24,7 @@ export const Header = () => {
   ];
 
   const width =
-    location.pathname == "/"
+    pathname == "/"
       ? "px-home md:max-w-[550px] md:mx-auto"
       : "w-[85%] md:max-w-[550px] mx-auto";
 
@@ -35,12 +37,21 @@ export const Header = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", onScroll);
+    setPathname(location.pathname);
+  }, [location]);
 
-    () => {
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, []);
+  useEffect(() => {
+    if (pathname === "/") {
+      setHideHome(true);
+      window.addEventListener("scroll", onScroll);
+
+      () => {
+        window.removeEventListener("scroll", onScroll);
+      };
+    } else {
+      setHideHome(false);
+    }
+  }, [pathname]);
 
   return (
     <header
