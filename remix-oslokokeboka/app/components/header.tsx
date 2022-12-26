@@ -1,13 +1,14 @@
 import { Link, useLocation } from "@remix-run/react";
-import _ from "lodash";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-export const Header = ({ pathname }: { pathname: string }) => {
+export const Header = () => {
   const { i18n } = useTranslation();
   const lang = i18n.language;
 
-  let [hideHome, setHideHome] = useState<boolean>(pathname == "/");
+  const location = useLocation();
+
+  let [hideHome, setHideHome] = useState<boolean>(true);
 
   const languages = [
     {
@@ -21,7 +22,7 @@ export const Header = ({ pathname }: { pathname: string }) => {
   ];
 
   const width =
-    pathname == "/"
+    location.pathname == "/"
       ? "px-home md:max-w-[550px] md:mx-auto"
       : "w-[85%] md:max-w-[550px] mx-auto";
 
@@ -34,18 +35,16 @@ export const Header = ({ pathname }: { pathname: string }) => {
   };
 
   useEffect(() => {
-    if (pathname == "/") {
-      window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll);
 
-      () => {
-        window.removeEventListener("scroll", onScroll);
-      };
-    }
+    () => {
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   return (
     <header
-      className={`flex items-center justify-between sticky top-0 py-4 bg-darkestwine ${width} `}
+      className={`flex items-center justify-between sticky top-0 py-6 mb-4 bg-darkestwine ${width} `}
     >
       <Link
         className={`body-text text-salmon transition-opacity ease-in-out duration-500 ${

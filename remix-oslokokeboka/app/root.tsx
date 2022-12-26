@@ -79,7 +79,7 @@ export default function App() {
         <Links />
       </head>
       <body className="h-screen">
-        <Header pathname={location.pathname} />
+        {!dontRenderHeaderAndFooter && <Header />}
         <main>
           <Outlet />
         </main>
