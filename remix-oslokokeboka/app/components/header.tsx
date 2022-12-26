@@ -50,6 +50,7 @@ export const Header = () => {
       };
     } else {
       setHideHome(false);
+      window.removeEventListener("scroll", onScroll);
     }
   }, [pathname]);
 
