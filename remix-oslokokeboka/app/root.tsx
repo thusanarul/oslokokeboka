@@ -12,6 +12,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useLocation,
   useMatches,
 } from "@remix-run/react";
 import { useEffect } from "react";
@@ -57,12 +58,12 @@ export default function App() {
 
   let { i18n } = useTranslation();
 
-  let matches = useMatches();
+  let location = useLocation();
 
   const ignoreRoutes = ["_internal", "create-recipe"];
 
-  const dontRenderHeaderAndFooter = matches.some((el) =>
-    ignoreRoutes.some((val) => el.id.startsWith(`routes/${val}`))
+  const dontRenderHeaderAndFooter = ignoreRoutes.some((val) =>
+    location.pathname.startsWith(`/${val}`)
   );
 
   // This hook will change the i18n instance language to the current locale
