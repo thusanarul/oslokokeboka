@@ -34,6 +34,7 @@ export default function Index() {
           <section
             className="flex flex-col gap-[30px] md:w-[50%] md:max-w-[260px]"
             id={el.id}
+            key={`info-${el.id}`}
           >
             <h2 className="h-[64px] text-paper">{t(`${el.id}-header`)}</h2>
             <img

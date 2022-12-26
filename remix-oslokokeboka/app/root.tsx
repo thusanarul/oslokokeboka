@@ -20,6 +20,7 @@ import { useTranslation } from "react-i18next";
 import i18next from "~/i18next.server";
 import styles from "./app.css";
 import { Footer } from "./components/footer";
+import { Header } from "./components/header";
 
 export const loader: LoaderFunction = async ({ request }) => {
   let locale = await i18next.getLocale(request);
@@ -60,7 +61,7 @@ export default function App() {
 
   let location = useLocation();
 
-  const ignoreRoutes = ["_internal", "create-recipe"];
+  const ignoreRoutes = ["_internal"];
 
   const dontRenderHeaderAndFooter = ignoreRoutes.some((val) =>
     location.pathname.startsWith(`/${val}`)
@@ -70,15 +71,16 @@ export default function App() {
   // detected by the loader, this way, when we do something to change the
   // language, this locale will change and i18next will load the correct
   // translation files
-  useChangeLanguage(locale);
+  //useChangeLanguage(locale);
   return (
     <html lang={locale} dir={i18n.dir()}>
       <head>
         <Meta />
         <Links />
       </head>
-      <body className="flex flex-col justify-between min-h-screen">
-        <main className="">
+      <body className="h-screen">
+        <Header pathname={location.pathname} />
+        <main>
           <Outlet />
         </main>
         {!dontRenderHeaderAndFooter && <Footer />}
