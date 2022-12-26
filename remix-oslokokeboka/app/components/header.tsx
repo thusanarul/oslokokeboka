@@ -44,7 +44,7 @@ export const Header = () => {
 
   return (
     <header
-      className={`flex items-center justify-between sticky top-0 py-6 mb-4 bg-darkestwine ${width} `}
+      className={`flex items-center justify-between sticky top-0 py-6 mb-4 bg-darkestwine z-20 ${width} `}
     >
       <Link
         className={`body-text text-salmon transition-opacity ease-in-out duration-500 ${
