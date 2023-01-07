@@ -68,7 +68,10 @@ export default function ThankYou() {
 
   return (
     <div className="w-full h-screen">
-      <section className="flex flex-col w-[90%] max-w-[540px] gap-[24px] mx-auto pt-[100px]">
+      <section
+        id="thank-you"
+        className="flex flex-col w-[90%] max-w-[540px] gap-[24px] mx-auto pt-[100px]"
+      >
         <h1 className="text-salmon">
           {recipeInfo.name} {t("headerText")}
         </h1>

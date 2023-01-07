@@ -25,9 +25,14 @@ export default function Index() {
         id="what-is-kokeboka"
       >
         <h2 className="text-paper">{t("what-is-kokeboka")}</h2>
-        <Link to={"/create-recipe/0"} className="orange-button w-fit">
-          {t("submit-your-recipe")}
-        </Link>
+        <div className="flex flex-col md:flex-row gap-2">
+          <Link to={"/create-recipe/0"} className="orange-button w-fit">
+            {t("submit-your-recipe")}
+          </Link>
+          <Link to={"/recipes"} className="orange-button bg-paper w-fit">
+            {t("explore-recipes")}
+          </Link>
+        </div>
       </section>
       <div className="flex gap-[20px] px-home overflow-x-scroll scrollbar-hide">
         {infoComponents.map((el) => (
