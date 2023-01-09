@@ -106,6 +106,21 @@
     font-display: auto;
     src: url("/fonts/universelse-bold-webfont.woff") format("woff");
   }
+
+  @font-face {
+    font-family: "IMFellFrenchCanonRegular";
+    font-weight: 400;
+    font-display: auto;
+    src: url("/fonts/IMFellFrenchCanon-Regular.ttf") format("ttf");
+  }
+
+  @font-face {
+    font-family: "IMFellFrenchCanonItalic";
+    font-weight: 400;
+    font-display: auto;
+    font-style: italic;
+    src: url("/fonts/IMFellFrenchCanon-Italic.ttf") format("ttf");
+  }
 }
 
 @layer components {
@@ -156,6 +171,10 @@
   .body-text {
     @apply text-[17px] leading-[21px] tracking-[.01em];
   }
+
+  .french-title {
+    @apply font-french text-[33px] leading-[115%] text-paper;
+  }
 }
 
 @layer utilities {
@@ -163,4 +182,13 @@
   .px-home {
     @apply px-[24px] md:px-0;
   }
+
+  .pl-home {
+    @apply pl-[24px] md:pl-0;
+  }
+
+  .pr-home {
+    @apply pr-[32px] md:pr-0;
+  }
+  
 }

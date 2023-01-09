@@ -345,7 +345,7 @@ export default function RecipeStep() {
   return (
     <div className="w-[85%] max-w-[550px] flex flex-col mx-auto self-start">
       {/* Either fetch from localstorage, associate with form value or render the default text */}
-      <h1 className="text-salmon">{t("your-recipe")}</h1>
+      <h1 className="french-title">{t("your-recipe")}</h1>
       <div className="w-full flex justify-between mt-[18px] relative">
         {steps.map((step, index) => {
           let stepColor = currentStep === index ? "bg-salmon" : "";

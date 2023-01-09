@@ -70,14 +70,15 @@ export default function ThankYou() {
     <div className="w-full h-screen">
       <section
         id="thank-you"
-        className="flex flex-col w-[90%] max-w-[540px] gap-[24px] mx-auto pt-[100px]"
+        className="flex flex-col w-[90%] max-w-[540px] gap-[24px] mx-auto pt-[100px] text-center"
       >
-        <h1 className="text-salmon">
-          {recipeInfo.name} {t("headerText")}
-        </h1>
+        <header className="flex flex-col">
+          <h1 className="french-title">{recipeInfo.name}</h1>
+          <h1 className="text-salmon">{t("headerText")}</h1>
+        </header>
         <p>{t("infoText")}</p>
         <ContactUs />
-        <button className="mt-[30px] p-[16px] w-fit orange-button-slim ">
+        <button className="mt-[30px] p-[16px] w-fit orange-button-slim self-center">
           {t("view-recipes")}
         </button>
       </section>

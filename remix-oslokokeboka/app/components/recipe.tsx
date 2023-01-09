@@ -122,13 +122,17 @@ const InfoBox = ({ recipe, t }: RecipeSectionTypes) => {
   return (
     <div className="flex flex-col gap-[2px]">
       <span className="bg-purple py-[20px] pl-[20px] pr-[40px]">
-        <h1 className="text-paper">{recipe["name-of-dish"].inputValue}</h1>
+        <h1 className="french-title text-center">
+          {recipe["name-of-dish"].inputValue}
+        </h1>
       </span>
       <span className="bg-purple py-[20px] pl-[20px] pr-[40px]">
-        <h2 className="text-paper text-[17px]">{recipe["name"].inputValue}</h2>
+        <h2 className="text-paper text-[17px] text-center">
+          {recipe["name"].inputValue}
+        </h2>
       </span>
       <span className="bg-purple py-[20px] pl-[20px] pr-[40px]">
-        <p className="text-salmon text-[17px]">
+        <p className="text-salmon text-[17px] text-center">
           {recipe["neighbourhood"].inputValue}
         </p>
       </span>

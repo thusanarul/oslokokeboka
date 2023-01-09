@@ -25,6 +25,7 @@ module.exports = {
         mono: ["UniversElse"],
         display: ["UniversElse"],
         body: ["UniversElse"],
+        french: ["IMFellFrenchCanonRegular"],
       },
       backgroundImage: {
         chevron: "url('/images/svg/chevron.svg')",

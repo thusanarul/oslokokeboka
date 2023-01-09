@@ -18,14 +18,16 @@ export default function Index() {
   ];
 
   return (
-    <div className="flex flex-col gap-[52px] w-full md:w-[85%] md:max-w-[550px] md:mx-auto">
-      <h1 className="text-salmon w-full px-home">OSLO KOKEBOKA</h1>
+    <div className="flex flex-col gap-[52px] w-full md:w-[85%] md:max-w-[750px] md:mx-auto">
+      <h1 className="text-salmon self-center">OSLO KOKEBOKA</h1>
       <section
         className="flex flex-col px-home gap-[30px]"
         id="what-is-kokeboka"
       >
-        <h2 className="text-paper">{t("what-is-kokeboka")}</h2>
-        <div className="flex flex-col md:flex-row gap-2">
+        <h2 className="text-paper french-title text-center">
+          {t("what-is-kokeboka")}
+        </h2>
+        <div className="flex flex-col md:flex-row gap-2 md:justify-center items-center">
           <Link to={"/create-recipe/0"} className="orange-button w-fit">
             {t("submit-your-recipe")}
           </Link>
@@ -34,16 +36,17 @@ export default function Index() {
           </Link>
         </div>
       </section>
-      <div className="flex gap-[20px] px-home overflow-x-scroll scrollbar-hide">
-        {infoComponents.map((el) => (
+      <div className="flex gap-[20px] px-home overflow-x-scroll scrollbar-hide md:justify-center">
+        {infoComponents.map((el, index) => (
           <section
-            className="flex flex-col gap-[30px] md:w-[50%] md:max-w-[260px]"
+            className="flex flex-col gap-[30px] md:w-[50%] md:max-w-[260px] data-[el=0]:pl-home data-[el=1]:pr-home"
             id={el.id}
             key={`info-${el.id}`}
+            data-el={index}
           >
             <h2 className="h-[64px] text-paper">{t(`${el.id}-header`)}</h2>
             <img
-              className="min-w-[260px] h-[305px]"
+              className="min-w-[260px] max-w-[260px] h-[305px]"
               src={el.imgSrc}
               alt={el.imgAlt}
             />
