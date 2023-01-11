@@ -44,14 +44,13 @@ export const Header = () => {
     if (pathname === "/") {
       setHideHome(true);
       window.addEventListener("scroll", onScroll);
-
-      () => {
-        window.removeEventListener("scroll", onScroll);
-      };
     } else {
       setHideHome(false);
-      window.removeEventListener("scroll", onScroll);
     }
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
   }, [pathname]);
 
   return (
