@@ -19,14 +19,7 @@ module.exports = {
       darkestwine: "#10000B",
     },
     extend: {
-      fontFamily: {
-        sans: ["UniversElse"],
-        serif: ["UniversElse"],
-        mono: ["UniversElse"],
-        display: ["UniversElse"],
-        body: ["UniversElse"],
-        french: ["IMFellFrenchCanonRegular"],
-      },
+      fontFamily: {},
       backgroundImage: {
         chevron: "url('/images/svg/chevron.svg')",
         check: "url('/images/svg/check.svg')",

@@ -108,18 +108,18 @@
   }
 
   @font-face {
-    font-family: "IMFellFrenchCanonRegular";
+    font-family: "IMFellFrenchCanon-Regular";
     font-weight: 400;
     font-display: auto;
-    src: url("/fonts/IMFellFrenchCanon-Regular.ttf") format("ttf");
+    src: url("/fonts/IMFellFrenchCanon-Regular.ttf") format("woff");
   }
 
   @font-face {
-    font-family: "IMFellFrenchCanonItalic";
+    font-family: "IMFellFrenchCanon-Italic";
     font-weight: 400;
     font-display: auto;
     font-style: italic;
-    src: url("/fonts/IMFellFrenchCanon-Italic.ttf") format("ttf");
+    src: url("/fonts/IMFellFrenchCanon-Italic.ttf") format("woff");
   }
 }
 
@@ -173,7 +173,13 @@
   }
 
   .french-title {
-    @apply font-french text-[33px] leading-[115%] text-paper;
+    font-family: "IMFellFrenchCanon-Regular", "UniversElse", system-ui, sans-serif;
+    @apply text-[33px] leading-[115%] text-paper;
+  }
+
+  .french-title > i {
+    font-family: "IMFellFrenchCanon-Italic", "UniversElse", system-ui, sans-serif;
+    @apply text-[33px] leading-[115%] text-paper;
   }
 }
 
