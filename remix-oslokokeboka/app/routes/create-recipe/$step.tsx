@@ -488,15 +488,55 @@ const InputField = ({
         />
       );
     case "textarea":
+      const renderInitValue = defaultValue ?? field.input.placeholder[lang];
+      const placeholder = field.input.placeholder[lang];
+
+      // The only reason this component became big is because the default placeholder would not render new-line breaks in mobile
+      // Listens to a couple of events to mimic default placeholder behaviour
+
       return (
         <textarea
           name={field.name}
-          placeholder={field.input.placeholder[lang]}
+          data-placeholder={defaultValue == null}
+          className={
+            "data-[placeholder=true]:text-salmon data-[placeholder=false]:text-paper"
+          }
+          //placeholder={field.input.placeholder[lang]}
           form="recipe-form"
           rows={8}
-          onFocus={onFocus}
+          onBeforeInputCapture={(ev) => {
+            if (ev.currentTarget.value === placeholder) {
+              ev.currentTarget.dataset["placeholder"] = "false";
+              ev.currentTarget.value = "";
+            }
+          }}
+          onBlur={(ev) => {
+            if (
+              ev.currentTarget.defaultValue === "" ||
+              ev.currentTarget.value === ""
+            ) {
+              ev.currentTarget.dataset["placeholder"] = "true";
+              ev.currentTarget.value = placeholder;
+            } else if (
+              ev.currentTarget.defaultValue !== placeholder ||
+              ev.currentTarget.value !== placeholder
+            ) {
+              ev.currentTarget.dataset["placeholder"] = "false";
+            }
+          }}
+          onFocus={(ev) => {
+            if (
+              ev.currentTarget.defaultValue === placeholder ||
+              ev.currentTarget.value === placeholder
+            ) {
+              ev.currentTarget.selectionEnd = 0;
+            } else {
+              ev.currentTarget.dataset["placeholder"] = "true";
+            }
+            onFocus ? onFocus(ev) : null;
+          }}
           onMouseOver={onHover}
-          defaultValue={defaultValue ?? undefined}
+          defaultValue={renderInitValue}
         ></textarea>
       );
     case "dropdown":
