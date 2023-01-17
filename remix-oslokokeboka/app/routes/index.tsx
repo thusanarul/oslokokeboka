@@ -24,9 +24,14 @@ export default function Index() {
         className="flex flex-col px-home gap-[30px]"
         id="what-is-kokeboka"
       >
-        <h2 className="text-paper french-title text-center">
-          {t("what-is-kokeboka")}
-        </h2>
+        <h2
+          className="text-paper french-title text-center"
+          dangerouslySetInnerHTML={{
+            __html: t("what-is-kokeboka", {
+              interpolation: { hei: "HALLO", escapeValue: false },
+            }),
+          }}
+        />
         <div className="flex flex-col md:flex-row gap-2 md:justify-center items-center">
           <Link to={"/create-recipe/0"} className="orange-button w-fit">
             {t("submit-your-recipe")}
