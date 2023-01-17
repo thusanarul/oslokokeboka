@@ -4,8 +4,8 @@ emoji = "✨"
 
 [env.common]
 DATABASE_CONNECTION_LIMIT = "4"
-GOOGLE_CLIENT_ID = "301965539786-l521cocgjsa934f9006kmpfs9lpp7so6.apps.googleusercontent.com"
-GOOGLE_CLIENT_SECRET = { encrypted = "QTS_2pVkUCBA6z5SeyAQCLuV7upR_GyLTpupBoHv6RGXaPk4caKcHs8GKn0uL7gUHzkSRl8U727AwqgwGXAqr61hOKyMkiMo75PXFyL50BMiTW0HayObZO-hjIe6H89erxIDkr-yllQfFQ85a_Wcq7moRcVbLEPgdaUHUEm3" }
+GOOGLE_CLIENT_ID = "301965539786-tne35pbi789cghioj9o1jv6t6l776gtq.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET = { encrypted = "QWoZ8yThdSUHuktfgtep7m5o8XodeL0dejuYJb7DLwWUP9pavXsFbGufsXEEQh8F9xArv2i072qbESMz9fETnjixlP_k3vci-GcOThok57VS9hbNv8cvy68oXube-0tVasFxwP3HJ6KvAh-BZLGmWIzhfMnnapCE8dH_EJFb" }
 
 [env.test]
 ADMINS = "piruthusan@gmail.com,shubham.mehra@gmail.com,info@oslokokeboka.no"
