@@ -22,7 +22,7 @@ const form_0: RecipeFormField[] = [
         en: "What memories does this dish remind you of when you are cooking or eating this? \
 \n\nFor ex. When do you cook or eat this? How did you learn this dish? Do you think of some place, a person or time in you life?",
         no: "Hvilke minner assosierer du med denne retten? \
-\n\nFor ex. Når lager du eller spiser du retten? Hvordan lærte du å lage den? Tenker du på et spesielt sted, person, eller tid i livet ditt?",
+\n\nFor eks. Når lager du eller spiser du retten? Hvordan lærte du å lage den? Tenker du på et spesielt sted, person, eller tid i livet ditt?",
       },
     },
   },
