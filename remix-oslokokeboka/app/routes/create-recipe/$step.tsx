@@ -65,7 +65,7 @@ type ChoicesInputField = {
   placeholder: i18nString;
   choices: {
     value: string | number;
-    text: string;
+    text: string | i18nString;
   }[];
 };
 
@@ -548,11 +548,18 @@ const InputField = ({
           defaultValue={defaultValue ?? undefined}
           placeholder={field.input.placeholder[lang]}
         >
-          {field.input.choices?.map((choice, index) => (
-            <option key={`option_${field.name}_${index}`} value={choice.value}>
-              {choice.text}
-            </option>
-          ))}
+          {field.input.choices?.map((choice, index) => {
+            const text: string =
+              typeof choice.text === "string" ? choice.text : choice.text[lang];
+            return (
+              <option
+                key={`option_${field.name}_${index}`}
+                value={choice.value}
+              >
+                {text}
+              </option>
+            );
+          })}
         </select>
       );
     case "consent":

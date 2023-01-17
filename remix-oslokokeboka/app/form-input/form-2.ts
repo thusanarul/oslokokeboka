@@ -32,7 +32,15 @@ const form_2: RecipeFormField[] = [
     input: {
       type: "dropdown",
       placeholder: { en: "Select type of dish", no: "Velg type rett" },
-      choices: [{ value: "hm", text: "This would be a category" }],
+      choices: [
+        { value: "breakfast", text: { no: "Frokost", en: "Breakfast" } },
+        { value: "lunch", text: { no: "Lunsj", en: "Lunch" } },
+        { value: "dinner", text: { no: "Middag", en: "Dinner" } },
+        { value: "desert", text: { no: "Dessert", en: "Desert" } },
+        { value: "baked-goods", text: { no: "Bakst", en: "Baked goods" } },
+        { value: "snacks", text: { no: "Snacks", en: "Snacks" } },
+        { value: "misc", text: { no: "Diverse", en: "Misc." } },
+      ],
     },
   },
 ];
