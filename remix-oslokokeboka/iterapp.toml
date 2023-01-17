@@ -3,4 +3,9 @@ port = 3000
 emoji = "✨"
 
 [env.common]
-DATABASE_CONNECTION_LIMIT=4
+DATABASE_CONNECTION_LIMIT = 4
+GOOGLE_CLIENT_ID = 301965539786-l521cocgjsa934f9006kmpfs9lpp7so6.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET = { encrypted = "QTS_2pVkUCBA6z5SeyAQCLuV7upR_GyLTpupBoHv6RGXaPk4caKcHs8GKn0uL7gUHzkSRl8U727AwqgwGXAqr61hOKyMkiMo75PXFyL50BMiTW0HayObZO-hjIe6H89erxIDkr-yllQfFQ85a_Wcq7moRcVbLEPgdaUHUEm3" }
+
+[env.test]
+ADMINS = "piruthusan@gmail.com,shubham.mehra@gmail.com,info@oslokokeboka.no"
