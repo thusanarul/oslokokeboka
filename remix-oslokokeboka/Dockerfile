@@ -5,6 +5,10 @@
 # https://github.com/garand/remix-azure-docker/blob/master/Dockerfile
 # https://github.com/kentcdodds/remix-tutorial-walkthrough/blob/main/Dockerfile
 
+from alpine as entrypoint
+COPY remix-oslokokeboka/entrypoint.sh /docker-entrypoint.sh
+RUN chmod uga+x /docker-entrypoint.sh
+
 from node:16.13-slim as builder
 
 # /usr/local/share/.cache/yarn/v6
@@ -28,6 +32,9 @@ RUN --mount=type=cache,target=/usr/local/share/.cache/yarn/v6 \
 
 FROM node:16.13-slim as runner
 RUN apt-get update && apt-get install -y openssl
+
+COPY --from=entrypoint /docker-entrypoint.sh /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
 COPY --from=builder /app /app
 WORKDIR /app

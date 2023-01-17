@@ -1,3 +1,6 @@
 readiness_path = "/health"
 port = 3000
 emoji = "✨"
+
+[env.common]
+DATABASE_CONNECTION_LIMIT=4
