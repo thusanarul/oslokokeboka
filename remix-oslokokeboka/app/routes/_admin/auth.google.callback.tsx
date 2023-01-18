@@ -5,7 +5,7 @@ export let loader: LoaderFunction = ({ request }) => {
   console.log(request);
 
   return authenticator.authenticate("google", request, {
-    successRedirect: "/_internal/admin",
-    failureRedirect: "/_internal",
+    successRedirect: "/_admin",
+    failureRedirect: "/_admin",
   });
 };

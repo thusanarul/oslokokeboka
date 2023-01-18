@@ -61,7 +61,7 @@ export default function App() {
 
   let location = useLocation();
 
-  const ignoreRoutes = ["_internal"];
+  const ignoreRoutes = ["_admin"];
 
   const dontRenderHeaderAndFooter = ignoreRoutes.some((val) =>
     location.pathname.startsWith(`/${val}`)

@@ -19,7 +19,7 @@ export default function Internal() {
         <Outlet />
       ) : (
         <Form
-          action="/_internal/auth/google"
+          action="/_admin/auth/google"
           method="post"
           className="my-[64px] mx-auto w-full flex justify-center"
         >
