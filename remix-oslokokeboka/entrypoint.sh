@@ -6,7 +6,7 @@ if [ -z "$DATABASE_CONNECTION_LIMIT" ]; then
 fi
 
 # Naive, could break
-export DATABASE_URL="$DATABASE_URL&connection_limit=$DATABASE_CONNECTION_LIMIT"
+export DATABASE_URL="$DATABASE_URL?connection_limit=$DATABASE_CONNECTION_LIMIT"
 echo "Updated connection limit ($DATABASE_CONNECTION_LIMIT)"
 
 exec "$@"

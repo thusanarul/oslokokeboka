@@ -34,7 +34,7 @@ FROM node:16.13-slim as runner
 RUN apt-get update && apt-get install -y openssl
 
 COPY --from=entrypoint /docker-entrypoint.sh /docker-entrypoint.sh
-#ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
 COPY --from=builder /app /app
 WORKDIR /app
