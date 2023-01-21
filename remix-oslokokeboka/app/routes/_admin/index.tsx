@@ -1,6 +1,6 @@
 import { RecipeSubmission, SubmissionState } from "@prisma/client";
 import { json, LoaderFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { db } from "~/utils/db.server";
 
 type SubmissionStats = {
@@ -63,7 +63,19 @@ export default function Admin() {
           <h2>Processed: {stats.processed}</h2>
         </div>
       </section>
-      <section id="submissions"></section>
+      <section id="submissions">
+        {submissions.map((submission, index) => {
+          return (
+            <Link
+              key={`submission-${index}`}
+              className="bg-darkwine"
+              to={`recipe/${submission.id}`}
+            >
+              <p>Recipe {index + 1}</p>
+            </Link>
+          );
+        })}
+      </section>
     </div>
   );
 }

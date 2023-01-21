@@ -6,8 +6,6 @@ import invariant from "tiny-invariant";
 import { Recipe } from "~/components/recipe";
 import { db } from "~/utils/db.server";
 
-// create recipe layout from json?
-
 export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.id, "id is required to fetch recipe");
 
@@ -48,7 +46,7 @@ export default function InternalRecipeSubmission() {
     <div className="w-full h-screen">
       <section
         id="recipe"
-        className="flex flex-col w-[90%] max-w-[540px] bg-white mx-auto gap-[10px]"
+        className="flex flex-col w-[90%] max-w-[540px] mx-auto gap-[10px]"
       >
         <Recipe recipe={recipe} t={t} />
       </section>
