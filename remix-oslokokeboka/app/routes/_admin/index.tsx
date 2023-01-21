@@ -39,19 +39,31 @@ export const loader: LoaderFunction = async ({}) => {
     },
   });
 
-  console.log(recipeSubmissions);
-
-  return json(recipeSubmissions);
+  return json<{ stats: SubmissionStats; submissions: RecipeSubmission[] }>({
+    stats: stats,
+    submissions: recipeSubmissions,
+  });
 };
 
 export default function Admin() {
-  const data = useLoaderData<RecipeSubmission[]>();
-  console.log(data);
+  const { stats, submissions } = useLoaderData<{
+    stats: SubmissionStats;
+    submissions: RecipeSubmission[];
+  }>();
 
   return (
     <div className="text-white">
-      hei
-      <div></div>
+      <h1>Admin stuff</h1>
+      <section id="submission-stats">
+        <h2>Recipes submission stats</h2>
+        <div>
+          <h2>Total: {stats.total}</h2>
+          <h2>Started, but not completed: {stats.started}</h2>
+          <h2>Completed, but not processed: {stats.completed}</h2>
+          <h2>Processed: {stats.processed}</h2>
+        </div>
+      </section>
+      <section id="submissions"></section>
     </div>
   );
 }
