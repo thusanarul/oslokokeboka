@@ -4,13 +4,7 @@ import {
   LoaderFunction,
   redirect,
 } from "@remix-run/node";
-import {
-  Form,
-  Link,
-  useActionData,
-  useLoaderData,
-  useNavigate,
-} from "@remix-run/react";
+import { Form, Link, useActionData, useLoaderData } from "@remix-run/react";
 import { useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { Prisma, InputType, RecipeSubmission } from "@prisma/client";
@@ -116,6 +110,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 
   let submission: RecipeSubmission | null = null;
   const filled: RecipeFilled = {};
+  let recipeTitle: string | null = null;
 
   if (session.has("formId")) {
     console.log("Found formId");
@@ -137,6 +132,19 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       },
     });
 
+    const title =
+      await db.recipeField.findFirst<Prisma.RecipeFieldFindFirstArgs>({
+        where: {
+          recipeSubmissionId: submission.id,
+          name: "name-of-dish",
+          step: 0,
+        },
+      });
+
+    if (title) {
+      recipeTitle = title.inputValue;
+    }
+
     f.forEach((val, i) => {
       filled[val.index] = {
         index: val.index,
@@ -146,10 +154,16 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     });
   }
 
-  return json<{ step: number; form: RecipeFormField[]; filled: RecipeFilled }>({
+  return json<{
+    step: number;
+    form: RecipeFormField[];
+    filled: RecipeFilled;
+    recipeTitle: string | null;
+  }>({
     step: currentStep,
     form: steps[currentStep].form,
     filled: filled,
+    recipeTitle: recipeTitle,
   });
 };
 
@@ -312,6 +326,7 @@ export default function RecipeStep() {
     step: number;
     form: RecipeFormField[];
     filled: RecipeFilled;
+    recipeTitle: string | null;
   } = useLoaderData();
   const actionData:
     | { step: number; form: RecipeFormField[]; errors: RecipeErrors }
@@ -322,7 +337,7 @@ export default function RecipeStep() {
   let currentForm: RecipeFormField[];
   let currentStep: number;
   let errors: RecipeErrors;
-  let filled: RecipeFilled;
+  let filled: RecipeFilled | null = null;
 
   // Lærdom: loaderData er aldri undefined
   //         Kan skrive dette på en bedre måte
@@ -342,10 +357,15 @@ export default function RecipeStep() {
   const [tooltipStep, setTooltipStep] = useState<FormStep | false>(false);
   const tooltipTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const titleHeader = loaderData.recipeTitle
+    ? loaderData.recipeTitle
+    : t("your-recipe");
+
   return (
     <div className="w-[85%] max-w-[550px] flex flex-col mx-auto self-start">
       {/* Either fetch from localstorage, associate with form value or render the default text */}
-      <h1 className="french-title">{t("your-recipe")}</h1>
+
+      <h1 className="french-title">{titleHeader}</h1>
       <div className="w-full flex justify-between mt-[18px] relative">
         {steps.map((step, index) => {
           let stepColor = currentStep === index ? "bg-salmon" : "";
