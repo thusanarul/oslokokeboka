@@ -110,7 +110,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   const currentStep: number = parseInt(params.step);
   const session = await getSession(request.headers.get("Cookie"));
 
-  if (currentStep < 0 || currentStep > steps.length) {
+  if (currentStep < 0 || currentStep > steps.length - 1) {
     return redirect("/");
   }
 
@@ -517,10 +517,7 @@ const InputField = ({
             ) {
               ev.currentTarget.dataset["placeholder"] = "true";
               ev.currentTarget.value = placeholder;
-            } else if (
-              ev.currentTarget.defaultValue !== placeholder ||
-              ev.currentTarget.value !== placeholder
-            ) {
+            } else if (ev.currentTarget.value !== placeholder) {
               ev.currentTarget.dataset["placeholder"] = "false";
             }
           }}
@@ -529,11 +526,15 @@ const InputField = ({
               ev.currentTarget.defaultValue === placeholder ||
               ev.currentTarget.value === placeholder
             ) {
-              ev.currentTarget.selectionEnd = 0;
-            } else {
               ev.currentTarget.dataset["placeholder"] = "true";
+              ev.currentTarget.selectionEnd = 0;
             }
             onFocus ? onFocus(ev) : null;
+          }}
+          onClick={(ev) => {
+            if (ev.currentTarget.dataset["placeholder"] === "true") {
+              ev.currentTarget.selectionEnd = 0;
+            }
           }}
           onMouseOver={onHover}
           defaultValue={renderInitValue}
