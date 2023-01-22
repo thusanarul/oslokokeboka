@@ -1,6 +1,6 @@
 import { SubmissionState } from "@prisma/client";
 import { json, LoaderFunction, redirect } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import invariant from "tiny-invariant";
@@ -78,9 +78,12 @@ export default function ThankYou() {
         </header>
         <p>{t("infoText")}</p>
         <ContactUs />
-        <button className="mt-[30px] p-[16px] w-fit orange-button-slim self-center">
+        <Link
+          to={"/recipes"}
+          className="mt-[30px] p-[16px] w-fit orange-button-slim self-center"
+        >
           {t("view-recipes")}
-        </button>
+        </Link>
       </section>
     </div>
   );
