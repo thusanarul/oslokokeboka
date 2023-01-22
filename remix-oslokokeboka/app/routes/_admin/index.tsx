@@ -32,7 +32,6 @@ export const loader: LoaderFunction = async ({}) => {
         ?._count ?? 0,
   };
 
-  console.log(stats);
   const recipeSubmissions = await db.recipeSubmission.findMany({
     where: {
       state: SubmissionState.COMPLETED,

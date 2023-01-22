@@ -239,7 +239,7 @@ export const action: ActionFunction = async ({ params, request }) => {
 
     if (!s) {
       console.log("Could not fetch formId stored in Session Cookie");
-      return;
+      return null;
     }
 
     submission = s;
@@ -249,7 +249,7 @@ export const action: ActionFunction = async ({ params, request }) => {
     const field = currentForm.find((field) => field.name === key);
 
     if (!field) {
-      return;
+      return null;
     }
 
     // Grab previous input if it exists

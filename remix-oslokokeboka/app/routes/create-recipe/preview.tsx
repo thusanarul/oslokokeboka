@@ -89,8 +89,8 @@ export default function RecipePreview() {
   const { t } = useTranslation(["preview", "common"]);
 
   return (
-    <div className="w-full h-screen">
-      <div className="py-[100px] w-[90%] max-w-[540px] mx-auto">
+    <div className="w-full">
+      <div className="py-[100px] md:py-[40px] w-[90%] max-w-[540px] mx-auto">
         <section
           id="preview-info"
           className="px-[20px] py-[20px] border-blue border-[1px] rounded-[4px] flex justify-center"
