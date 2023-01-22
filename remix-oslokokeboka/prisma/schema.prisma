@@ -42,4 +42,5 @@ enum SubmissionState {
   STARTED
   COMPLETED
   PROCESSED
+  SOFT_DELETE
 }

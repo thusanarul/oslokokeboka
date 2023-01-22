@@ -42,6 +42,11 @@ export const loader: LoaderFunction = async ({ params }) => {
   return json(recipe);
 };
 
+const submissionActionMap: Record<string, SubmissionState> = {
+  accept: SubmissionState.PROCESSED,
+  soft_delete: SubmissionState.SOFT_DELETE,
+};
+
 export const action: ActionFunction = async ({ params, request }) => {
   invariant(params.id, "id is required to fetch recipe");
 
@@ -53,13 +58,13 @@ export const action: ActionFunction = async ({ params, request }) => {
       return;
     }
 
-    if (val === "accept") {
+    if (Object.keys(submissionActionMap).includes(val.toString())) {
       await db.recipeSubmission.update<Prisma.RecipeSubmissionUpdateArgs>({
         where: {
           id: formId,
         },
         data: {
-          state: SubmissionState.PROCESSED,
+          state: submissionActionMap[val.toString()],
         },
       });
     }
