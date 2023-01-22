@@ -1,6 +1,11 @@
-import { SubmissionState } from "@prisma/client";
-import { json, LoaderFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Prisma, SubmissionState } from "@prisma/client";
+import {
+  ActionFunction,
+  json,
+  LoaderFunction,
+  redirect,
+} from "@remix-run/node";
+import { Form, Link, useLoaderData } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
 import invariant from "tiny-invariant";
 import { Recipe } from "~/components/recipe";
@@ -37,6 +42,32 @@ export const loader: LoaderFunction = async ({ params }) => {
   return json(recipe);
 };
 
+export const action: ActionFunction = async ({ params, request }) => {
+  invariant(params.id, "id is required to fetch recipe");
+
+  const formId = params.id;
+  const formData = await request.formData();
+
+  formData.forEach(async (val, key, _) => {
+    if (key != "submission_action") {
+      return;
+    }
+
+    if (val === "accept") {
+      await db.recipeSubmission.update<Prisma.RecipeSubmissionUpdateArgs>({
+        where: {
+          id: formId,
+        },
+        data: {
+          state: SubmissionState.PROCESSED,
+        },
+      });
+    }
+  });
+
+  return redirect("/_admin");
+};
+
 export default function InternalRecipeSubmission() {
   const recipe: Recipe = useLoaderData();
 
@@ -49,6 +80,24 @@ export default function InternalRecipeSubmission() {
         className="flex flex-col w-[90%] max-w-[540px] mx-auto gap-[10px]"
       >
         <Recipe recipe={recipe} t={t} />
+        <Form className="w-full flex justify-between" method="post">
+          <button
+            type="submit"
+            name="submission_action"
+            value="soft_delete"
+            className="p-[16px] w-fit inverted-red-button"
+          >
+            Delete
+          </button>
+          <button
+            type="submit"
+            name="submission_action"
+            value="accept"
+            className="p-[16px] w-fit orange-button-slim"
+          >
+            Accept
+          </button>
+        </Form>
       </section>
       <div></div>
     </div>
