@@ -33,7 +33,10 @@ export default function PotluckAndParty() {
         <p>
           <i>{t("smack")}</i>
         </p>
-        <img src="images/studio.png" className="w-[500px] self-center"></img>
+        <img
+          src="images/studio-min.png"
+          className="w-[500px] self-center"
+        ></img>
       </section>
     </div>
   );
