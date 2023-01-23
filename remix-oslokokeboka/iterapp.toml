@@ -2,6 +2,9 @@ readiness_path = "/health"
 port = 3000
 emoji = "✨"
 
+from_to_www_redirect=true
+domains=["oslokokeboka.no"]
+
 [env.common]
 DATABASE_CONNECTION_LIMIT = "4"
 GOOGLE_CLIENT_ID = "301965539786-tne35pbi789cghioj9o1jv6t6l776gtq.apps.googleusercontent.com"
