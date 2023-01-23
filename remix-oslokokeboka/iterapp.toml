@@ -10,3 +10,7 @@ GOOGLE_CLIENT_SECRET = { encrypted = "QWoZ8yThdSUHuktfgtep7m5o8XodeL0dejuYJb7DLw
 [env.test]
 ADMINS = "piruthusan@gmail.com,shubham.mehra@gmail.com,info@oslokokeboka.no"
 GOOGLE_CALLBACK_URL="https://remix-oslokokeboka.oslokokeboka.test.iterate.no/_admin/auth/google/callback"
+
+[env.prod]
+ADMINS = "piruthusan@gmail.com,shubham.mehra@gmail.com,info@oslokokeboka.no"
+GOOGLE_CALLBACK_URL="https://oslokokeboka.no/_admin/auth/google/callback"
