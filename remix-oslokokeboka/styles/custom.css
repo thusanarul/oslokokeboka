@@ -181,11 +181,6 @@
     font-family: "IMFellFrenchCanon", "UniversElse", system-ui, sans-serif;
     @apply text-[33px] md:text-[42px] leading-[115%] text-paper text-center;
   }
-
-  /* .french-title > i {
-    font-family: "IMFellFrenchCanon", "UniversElse", system-ui, sans-serif;
-    @apply text-[33px] leading-[115%] text-paper;
-  } */
 }
 
 @layer utilities {
