@@ -2,8 +2,8 @@ readiness_path = "/health"
 port = 3000
 emoji = "✨"
 
-from_to_www_redirect=true
-domains=["oslokokeboka.no"]
+#from_to_www_redirect=true
+#domains=["oslokokeboka.no"]
 
 [env.common]
 DATABASE_CONNECTION_LIMIT = "4"
