@@ -17,7 +17,7 @@ const TextInput = ({
   return (
     <input
       name={field.name}
-      type={"text"}
+      type={field.input.type}
       placeholder={field.input.placeholder[lang]}
       onFocus={onFocus}
       onMouseOver={onHover}
