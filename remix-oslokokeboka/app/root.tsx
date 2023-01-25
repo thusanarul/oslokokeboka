@@ -78,6 +78,12 @@ export default function App() {
       <head>
         <Meta />
         <Links />
+        <script
+          async
+          defer
+          data-website-id="4e911a1f-be71-4571-b29d-1214a4211b78"
+          src="https://headless-analytics.app.iterate.no/umami.js"
+        ></script>
       </head>
       <body className="h-screen">
         {!dontRenderHeaderAndFooter && <Header />}
