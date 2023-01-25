@@ -10,6 +10,8 @@ type SubmissionStats = {
   processed: number;
 };
 
+type Submissions = Record<string, Record<string, string>>;
+
 export const loader: LoaderFunction = async ({}) => {
   const submissionGroups = await db.recipeSubmission.groupBy({
     by: ["state"],
@@ -32,22 +34,43 @@ export const loader: LoaderFunction = async ({}) => {
         ?._count ?? 0,
   };
 
-  const recipeSubmissions = await db.recipeSubmission.findMany({
+  const s = await db.recipeField.findMany({
     where: {
-      state: SubmissionState.COMPLETED,
+      name: {
+        in: ["name-of-dish", "name", "neighbourhood"],
+      },
+      RecipeSubmission: {
+        state: SubmissionState.COMPLETED,
+      },
+    },
+    select: {
+      recipeSubmissionId: true,
+      name: true,
+      inputValue: true,
     },
   });
 
-  return json<{ stats: SubmissionStats; submissions: RecipeSubmission[] }>({
+  const submissions: Submissions = {};
+
+  s.forEach((val) => {
+    if (!val.recipeSubmissionId) {
+      return;
+    }
+
+    (submissions[val.recipeSubmissionId] =
+      submissions[val.recipeSubmissionId] || {})[val.name] = val.inputValue;
+  });
+
+  return json<{ stats: SubmissionStats; submissions: Submissions }>({
     stats: stats,
-    submissions: recipeSubmissions,
+    submissions: submissions,
   });
 };
 
 export default function Admin() {
   const { stats, submissions } = useLoaderData<{
     stats: SubmissionStats;
-    submissions: RecipeSubmission[];
+    submissions: Submissions;
   }>();
 
   return (
@@ -62,15 +85,31 @@ export default function Admin() {
           <h2>Processed: {stats.processed}</h2>
         </div>
       </section>
-      <section id="submissions">
-        {submissions.map((submission, index) => {
+      <section id="submissions" className="flex flex-col gap-2">
+        {Object.keys(submissions).map((id, index) => {
           return (
             <Link
               key={`submission-${index}`}
-              className="bg-darkwine"
-              to={`recipe/${submission.id}`}
+              className="flex flex-col bg-darkwine max-w-[320px] p-5 gap-3"
+              to={`recipe/${id}`}
             >
-              <p>Recipe {index + 1}</p>
+              <h2 className="text-paper">
+                {submissions[id]["name-of-dish"] != ""
+                  ? submissions[id]["name-of-dish"]
+                  : "No dish name :("}
+              </h2>
+              <span className="flex gap-2">
+                <p className="text-ochre">
+                  {submissions[id]["name"] != ""
+                    ? submissions[id]["name"]
+                    : "No name :("}
+                </p>
+                <p>
+                  {submissions[id]["neighbourhood"] != ""
+                    ? submissions[id]["neighbourhood"]
+                    : "No neighbourhood :("}
+                </p>
+              </span>
             </Link>
           );
         })}
