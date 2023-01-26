@@ -50,7 +50,7 @@ export type RecipeErrors = Record<string, RecipeFormFieldError>;
 export type RecipeFilled = Record<string, RecipeFormFieldValue>;
 
 type BasicInputField = {
-  type: "text" | "number" | "textarea" | "consent";
+  type: "text" | "textarea" | "consent";
   placeholder: i18nString;
 };
 
@@ -499,16 +499,6 @@ const InputField = ({
 }) => {
   switch (field.input.type) {
     case "text":
-      return (
-        <TextInput
-          field={field}
-          lang={lang}
-          onFocus={onFocus}
-          onHover={onHover}
-          defaultValue={defaultValue}
-        />
-      );
-    case "number":
       return (
         <TextInput
           field={field}

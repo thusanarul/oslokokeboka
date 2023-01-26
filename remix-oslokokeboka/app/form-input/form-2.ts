@@ -5,12 +5,15 @@ const form_2: RecipeFormField[] = [
     index: "06",
     name: "how-many-servings",
     title: {
-      en: "How many servings does this recipe make?",
-      no: "Hvor mange porsjoner gir denne oppskriften?",
+      en: "How many servings or what quantity does this recipe make?",
+      no: "Hvor mange porsjoner eller hvor mye mengde gir denne oppskriften?",
     },
     input: {
-      type: "number",
-      placeholder: { en: "Enter amount...", no: "Skriv inn porsjoner..." },
+      type: "text",
+      placeholder: {
+        en: "Enter servings/quantity...",
+        no: "Skriv inn porsjoner/mengde...",
+      },
     },
   },
   {
