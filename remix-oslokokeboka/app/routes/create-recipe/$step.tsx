@@ -191,6 +191,17 @@ export const action: ActionFunction = async ({ params, request }) => {
   formData.forEach((val, key, _) => {
     const s = currentForm.find((field) => field.name === key);
 
+    // This check is necessary because of custom handling of placeholders in textarea input field
+    // Ideally this would happen client-side, but could not find a solution
+    if (s?.input.type === "textarea") {
+      if (
+        val.toString().trim() === s.input.placeholder.en ||
+        val.toString().trim() === s.input.placeholder.no
+      ) {
+        val = "";
+      }
+    }
+
     // more types of validation?
     if (s?.required) {
       if (val.toString().trim() === "") {
