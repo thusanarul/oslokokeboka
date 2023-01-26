@@ -5,6 +5,7 @@ const form_3: RecipeFormField[] = [
     index: "08",
     name: "name",
     title: { en: "What's your name?", no: "Hva er navnet ditt?" },
+    required: true,
     input: {
       type: "text",
       placeholder: { en: "Your name is...", no: "Ditt navn er..." },
@@ -14,6 +15,7 @@ const form_3: RecipeFormField[] = [
     index: "09",
     name: "email",
     title: { en: "What's your email?", no: "Hva er e-postadressen din?" },
+    required: true,
     input: {
       type: "text",
       placeholder: { en: "Your email...", no: "Din e-postadresse..." },
@@ -23,6 +25,7 @@ const form_3: RecipeFormField[] = [
     index: "10",
     name: "neighbourhood",
     title: { en: "What's your neighbourhood?", no: "Hvor bor du?" }, // TODO: talk to shub about the "'"
+    required: true,
     input: {
       type: "dropdown",
       placeholder: { en: "Select your neighbourhood", no: "Velg ditt nabolag" },

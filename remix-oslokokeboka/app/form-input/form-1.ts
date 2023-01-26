@@ -5,6 +5,7 @@ const form_1: RecipeFormField[] = [
     index: "03",
     name: "ingredients",
     title: { en: "Ingredients", no: "Ingredienser" },
+    required: true,
     input: {
       type: "textarea",
       placeholder: {
@@ -25,6 +26,7 @@ For eksempel:\n \
     index: "04",
     name: "how-to",
     title: { en: "How do you make the dish?", no: "Hvordan lager man retten?" },
+    required: true,
     input: {
       type: "textarea",
       placeholder: {
