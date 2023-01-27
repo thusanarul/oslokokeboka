@@ -26,7 +26,7 @@ export const Header = () => {
   const width =
     pathname == "/"
       ? "px-home md:header-width md:mx-auto"
-      : "w-[85%] md:header-width mx-auto";
+      : "px-home w-[100%] md:[w-85%] md:header-width md:mx-auto";
 
   const onScroll = () => {
     if (window.scrollY > 50) {

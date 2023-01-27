@@ -5,16 +5,16 @@ export let handle = {
 };
 
 export default function RecipesIndex() {
-  const { t } = useTranslation(["recipes", "common"]);
+  const { t } = useTranslation("recipes");
 
   return (
-    <div className="w-[85%] body-width flex flex-col mx-auto gap-[40px]">
+    <div className="w-[85%] md:body-width flex flex-col mx-auto gap-[40px]">
       <header className="flex flex-col gap-2">
         <h1 className="fuzzy text-paper">{t("header")}</h1>
         <p>{t("ingress")}</p>
       </header>
       <section className="self-center" id="under-construction">
-        <div className="bg-rectangle max-w-[335px] h-[651px] pt-[40px] px-[20px] flex flex-col gap-[20px] justify-start place-items-center">
+        <div className="bg-rectangle w-[335px] max-w-[335px] h-[651px] pt-[30px] px-[20px] flex flex-col gap-[20px] justify-start place-items-center">
           <h2 className="text-purple text-center">
             {t("construction-header")}
           </h2>

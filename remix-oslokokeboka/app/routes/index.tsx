@@ -33,7 +33,7 @@ export default function Index() {
             __html: t("what-is-kokeboka"),
           }}
         />
-        <div className="flex flex-col md:flex-row gap-2 md:justify-center items-center">
+        <div className="flex flex-row gap-2 justify-center">
           <Link to={"/create-recipe/0"} className="fuzzy orange-button w-fit">
             {t("submit-your-recipe")}
           </Link>
@@ -46,7 +46,7 @@ export default function Index() {
         <div className="flex md:justify-center">
           {infoComponents.map((el, index) => (
             <section
-              className="relative md:data-[el=0]:left-10 data-[visible='true']:z-10 data-[el=1]:right-10 data-[el=1]:top-8 data-[visible='false']:opacity-60"
+              className="relative md:data-[el=0]:left-10 data-[visible='true']:z-10 data-[el=1]:right-10 data-[el=1]:top-8 data-[visible='false']:opacity-60 data-[el=1]:pr-home"
               id={el.id}
               key={`info-${el.id}`}
               data-el={index}
@@ -59,8 +59,8 @@ export default function Index() {
                 {t(`${el.id}-header`)}
               </h2>
               <div className="flex flex-col gap-[20px] bg-rectangle w-[335px] max-w-[335px] h-[651px]">
-                <img className="pt-8 px-2" alt={el.imgAlt} src={el.imgSrc} />
-                <p className="text-darkestwine px-4 pb-2">
+                <img className="pt-7 px-2" alt={el.imgAlt} src={el.imgSrc} />
+                <p className="text-darkestwine px-4 pb-8">
                   {t(`${el.id}-text`)}
                 </p>
               </div>

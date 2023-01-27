@@ -194,7 +194,7 @@
   }
 
   .pr-home {
-    @apply pr-[32px] md:pr-0;
+    @apply pr-[28px] md:pr-0;
   }
 
   .body-width {
