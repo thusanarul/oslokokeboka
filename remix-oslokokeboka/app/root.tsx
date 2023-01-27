@@ -1,4 +1,5 @@
 import {
+  ErrorBoundaryComponent,
   json,
   LinksFunction,
   LoaderFunction,
@@ -119,6 +120,36 @@ export const CatchBoundary: CatchBoundaryComponent = () => {
           <div className="flex flex-col gap-8">
             <h1 className="french-title text-ochre">{t("page-not-found")}</h1>
             <p className="text-ochre text-center">{t("pnf-text")}</p>
+          </div>
+        </main>
+        <Footer />
+        <Scripts />
+      </body>
+    </html>
+  );
+};
+
+export const ErrorBoundary: ErrorBoundaryComponent = () => {
+  let { t } = useTranslation("");
+
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <Header />
+        <main className="flex flex-col w-full gap-12 py-[100px] md:py-[40px] mx-auto">
+          <img
+            className="self-center"
+            src="images/food/pumpkin-transparent.png"
+          />
+          <div className="flex flex-col gap-8">
+            <h1 className="french-title text-ochre">
+              {t("something-went-wrong")}
+            </h1>
           </div>
         </main>
         <Footer />
