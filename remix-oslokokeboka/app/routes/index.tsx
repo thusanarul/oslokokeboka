@@ -46,7 +46,7 @@ export default function Index() {
         <div className="flex md:justify-center">
           {infoComponents.map((el, index) => (
             <section
-              className="relative md:data-[el=0]:left-10 data-[visible='true']:z-10 data-[el=1]:right-10 data-[el=1]:top-8 data-[visible='false']:opacity-60 data-[el=1]:pr-home"
+              className="relative md:data-[el=0]:left-10 data-[visible='true']:z-10 data-[el=1]:right-10 data-[el=1]:top-8 data-[visible='false']:opacity-40 data-[el=1]:pr-home"
               id={el.id}
               key={`info-${el.id}`}
               data-el={index}
