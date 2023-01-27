@@ -35,7 +35,7 @@ const form_3: RecipeFormField[] = [
         { value: "frogner", text: "Frogner" },
         { value: "gamle-oslo", text: "Gamle Oslo" },
         { value: "grorud", text: "Grorud" },
-        { value: "grunerløkka", text: "Grünerløkka" },
+        { value: "grunerlokka", text: "Grünerløkka" },
         { value: "nordre-aker", text: "Nordre Aker" },
         { value: "nordstrand", text: "Nordstrand" },
         { value: "sagene", text: "Sagene" },

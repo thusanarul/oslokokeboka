@@ -5,11 +5,12 @@ import {
   LoaderFunction,
   redirect,
 } from "@remix-run/node";
-import { Form, Link, useLoaderData } from "@remix-run/react";
+import { Form, useLoaderData } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
 import invariant from "tiny-invariant";
 import { Recipe } from "~/components/recipe";
 import { db } from "~/utils/db.server";
+import { i18nKey } from "../create-recipe/$step";
 
 export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.id, "id is required to fetch recipe");
@@ -76,7 +77,8 @@ export const action: ActionFunction = async ({ params, request }) => {
 export default function InternalRecipeSubmission() {
   const recipe: Recipe = useLoaderData();
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language as i18nKey;
 
   return (
     <div className="w-full h-screen">
@@ -84,7 +86,7 @@ export default function InternalRecipeSubmission() {
         id="recipe"
         className="flex flex-col w-[90%] max-w-[540px] mx-auto gap-[10px]"
       >
-        <Recipe recipe={recipe} t={t} />
+        <Recipe recipe={recipe} t={t} lang={lang} />
         <Form className="w-full flex justify-between" method="post">
           <button
             type="submit"

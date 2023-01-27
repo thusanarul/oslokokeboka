@@ -65,7 +65,7 @@ type ChoicesInputField = {
 
 type step = "next" | "previous" | "cancel" | "preview";
 
-type i18nString = {
+export type i18nString = {
   en: string;
   no: string;
 };

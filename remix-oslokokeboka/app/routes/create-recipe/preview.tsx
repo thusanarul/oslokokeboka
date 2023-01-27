@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { Recipe } from "~/components/recipe";
 import { commitSession, getSession } from "~/session.server";
 import { db } from "~/utils/db.server";
+import { i18nKey } from "./$step";
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const session = await getSession(request.headers.get("Cookie"));
@@ -86,7 +87,9 @@ export let handle = {
 export default function RecipePreview() {
   const recipe: Recipe = useLoaderData();
   const navigate = useNavigate();
-  const { t } = useTranslation(["preview", "common"]);
+  const { t, i18n } = useTranslation(["preview", "common"]);
+
+  const lang = i18n.language as i18nKey;
 
   return (
     <div className="w-full">
@@ -99,7 +102,7 @@ export default function RecipePreview() {
         </section>
 
         <section id="recipe" className="flex flex-col gap-[10px] mt-[32px]">
-          <Recipe recipe={recipe} t={t} />
+          <Recipe recipe={recipe} t={t} lang={lang} />
           <Form
             method="post"
             id="preview-actions"

@@ -1,6 +1,8 @@
 import { InputType } from "@prisma/client";
 import { t } from "i18next";
 import { TFunction } from "react-i18next";
+import { i18nKey } from "~/routes/create-recipe/$step";
+import { boroughMap, dishCategoryMap } from "~/utils/maps";
 
 export type Recipe = Record<
   string,
@@ -15,22 +17,25 @@ export type Recipe = Record<
 // easier than copying everything into each section every time
 type RecipeSectionTypes = {
   recipe: Recipe;
-  t: TFunction<("preview" | "common")[]>;
+  t?: TFunction<("preview" | "common")[]>;
+  lang?: i18nKey;
 };
 
 export const Recipe = ({
   recipe,
   t,
+  lang,
 }: {
   recipe: Recipe;
   t: TFunction<("preview" | "common")[]>;
+  lang: i18nKey;
 }) => {
   return (
     <>
-      <InfoBox recipe={recipe} t={t} />
+      <InfoBox recipe={recipe} t={t} lang={lang} />
       <AuthorSays recipe={recipe} t={t} />
       <Ingredients recipe={recipe} t={t} />
-      <HowTo recipe={recipe} t={t} />
+      <HowTo recipe={recipe} />
       <Pictures recipe={recipe} t={t} />
       <AdditionalInfo recipe={recipe} t={t} />
     </>
@@ -38,6 +43,9 @@ export const Recipe = ({
 };
 
 const AdditionalInfo = ({ recipe, t }: RecipeSectionTypes) => {
+  if (!t) {
+    return null;
+  }
   return (
     <div className="flex flex-col gap-[2px]">
       <span className="bg-darkwine py-[20px] pl-[20px] pr-[40px]">
@@ -57,7 +65,7 @@ const Pictures = ({ recipe, t }: RecipeSectionTypes) => {
   return null;
 };
 
-const HowTo = ({ recipe, t }: RecipeSectionTypes) => {
+const HowTo = ({ recipe }: RecipeSectionTypes) => {
   const parsed = recipe["how-to"].inputValue.split("\n");
 
   return (
@@ -82,6 +90,9 @@ const HowTo = ({ recipe, t }: RecipeSectionTypes) => {
 };
 
 const Ingredients = ({ recipe, t }: RecipeSectionTypes) => {
+  if (!t) {
+    return null;
+  }
   // ingredients are saved in a textarea with newline split.
   // should have maybe been transformed before inserting into db?
   const ingredients = recipe["ingredients"].inputValue.split("\n");
@@ -106,6 +117,10 @@ const Ingredients = ({ recipe, t }: RecipeSectionTypes) => {
 };
 
 const AuthorSays = ({ recipe, t }: RecipeSectionTypes) => {
+  if (!t) {
+    return null;
+  }
+
   return (
     <div className="flex flex-col gap-[2px]">
       <span className="bg-purple py-[20px] pl-[20px] pr-[40px]">
@@ -122,7 +137,15 @@ const AuthorSays = ({ recipe, t }: RecipeSectionTypes) => {
   );
 };
 
-const InfoBox = ({ recipe, t }: RecipeSectionTypes) => {
+const InfoBox = ({ recipe, t, lang }: RecipeSectionTypes) => {
+  if (!lang || !t) {
+    return null;
+  }
+
+  const borough = boroughMap[recipe["neighbourhood"].inputValue];
+  const dishType =
+    dishCategoryMap[recipe["what-kind-of-dish"].inputValue][lang];
+
   return (
     <div className="flex flex-col gap-[2px]">
       <div className="flex flex-col bg-purple py-[20px] pl-[20px] pr-[40px] gap-2">
@@ -131,15 +154,13 @@ const InfoBox = ({ recipe, t }: RecipeSectionTypes) => {
         </h1>
         <span className="bg-purple flex self-center gap-3">
           <p className="text-ochre">{recipe["name"].inputValue}</p>
-          <p>{recipe["neighbourhood"].inputValue}</p>
+          <p>{borough}</p>
         </span>
       </div>
       <dl className="flex gap justify-between bg-purple py-[20px] pl-[20px] pr-[40px]">
         <span>
           <dt className="text-salmon text-[12px]">{t("type")}</dt>
-          <dl className="text-paper text-[17px]">
-            {recipe["what-kind-of-dish"].inputValue}
-          </dl>
+          <dl className="text-paper text-[17px]">{dishType}</dl>
         </span>
         <span>
           <dt className="text-salmon text-[12px]">{t("serves")}</dt>
