@@ -25,8 +25,8 @@ export const Header = () => {
 
   const width =
     pathname == "/"
-      ? "px-home md:max-w-[750px] md:mx-auto"
-      : "w-[85%] md:max-w-[750px] mx-auto";
+      ? "px-home md:header-width md:mx-auto"
+      : "w-[85%] md:header-width mx-auto";
 
   const onScroll = () => {
     if (window.scrollY > 50) {
@@ -58,7 +58,7 @@ export const Header = () => {
       className={`flex items-center justify-between sticky top-0 py-6 mb-4 bg-darkestwine z-20 ${width} `}
     >
       <Link
-        className={`body-text text-salmon transition-opacity ease-in-out duration-500 ${
+        className={`fuzzy text-salmon transition-opacity ease-in-out duration-500 ${
           hideHome && "opacity-0"
         }`}
         to={"/"}
@@ -74,7 +74,7 @@ export const Header = () => {
           return (
             <div key={`language-${el.code}`} className="flex">
               <button
-                className={`text-paper ${disabled && "underline"}`}
+                className={`fuzzy text-paper ${disabled && "underline"}`}
                 onClick={() => {
                   i18n.changeLanguage(el.code);
                 }}

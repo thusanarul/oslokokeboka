@@ -95,7 +95,7 @@ export default function RecipePreview() {
           id="preview-info"
           className="px-[20px] py-[20px] border-blue border-[1px] rounded-[4px] flex justify-center"
         >
-          <p className="text-blue text-center">{t("infoText")}</p>
+          <p className="fuzzy text-blue text-center">{t("infoText")}</p>
         </section>
 
         <section id="recipe" className="flex flex-col gap-[10px] mt-[32px]">
@@ -103,21 +103,18 @@ export default function RecipePreview() {
           <Form
             method="post"
             id="preview-actions"
-            className="w-1/2 flex mt-[42px] gap-[16px] justify-start"
+            className="flex mt-[42px] gap-[16px] justify-center"
           >
             <button
               type="button"
-              className="flex-auto inverted-red-button"
+              className="w-fit fuzzy inverted-orange-button"
               onClick={() => {
                 navigate(`/create-recipe/3`);
               }}
             >
-              {t("previous", { ns: "common" })}
+              {t("edit-recipe", { ns: "common" })}
             </button>
-            <button
-              type="submit"
-              className="p-[16px] orange-button-slim w-[68px] flex-auto justify-center"
-            >
+            <button type="submit" className="fuzzy orange-button w-fit">
               {t("submit", { ns: "common" })}
             </button>
           </Form>

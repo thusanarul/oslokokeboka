@@ -18,25 +18,23 @@ export default function Index() {
   ];
 
   return (
-    <div className="flex flex-col gap-[52px] w-full md:w-[85%] md:max-w-[750px] md:mx-auto">
-      <h1 className="text-salmon self-center">OSLO KOKEBOKA</h1>
+    <div className="flex flex-col gap-[52px] w-full md:w-[85%] md:max-w-[850px] md:mx-auto">
+      <h2 className="fuzzy text-salmon self-center">OSLO KOKEBOKA</h2>
       <section
         className="flex flex-col px-home gap-[30px]"
         id="what-is-kokeboka"
       >
-        <h2
-          className="text-paper french-title text-center"
+        <h1
+          className="text-paper fuzzy text-center"
           dangerouslySetInnerHTML={{
-            __html: t("what-is-kokeboka", {
-              interpolation: { hei: "HALLO", escapeValue: false },
-            }),
+            __html: t("what-is-kokeboka"),
           }}
         />
         <div className="flex flex-col md:flex-row gap-2 md:justify-center items-center">
-          <Link to={"/create-recipe/0"} className="orange-button w-fit">
+          <Link to={"/create-recipe/0"} className="fuzzy orange-button w-fit">
             {t("submit-your-recipe")}
           </Link>
-          <Link to={"/recipes"} className="orange-button bg-paper w-fit">
+          <Link to={"/recipes"} className="fuzzy orange-button bg-paper w-fit">
             {t("explore-recipes")}
           </Link>
         </div>
@@ -49,7 +47,9 @@ export default function Index() {
             key={`info-${el.id}`}
             data-el={index}
           >
-            <h2 className="h-[64px] text-paper">{t(`${el.id}-header`)}</h2>
+            <h2 className="h-[64px] fuzzy text-paper text-center">
+              {t(`${el.id}-header`)}
+            </h2>
             <img
               className="min-w-[260px] max-w-[260px] h-[305px]"
               src={el.imgSrc}

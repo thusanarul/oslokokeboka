@@ -8,9 +8,9 @@ export default function RecipesIndex() {
   const { t } = useTranslation(["recipes", "common"]);
 
   return (
-    <div className="w-[85%] max-w-[550px] flex flex-col mx-auto gap-[40px]">
+    <div className="w-[85%] body-width flex flex-col mx-auto gap-[40px]">
       <header className="flex flex-col gap-2">
-        <h1 className="text-salmon">{t("header")}</h1>
+        <h1 className="fuzzy text-paper">{t("header")}</h1>
         <p>{t("ingress")}</p>
       </header>
       <section className="self-center" id="under-construction">

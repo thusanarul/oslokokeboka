@@ -67,20 +67,20 @@ export default function ThankYou() {
   }, [recipeInfo.id]);
 
   return (
-    <div className="w-full h-screen">
+    <div className="flex flex-col w-[85%] header-width gap-[24px] mx-auto pt-[100px] text-center">
+      <header className="flex flex-col">
+        <h1 className="fuzzy text-paper">{recipeInfo.name}</h1>
+        <h1 className="fuzzy text-salmon">{t("headerText")}</h1>
+      </header>
       <section
         id="thank-you"
-        className="flex flex-col w-[90%] max-w-[540px] gap-[24px] mx-auto pt-[100px] text-center"
+        className="flex flex-col body-width self-center gap-[24px]"
       >
-        <header className="flex flex-col">
-          <h1 className="french-title">{recipeInfo.name}</h1>
-          <h1 className="text-salmon">{t("headerText")}</h1>
-        </header>
         <p>{t("infoText")}</p>
         <ContactUs />
         <Link
           to={"/recipes"}
-          className="mt-[30px] p-[16px] w-fit orange-button-slim self-center"
+          className="mt-[30px] orange-button fuzzy w-fit self-center"
         >
           {t("view-recipes")}
         </Link>

@@ -98,7 +98,7 @@ export default function InternalRecipeSubmission() {
             type="submit"
             name="submission_action"
             value="accept"
-            className="p-[16px] w-fit orange-button-slim"
+            className="w-fit orange-button"
           >
             Accept
           </button>

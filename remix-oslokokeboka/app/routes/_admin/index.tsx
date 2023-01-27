@@ -143,7 +143,7 @@ const Submission = ({
       className="flex flex-col bg-darkwine w-[280px] p-5 gap-3"
       to={`recipe/${id}`}
     >
-      <h2 className="text-paper">
+      <h2 className="fuzzytext-paper">
         {submissions[id]["name-of-dish"] != ""
           ? submissions[id]["name-of-dish"]
           : "No dish name :("}

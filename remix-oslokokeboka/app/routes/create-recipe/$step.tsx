@@ -377,7 +377,7 @@ export default function RecipeStep() {
     <div className="w-[85%] max-w-[550px] flex flex-col mx-auto self-start">
       {/* Either fetch from localstorage, associate with form value or render the default text */}
 
-      <h1 className="french-title">{titleHeader}</h1>
+      <h1 className="fuzzy text-paper">{titleHeader}</h1>
       <div className="w-full flex justify-between mt-[18px] relative">
         {steps.map((step, index) => {
           let stepColor = currentStep === index ? "bg-salmon" : "";
@@ -439,7 +439,7 @@ export default function RecipeStep() {
                     htmlFor={field.name}
                   >
                     <p>{field.index}</p>
-                    <h2 className="mb-[8px]">{field.title[lang]}</h2>
+                    <h2 className="fuzzy mb-[8px]">{field.title[lang]}</h2>
                     <InputField
                       field={field}
                       t={t}
@@ -461,7 +461,7 @@ export default function RecipeStep() {
               );
             })}
           </div>
-          <div className="flex w-fit mt-[42px] gap-[16px] justify-start">
+          <div className="flex w-fit mt-[42px] gap-[16px] justify-start fuzzy">
             {steps[currentStep].previousStep === "cancel" && (
               <Link
                 to={"/"}
@@ -473,14 +473,14 @@ export default function RecipeStep() {
             {currentStep > 0 && currentStep < steps.length && (
               <Link
                 to={`/create-recipe/${currentStep - 1}`}
-                className="flex-auto text-center py-[16px] min-w-[120px] px-[28px] inverted-red-button"
+                className="flex-auto text-center py-[16px] min-w-[120px] px-[28px] inverted-red-button fuzzy"
               >
                 {t("previous", { ns: "common" })}
               </Link>
             )}
             <button
               type="submit"
-              className="flex-auto min-w-[120px] px-[28px] red-button"
+              className="flex-auto min-w-[120px] px-[28px] red-button fuzzy"
             >
               {steps[currentStep].nextStep === "preview"
                 ? t("preview", { ns: "common" })

@@ -11,27 +11,23 @@ export default function PotluckAndParty() {
   const { t } = useTranslation("potluck-and-party");
 
   return (
-    <div className="flex flex-col gap-8 bg-darkwine p-[20px] md:p-[44px] w-[85%] max-w-[530px] mx-auto">
+    <div className="flex flex-col gap-8 bg-darkwine p-[20px] md:p-[44px] w-[85%] body-width mx-auto">
       <header className="items-center flex flex-col gap-4">
-        <h1 className="french-title text-ochre text-[28px] md:text-[33px]">
+        <h1 className="fuzzy text-ochre text-[28px] md:text-[33px]">
           {t("small-title")}
         </h1>
-        <h1 className="french-title text-ochre">{t("title")}</h1>
+        <h1 className="fuzzy text-ochre">{t("title")}</h1>
         <img
           src="images/food/ok-mango-min.png"
           className="w-[140px] self-center"
         ></img>
       </header>
       <section id="slurp" className="flex flex-col gap-4">
-        <h2 className="french-title text-ochre text-[28px] md:text-[33px]">
-          Slurp
-        </h2>
+        <h2 className="fuzzy text-ochre text-[28px] md:text-[33px]">Slurp</h2>
         <p className="text-paper">{t("slurp")}</p>
       </section>
       <section id="crunch" className="flex flex-col gap-4">
-        <h2 className="french-title text-ochre text-[28px] md:text-[33px]">
-          Crunch
-        </h2>
+        <h2 className="fuzzy text-ochre text-[28px] md:text-[33px]">Crunch</h2>
         <p className="text-paper">{t("crunch-ingress")}</p>
         <ul className="flex flex-col gap-2">
           {[1, 2, 3, 4, 5, 6].map((val) => {
@@ -55,15 +51,11 @@ export default function PotluckAndParty() {
         </ul>
       </section>
       <section id="gulp" className="flex flex-col gap-4">
-        <h2 className="french-title text-ochre text-[28px] md:text-[33px]">
-          Gulp
-        </h2>
+        <h2 className="fuzzy text-ochre text-[28px] md:text-[33px]">Gulp</h2>
         <p className="text-paper">{t("gulp")}</p>
       </section>
       <section id="smack" className="flex flex-col gap-4 w-full">
-        <h2 className="french-title text-ochre text-[28px] md:text-[33px]">
-          Smack
-        </h2>
+        <h2 className="fuzzy text-ochre text-[28px] md:text-[33px]">Smack</h2>
         <p className="text-paper">
           Chr. Krohgs Gate 2, Grønland, Oslo
           <br /> {t("smack")}

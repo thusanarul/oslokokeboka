@@ -113,18 +113,10 @@
   }
 
   @font-face {
-    font-family: "IMFellFrenchCanon";
+    font-family: "FeeeelsFuzzyRegular";
     font-weight: 400;
     font-display: auto;
-    src: url("/fonts/IMFellFrenchCanon-Regular.ttf") format("woff");
-  }
-
-  @font-face {
-    font-family: "IMFellFrenchCanon";
-    font-weight: 400;
-    font-display: auto;
-    font-style: italic;
-    src: url("/fonts/IMFellFrenchCanon-Italic.ttf") format("woff");
+    src: url("/fonts/FeeeelsFuzzyRegular.woff2") format("woff2");
   }
 }
 
@@ -142,21 +134,18 @@
     height: 12px;
   }
 
+  .inverted-orange-button {
+    background-color: theme("colors.darkestwine");
+    color: theme("colors.ochre");
+    border: 1px solid theme("colors.ochre");
+    padding: 16px;
+    border-radius: 6px;
+  }
+
   .orange-button {
     background-color: theme("colors.ochre");
     color: theme("colors.darkwine");
     padding: 16px;
-    border-radius: 6px;
-
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 20px;
-    text-align: center;
-  }
-
-  .orange-button-slim {
-    background-color: theme("colors.ochre");
-    color: theme("colors.darkestwine");
     border-radius: 6px;
   }
 
@@ -177,9 +166,20 @@
     @apply text-[17px] leading-[21px] tracking-[.01em];
   }
 
-  .french-title {
-    font-family: "IMFellFrenchCanon", "UniversElse", system-ui, sans-serif;
-    @apply text-[33px] md:text-[42px] leading-[115%] text-paper text-center;
+  h1.fuzzy {
+    font-family: "FeeeelsFuzzyRegular", "UniversElse", system-ui, sans-serif;
+    @apply text-[33px] md:text-[42px] leading-[115%] text-center;
+  }
+
+  h2.fuzzy {
+    font-family: "FeeeelsFuzzyRegular", "UniversElse", system-ui, sans-serif;
+    @apply text-[24px] md:text-[29px] leading-[115%];
+
+  }
+
+  p.fuzzy, a.fuzzy, button.fuzzy {
+    font-family: "FeeeelsFuzzyRegular", "UniversElse", system-ui, sans-serif;
+    @apply text-[15px] md:text-[17px] leading-[115%];
   }
 }
 
@@ -195,6 +195,14 @@
 
   .pr-home {
     @apply pr-[32px] md:pr-0;
+  }
+
+  .body-width {
+   @apply max-w-[500px]; 
+  }
+
+  .header-width {
+    @apply max-w-[850px]
   }
   
 }

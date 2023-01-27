@@ -44,7 +44,9 @@ const AdditionalInfo = ({ recipe, t }: RecipeSectionTypes) => {
         <p className="text-[15px]">{t("additional-info")}</p>
       </span>
       <span className="bg-darkwine py-[20px] pl-[20px] pr-[40px]">
-        <p className="text-[15px]">{recipe["additional-notes"].inputValue}</p>
+        <p className="text-[15px] text-paper">
+          {recipe["additional-notes"].inputValue}
+        </p>
       </span>
     </div>
   );
@@ -69,7 +71,7 @@ const HowTo = ({ recipe, t }: RecipeSectionTypes) => {
             return;
           }
           return (
-            <p key={`how_to-${index}`} className="text-[15px]">
+            <p key={`how_to-${index}`} className="text-[15px] text-paper">
               {value}
             </p>
           );
@@ -112,7 +114,9 @@ const AuthorSays = ({ recipe, t }: RecipeSectionTypes) => {
         </p>
       </span>
       <span className="bg-purple py-[20px] pl-[20px] pr-[40px]">
-        <p className="text-[17px]">{recipe["the-story"].inputValue}</p>
+        <p className="text-paper text-[17px]">
+          {recipe["the-story"].inputValue}
+        </p>
       </span>
     </div>
   );
@@ -121,21 +125,15 @@ const AuthorSays = ({ recipe, t }: RecipeSectionTypes) => {
 const InfoBox = ({ recipe, t }: RecipeSectionTypes) => {
   return (
     <div className="flex flex-col gap-[2px]">
-      <span className="bg-purple py-[20px] pl-[20px] pr-[40px]">
-        <h1 className="french-title text-center">
+      <div className="flex flex-col bg-purple py-[20px] pl-[20px] pr-[40px] gap-2">
+        <h1 className="fuzzy text-paper text-center">
           {recipe["name-of-dish"].inputValue}
         </h1>
-      </span>
-      <span className="bg-purple py-[20px] pl-[20px] pr-[40px]">
-        <h2 className="text-paper text-[17px] text-center">
-          {recipe["name"].inputValue}
-        </h2>
-      </span>
-      <span className="bg-purple py-[20px] pl-[20px] pr-[40px]">
-        <p className="text-salmon text-[17px] text-center">
-          {recipe["neighbourhood"].inputValue}
-        </p>
-      </span>
+        <span className="bg-purple flex self-center gap-3">
+          <p className="text-ochre">{recipe["name"].inputValue}</p>
+          <p>{recipe["neighbourhood"].inputValue}</p>
+        </span>
+      </div>
       <dl className="flex gap justify-between bg-purple py-[20px] pl-[20px] pr-[40px]">
         <span>
           <dt className="text-salmon text-[12px]">{t("type")}</dt>
