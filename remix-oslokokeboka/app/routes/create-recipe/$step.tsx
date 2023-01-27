@@ -461,11 +461,11 @@ export default function RecipeStep() {
               );
             })}
           </div>
-          <div className="flex w-fit mt-[42px] gap-[16px] justify-start fuzzy">
+          <div className="flex w-fit mt-[42px] gap-[16px] justify-start">
             {steps[currentStep].previousStep === "cancel" && (
               <Link
                 to={"/"}
-                className="flex-auto text-center py-[16px] min-w-[120px] px-[28px] inverted-red-button"
+                className="flex-auto text-center py-[16px] min-w-[120px] px-[28px] inverted-red-button fuzzy"
               >
                 {t("cancel", { ns: "common" })}
               </Link>
@@ -526,6 +526,17 @@ const InputField = ({
       // The only reason this component became big is because the default placeholder would not render new-line breaks in mobile
       // Listens to a couple of events to mimic default placeholder behaviour
 
+      function isPlaceholder(
+        currentTarget: EventTarget & HTMLTextAreaElement,
+        placeholder: string
+      ) {
+        return (
+          (currentTarget.defaultValue === placeholder &&
+            currentTarget.value === placeholder) ||
+          currentTarget.value === placeholder
+        );
+      }
+
       return (
         <textarea
           name={field.name}
@@ -547,21 +558,26 @@ const InputField = ({
               ev.currentTarget.defaultValue === "" ||
               ev.currentTarget.value === ""
             ) {
+              // Render placeholder if value in textarea is empty
               ev.currentTarget.dataset["placeholder"] = "true";
               ev.currentTarget.value = placeholder;
             } else if (ev.currentTarget.value !== placeholder) {
+              // set placeholder to false if placeholder is not empty
               ev.currentTarget.dataset["placeholder"] = "false";
             }
           }}
           onFocus={(ev) => {
-            if (
-              ev.currentTarget.defaultValue === placeholder ||
-              ev.currentTarget.value === placeholder
-            ) {
+            if (isPlaceholder(ev.currentTarget, placeholder)) {
               ev.currentTarget.dataset["placeholder"] = "true";
               ev.currentTarget.selectionEnd = 0;
             }
             onFocus ? onFocus(ev) : null;
+          }}
+          onPaste={(ev) => {
+            if (ev.currentTarget.dataset["placeholder"] === "true") {
+              ev.currentTarget.value = "";
+              ev.currentTarget.dataset["placeholder"] = "false";
+            }
           }}
           onClick={(ev) => {
             if (ev.currentTarget.dataset["placeholder"] === "true") {
