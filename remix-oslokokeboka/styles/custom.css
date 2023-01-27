@@ -186,7 +186,7 @@
 @layer utilities {
 
   .px-home {
-    @apply px-[24px] md:px-0;
+    @apply px-[8px] md:px-0;
   }
 
   .pl-home {
@@ -203,6 +203,11 @@
 
   .header-width {
     @apply max-w-[850px]
+  }
+
+  .overflow-x {
+    overflow-x: scroll;
+    overflow-y: visible;
   }
   
 }
