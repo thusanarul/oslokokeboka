@@ -1,6 +1,6 @@
 import { InputType } from "@prisma/client";
 import { t } from "i18next";
-import { TFunction } from "react-i18next";
+import { TFunction, useTranslation } from "react-i18next";
 import { i18nKey } from "~/routes/create-recipe/$step";
 import { boroughMap, dishCategoryMap } from "~/utils/maps";
 
@@ -21,21 +21,20 @@ type RecipeSectionTypes = {
   lang?: i18nKey;
 };
 
-export const Recipe = ({
-  recipe,
-  t,
-  lang,
-}: {
-  recipe: Recipe;
-  t: TFunction<("preview" | "common")[]>;
-  lang: i18nKey;
-}) => {
+export let handle = {
+  i18n: "preview",
+};
+
+export const Recipe = ({ recipe }: { recipe: Recipe }) => {
+  const { t, i18n } = useTranslation(["preview", "common"]);
+  const lang = i18n.language as i18nKey;
+
   return (
     <>
       <InfoBox recipe={recipe} t={t} lang={lang} />
       <AuthorSays recipe={recipe} t={t} />
       <Ingredients recipe={recipe} t={t} />
-      <HowTo recipe={recipe} />
+      <HowTo recipe={recipe} t={t} />
       <Pictures recipe={recipe} t={t} />
       <AdditionalInfo recipe={recipe} t={t} />
     </>
@@ -65,7 +64,11 @@ const Pictures = ({ recipe, t }: RecipeSectionTypes) => {
   return null;
 };
 
-const HowTo = ({ recipe }: RecipeSectionTypes) => {
+const HowTo = ({ recipe, t }: RecipeSectionTypes) => {
+  if (!t) {
+    return null;
+  }
+
   const parsed = recipe["how-to"].inputValue.split("\n");
 
   return (

@@ -74,11 +74,12 @@ export const action: ActionFunction = async ({ params, request }) => {
   return redirect("/_admin");
 };
 
+export let handle = {
+  i18n: "preview",
+};
+
 export default function InternalRecipeSubmission() {
   const recipe: Recipe = useLoaderData();
-
-  const { t, i18n } = useTranslation();
-  const lang = i18n.language as i18nKey;
 
   return (
     <div className="w-full h-screen">
@@ -86,7 +87,7 @@ export default function InternalRecipeSubmission() {
         id="recipe"
         className="flex flex-col w-[90%] max-w-[540px] mx-auto gap-[10px]"
       >
-        <Recipe recipe={recipe} t={t} lang={lang} />
+        <Recipe recipe={recipe} />
         <Form className="w-full flex justify-between" method="post">
           <button
             type="submit"

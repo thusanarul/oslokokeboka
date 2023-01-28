@@ -87,9 +87,7 @@ export let handle = {
 export default function RecipePreview() {
   const recipe: Recipe = useLoaderData();
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation(["preview", "common"]);
-
-  const lang = i18n.language as i18nKey;
+  const { t } = useTranslation(["preview", "common"]);
 
   return (
     <div className="w-full">
@@ -102,7 +100,7 @@ export default function RecipePreview() {
         </section>
 
         <section id="recipe" className="flex flex-col gap-[10px] mt-[32px]">
-          <Recipe recipe={recipe} t={t} lang={lang} />
+          <Recipe recipe={recipe} />
           <Form
             method="post"
             id="preview-actions"
@@ -115,7 +113,7 @@ export default function RecipePreview() {
                 navigate(`/create-recipe/3`);
               }}
             >
-              {t("edit-recipe", { ns: "common" })}
+              {t("edit-recipe")}
             </button>
             <button type="submit" className="fuzzy orange-button w-fit">
               {t("submit", { ns: "common" })}
