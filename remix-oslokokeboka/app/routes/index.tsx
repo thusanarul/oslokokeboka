@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -46,7 +46,7 @@ export default function Index() {
         <div className="flex md:justify-center">
           {infoComponents.map((el, index) => (
             <section
-              className="relative md:data-[el=0]:left-10 data-[visible='true']:z-10 data-[el=1]:right-10 data-[el=1]:top-8 data-[visible='false']:opacity-40 data-[el=1]:pr-home"
+              className="cursor-pointer relative md:data-[el=0]:left-10 data-[visible='true']:z-10 data-[el=1]:right-10 data-[el=1]:top-8 data-[visible='false']:opacity-40 data-[el=1]:pr-home"
               id={el.id}
               key={`info-${el.id}`}
               data-el={index}
@@ -58,12 +58,12 @@ export default function Index() {
               <h2 className="h-[64px] fuzzy text-paper text-center">
                 {t(`${el.id}-header`)}
               </h2>
-              <div className="flex flex-col gap-[20px] bg-rectangle w-[335px] max-w-[335px] h-[651px]">
+              <button className="flex flex-col gap-[20px] bg-rectangle w-[335px] max-w-[335px] h-[651px] text-left">
                 <img className="pt-7 px-2" alt={el.imgAlt} src={el.imgSrc} />
                 <p className="text-darkestwine px-4 pb-8">
                   {t(`${el.id}-text`)}
                 </p>
-              </div>
+              </button>
             </section>
           ))}
         </div>
