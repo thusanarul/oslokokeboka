@@ -56,10 +56,10 @@ const Submission = ({
 
   return (
     <Link
-      className="flex flex-col bg-darkwine w-[280px] p-5 gap-3"
+      className="flex flex-col bg-darkwine min-w-min md:w-[280px] p-5 gap-3"
       to={`recipe/${id}`}
     >
-      <h2 className="fuzzytext-paper">
+      <h2 className="fuzzy text-paper text-[22px] md:text-[29px]">
         {submissions[id]["name-of-dish"] != ""
           ? submissions[id]["name-of-dish"]
           : "No dish name :("}
