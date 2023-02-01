@@ -6,11 +6,9 @@ import {
   redirect,
 } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
-import { useTranslation } from "react-i18next";
 import invariant from "tiny-invariant";
 import { Recipe } from "~/components/recipe";
 import { db } from "~/utils/db.server";
-import { i18nKey } from "../create-recipe/$step";
 
 export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.id, "id is required to fetch recipe");
@@ -19,7 +17,11 @@ export const loader: LoaderFunction = async ({ params }) => {
     where: {
       recipeSubmissionId: params.id,
       RecipeSubmission: {
-        state: SubmissionState.COMPLETED,
+        OR: [
+          { state: SubmissionState.COMPLETED },
+          { state: SubmissionState.PROCESSED },
+          { state: SubmissionState.SOFT_DELETE },
+        ],
       },
     },
     select: {
