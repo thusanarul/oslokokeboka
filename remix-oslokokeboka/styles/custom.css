@@ -186,7 +186,7 @@
 @layer utilities {
 
   .px-home {
-    @apply px-[8px] md:px-0;
+    @apply px-3 md:px-2;
   }
 
   .pl-home {
