@@ -2,6 +2,17 @@ import { Link, useLocation } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+const languages = [
+  {
+    code: "no",
+    display: "Norsk",
+  },
+  {
+    code: "en",
+    display: "English",
+  },
+];
+
 export const Header = () => {
   const { i18n } = useTranslation();
   const lang = i18n.language;
@@ -11,17 +22,6 @@ export const Header = () => {
   const [pathname, setPathname] = useState("");
 
   let [hideHome, setHideHome] = useState<boolean>(true);
-
-  const languages = [
-    {
-      code: "no",
-      display: "Norsk",
-    },
-    {
-      code: "en",
-      display: "English",
-    },
-  ];
 
   const width =
     pathname == "/"
