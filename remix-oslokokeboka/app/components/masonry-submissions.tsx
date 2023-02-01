@@ -1,5 +1,6 @@
 import { Link } from "@remix-run/react";
 import { useMemo } from "react";
+import { boroughMap } from "~/utils/maps";
 
 export type Submissions = Record<string, Record<string, string>>;
 
@@ -48,6 +49,11 @@ const Submission = ({
   id: string;
   submissions: Submissions;
 }) => {
+  const borough =
+    submissions[id]["neighbourhood"] != ""
+      ? boroughMap[submissions[id]["neighbourhood"]]
+      : "No neighbourhood :(";
+
   return (
     <Link
       className="flex flex-col bg-darkwine w-[280px] p-5 gap-3"
@@ -64,11 +70,7 @@ const Submission = ({
             ? submissions[id]["name"]
             : "No name :("}
         </p>
-        <p>
-          {submissions[id]["neighbourhood"] != ""
-            ? submissions[id]["neighbourhood"]
-            : "No neighbourhood :("}
-        </p>
+        <p>{borough}</p>
       </span>
     </Link>
   );

@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import { Recipe } from "~/components/recipe";
 import { commitSession, getSession } from "~/session.server";
 import { db } from "~/utils/db.server";
-import { i18nKey } from "./$step";
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const session = await getSession(request.headers.get("Cookie"));
