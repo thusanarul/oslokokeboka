@@ -5,7 +5,7 @@ import { useState } from "react";
 import MasonrySubmissions, {
   Submissions,
 } from "~/components/masonry-submissions";
-import { db } from "~/utils/db.server";
+import { db } from "~/db.server";
 
 type SubmissionStats = {
   total: number;

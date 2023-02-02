@@ -1,4 +1,9 @@
+import { LoaderFunction } from "@remix-run/node";
 import { useTranslation } from "react-i18next";
+
+export const loader: LoaderFunction = () => {
+  return true;
+};
 
 export let handle = {
   i18n: "recipes",
@@ -11,7 +16,7 @@ export default function RecipesIndex() {
     <div className="w-[85%] md:body-width flex flex-col mx-auto gap-[40px]">
       <header className="flex flex-col gap-2">
         <h1 className="fuzzy text-paper">{t("header")}</h1>
-        <p>{t("ingress")}</p>
+        <p className="text-center">{t("ingress")}</p>
       </header>
       <section className="self-center" id="under-construction">
         <div className="bg-rectangle w-[335px] max-w-[335px] h-[651px] pt-[30px] px-[20px] flex flex-col gap-[20px] justify-start place-items-center">

@@ -8,7 +8,7 @@ import {
 import { Form, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { Recipe } from "~/components/recipe";
-import { db } from "~/utils/db.server";
+import { db } from "~/db.server";
 
 export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.id, "id is required to fetch recipe");

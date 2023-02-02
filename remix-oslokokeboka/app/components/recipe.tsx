@@ -2,7 +2,7 @@ import { InputType } from "@prisma/client";
 import { t } from "i18next";
 import { TFunction, useTranslation } from "react-i18next";
 import { i18nKey } from "~/routes/create-recipe/$step";
-import { boroughMap, dishCategoryMap } from "~/utils/maps";
+import { boroughMap, dishCategoryMap } from "~/maps";
 
 export type Recipe = Record<
   string,

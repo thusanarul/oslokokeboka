@@ -9,7 +9,7 @@ import { useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { Prisma, InputType, RecipeSubmission } from "@prisma/client";
 
-import { db } from "~/utils/db.server";
+import { db } from "~/db.server";
 import { commitSession, getSession } from "~/session.server";
 import form_0 from "~/form-input/form-0";
 import form_1 from "~/form-input/form-1";

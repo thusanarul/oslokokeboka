@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import invariant from "tiny-invariant";
 import { ContactUs } from "~/components/contact-us";
-import { db } from "~/utils/db.server";
+import { db } from "~/db.server";
 
 export const loader: LoaderFunction = async ({ params }) => {
   invariant(params.formId, "formId is required");

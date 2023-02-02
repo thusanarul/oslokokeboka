@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
 import { useMemo } from "react";
-import { boroughMap } from "~/utils/maps";
+import { boroughMap } from "~/maps";
 
 export type Submissions = Record<string, Record<string, string>>;
 
