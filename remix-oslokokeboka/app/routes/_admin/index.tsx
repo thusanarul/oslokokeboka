@@ -6,6 +6,7 @@ import MasonrySubmissions, {
   Submissions,
 } from "~/components/masonry-submissions";
 import { db } from "~/db.server";
+import { mapToSubmissionsObject } from "~/functions";
 
 type SubmissionStats = {
   total: number;
@@ -176,26 +177,3 @@ export default function Admin() {
     </div>
   );
 }
-
-// Maps data from db to object with recipeSubmissionId as key for easier rendering
-const mapToSubmissionsObject = (
-  s: {
-    name: string;
-    recipeSubmissionId: string | null;
-    inputValue: string;
-  }[]
-): Submissions => {
-  const submissions: Submissions = {};
-
-  // Maps data from db to object with recipeSubmissionId as key for easier rendering
-  s.forEach((val) => {
-    if (!val.recipeSubmissionId) {
-      return;
-    }
-
-    (submissions[val.recipeSubmissionId] =
-      submissions[val.recipeSubmissionId] || {})[val.name] = val.inputValue;
-  });
-
-  return submissions;
-};
