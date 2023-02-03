@@ -14,7 +14,6 @@ import {
   ScrollRestoration,
   useLoaderData,
   useLocation,
-  useMatches,
 } from "@remix-run/react";
 import { CatchBoundaryComponent } from "@remix-run/react/dist/routeModules";
 import { useEffect } from "react";
@@ -25,8 +24,11 @@ import { Footer } from "./components/footer";
 import { Header } from "./components/header";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  let locale = await i18next.getLocale(request);
-  return json({ locale });
+  const locale = await i18next.getLocale(request);
+
+  const production = process.env.HOPS_DOMAIN === "oslokokeboka.no";
+
+  return json<{ locale: string; production: boolean }>({ locale, production });
 };
 
 export const links: LinksFunction = () => {
@@ -57,7 +59,10 @@ export function useChangeLanguage(locale: string) {
 
 export default function App() {
   // Get the locale from the loader
-  let { locale } = useLoaderData<typeof loader>();
+  let { locale, production } = useLoaderData<{
+    locale: string;
+    production: boolean;
+  }>();
 
   let { i18n } = useTranslation();
 
@@ -79,12 +84,14 @@ export default function App() {
       <head>
         <Meta />
         <Links />
-        <script
-          async
-          defer
-          data-website-id="4e911a1f-be71-4571-b29d-1214a4211b78"
-          src="https://headless-analytics.app.iterate.no/umami.js"
-        ></script>
+        {production && (
+          <script
+            async
+            defer
+            data-website-id="4e911a1f-be71-4571-b29d-1214a4211b78"
+            src="https://headless-analytics.app.iterate.no/umami.js"
+          />
+        )}
       </head>
       <body className="h-screen">
         {!dontRenderHeaderAndFooter && <Header />}
