@@ -131,6 +131,8 @@ const AuthorSays = ({ recipe, t }: RecipeSectionTypes) => {
     return null;
   }
 
+  const parsed = recipe["the-story"].inputValue.split("\n");
+
   return (
     <div className="flex flex-col gap-[2px]">
       <span className="bg-purple py-[20px] pl-[20px] pr-[40px]">
@@ -139,9 +141,13 @@ const AuthorSays = ({ recipe, t }: RecipeSectionTypes) => {
         </p>
       </span>
       <span className="bg-purple py-[20px] pl-[20px] pr-[40px]">
-        <p className="text-paper text-[17px]">
-          {recipe["the-story"].inputValue}
-        </p>
+        {parsed.map((value, index) => {
+          return (
+            <p key={`the-story-${index}`} className="text-[17px] text-paper">
+              {value === "" ? <br /> : value}
+            </p>
+          );
+        })}
       </span>
     </div>
   );
