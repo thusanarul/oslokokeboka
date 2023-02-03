@@ -51,7 +51,7 @@ const AdditionalInfo = ({ recipe, t }: RecipeSectionTypes) => {
         <p className="text-[15px]">{t("additional-info")}</p>
       </span>
       <span className="bg-darkwine py-[20px] pl-[20px] pr-[40px]">
-        <p className="text-[15px] text-paper">
+        <p className="text-[17px] text-paper">
           {recipe["additional-notes"].inputValue}
         </p>
       </span>
@@ -78,12 +78,9 @@ const HowTo = ({ recipe, t }: RecipeSectionTypes) => {
       </span>
       <span className="bg-darkwine py-[20px] pl-[20px] pr-[40px]">
         {parsed.map((value, index) => {
-          if (!value) {
-            return;
-          }
           return (
-            <p key={`how_to-${index}`} className="text-[15px] text-paper">
-              {value}
+            <p key={`how_to-${index}`} className="text-[17px] text-paper">
+              {value === "" ? <br /> : value}
             </p>
           );
         })}
@@ -98,7 +95,17 @@ const Ingredients = ({ recipe, t }: RecipeSectionTypes) => {
   }
   // ingredients are saved in a textarea with newline split.
   // should have maybe been transformed before inserting into db?
-  const ingredients = recipe["ingredients"].inputValue.split("\n");
+  let ingredients = recipe["ingredients"].inputValue.split("\n");
+
+  const lastIngredient = ingredients.reduce(
+    (prev, currentValue, currentIndex) =>
+      currentValue !== "" ? (prev = currentIndex) : prev,
+    0
+  );
+
+  if (ingredients.length - 1 > lastIngredient) {
+    ingredients = ingredients.slice(0, lastIngredient + 1);
+  }
 
   return (
     <div className="flex flex-col gap-[2px]">
