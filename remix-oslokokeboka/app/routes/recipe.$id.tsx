@@ -61,7 +61,7 @@ export default function RecipeSubmission() {
             setShowShare(false);
           }}
         >
-          {showShare ? t("share-this-recipe") : t("link-copied")}
+          {showShare ? t("share-this") : t("link-copied")}
         </button>
 
         <Link className="w-fit fuzzy orange-button" to={"/create-recipe/0"}>
