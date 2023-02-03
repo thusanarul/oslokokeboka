@@ -5,7 +5,7 @@ import {
   LoaderFunction,
   redirect,
 } from "@remix-run/node";
-import { Form, useLoaderData, useNavigate } from "@remix-run/react";
+import { Form, Link, useLoaderData, useNavigate } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
 import { Recipe } from "~/components/recipe";
 import { commitSession, getSession } from "~/session.server";
@@ -105,15 +105,12 @@ export default function RecipePreview() {
             id="preview-actions"
             className="flex mt-[42px] gap-[16px] justify-center"
           >
-            <button
-              type="button"
+            <Link
               className="w-fit fuzzy inverted-orange-button"
-              onClick={() => {
-                navigate(`/create-recipe/3`);
-              }}
+              to={"/create-recipe/3"}
             >
               {t("edit-recipe")}
-            </button>
+            </Link>
             <button type="submit" className="fuzzy orange-button w-fit">
               {t("submit", { ns: "common" })}
             </button>
