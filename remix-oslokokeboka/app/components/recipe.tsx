@@ -30,14 +30,14 @@ export const Recipe = ({ recipe }: { recipe: Recipe }) => {
   const lang = i18n.language as i18nKey;
 
   return (
-    <>
+    <div className="flex flex-col gap-[10px]">
       <InfoBox recipe={recipe} t={t} lang={lang} />
       <AuthorSays recipe={recipe} t={t} />
       <Ingredients recipe={recipe} t={t} />
       <HowTo recipe={recipe} t={t} />
       <Pictures recipe={recipe} t={t} />
       <AdditionalInfo recipe={recipe} t={t} />
-    </>
+    </div>
   );
 };
 

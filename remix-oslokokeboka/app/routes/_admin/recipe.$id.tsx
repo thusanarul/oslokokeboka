@@ -109,7 +109,6 @@ export default function InternalRecipeSubmission() {
           </button>
         </Form>
       </section>
-      <div></div>
     </div>
   );
 }

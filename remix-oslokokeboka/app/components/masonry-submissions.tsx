@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
 import { useMemo } from "react";
 import { boroughMap } from "~/maps";
 
@@ -54,10 +54,16 @@ const Submission = ({
       ? boroughMap[submissions[id]["neighbourhood"]]
       : "No neighbourhood :(";
 
+  const location = useLocation();
+
+  // Both /recipes and /_admin use this component to render. the route layout is a bit different, so this check handles that.
+  const linkTo =
+    location.pathname === "/_admin" ? `recipe/${id}` : `/recipe/${id}`;
+
   return (
     <Link
       className="flex flex-col bg-darkwine min-w-min md:w-[280px] p-5 gap-3"
-      to={`recipe/${id}`}
+      to={linkTo}
     >
       <h2 className="fuzzy text-paper text-[22px] md:text-[29px]">
         {submissions[id]["name-of-dish"] != ""
