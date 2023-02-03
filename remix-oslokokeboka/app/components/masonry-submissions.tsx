@@ -15,20 +15,35 @@ const MasonrySubmissions = ({ submissions }: { submissions: Submissions }) => {
   );
 
   return (
-    <div className="flex gap-2">
-      <div className="flex flex-col gap-2">
-        {left.map((val, i) => {
-          return (
-            <Submission
-              key={"left-submission-" + i}
-              id={val}
-              submissions={submissions}
-            />
-          );
-        })}
+    <>
+      {/* Desktop layout is in masonry style */}
+      <div className="hidden md:flex gap-2">
+        <div className="flex flex-col gap-2">
+          {left.map((val, i) => {
+            return (
+              <Submission
+                key={"left-submission-" + i}
+                id={val}
+                submissions={submissions}
+              />
+            );
+          })}
+        </div>
+        <div className="flex flex-col gap-2">
+          {right.map((val, i) => {
+            return (
+              <Submission
+                key={"right-submission-" + i}
+                id={val}
+                submissions={submissions}
+              />
+            );
+          })}
+        </div>
       </div>
-      <div className="flex flex-col gap-2">
-        {right.map((val, i) => {
+      {/* boring flat layout on mobile */}
+      <div className="md:hidden flex flex-col gap-2">
+        {Object.keys(submissions).map((val, i) => {
           return (
             <Submission
               key={"right-submission-" + i}
@@ -38,7 +53,7 @@ const MasonrySubmissions = ({ submissions }: { submissions: Submissions }) => {
           );
         })}
       </div>
-    </div>
+    </>
   );
 };
 
@@ -62,7 +77,7 @@ const Submission = ({
 
   return (
     <Link
-      className="flex flex-col bg-darkwine min-w-min md:w-[280px] p-5 gap-3"
+      className="flex flex-col bg-darkwine min-w-min w-[280px] p-5 gap-3"
       to={linkTo}
     >
       <h2 className="fuzzy text-paper text-[22px] md:text-[29px]">
