@@ -184,12 +184,12 @@ const InfoBox = ({ recipe, t, lang }: RecipeSectionTypes) => {
           <p>{borough}</p>
         </span>
       </div>
-      <dl className="flex gap justify-between bg-purple py-[20px] pl-[20px] pr-[40px]">
-        <span>
+      <dl className="flex gap-2 justify-between w-full bg-purple py-[20px] pl-[20px] pr-[40px]">
+        <span className="self-start max-w-[50%]">
           <dt className="text-salmon text-[12px]">{t("type")}</dt>
           <dl className="text-paper text-[17px]">{dishType}</dl>
         </span>
-        <span>
+        <span className="self-end max-w-[50%]">
           <dt className="text-salmon text-[12px]">{t("serves")}</dt>
           <dl className="text-paper text-[17px]">
             {recipe["how-many-servings"].inputValue}
