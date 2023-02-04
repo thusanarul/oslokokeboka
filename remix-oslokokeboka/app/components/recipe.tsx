@@ -1,5 +1,4 @@
 import { InputType } from "@prisma/client";
-import { t } from "i18next";
 import { TFunction, useTranslation } from "react-i18next";
 import { i18nKey } from "~/routes/create-recipe/$step";
 import { boroughMap, dishCategoryMap } from "~/maps";
@@ -42,18 +41,19 @@ export const Recipe = ({ recipe }: { recipe: Recipe }) => {
 };
 
 const AdditionalInfo = ({ recipe, t }: RecipeSectionTypes) => {
-  if (!t) {
+  const text = recipe["additional-notes"].inputValue;
+
+  if (!t || text === "") {
     return null;
   }
+
   return (
     <div className="flex flex-col gap-[2px]">
       <span className="bg-darkwine py-[20px] pl-[20px] pr-[40px]">
         <p className="text-[15px]">{t("additional-info")}</p>
       </span>
       <span className="bg-darkwine py-[20px] pl-[20px] pr-[40px]">
-        <p className="text-[17px] text-paper">
-          {recipe["additional-notes"].inputValue}
-        </p>
+        <p className="text-[17px] text-paper">{text}</p>
       </span>
     </div>
   );
