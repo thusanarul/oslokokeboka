@@ -46,7 +46,7 @@ const MasonrySubmissions = ({ submissions }: { submissions: Submissions }) => {
         {Object.keys(submissions).map((val, i) => {
           return (
             <Submission
-              key={"right-submission-" + i}
+              key={"flat-submission-" + i}
               id={val}
               submissions={submissions}
             />
