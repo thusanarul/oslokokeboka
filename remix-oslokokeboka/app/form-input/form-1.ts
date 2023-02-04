@@ -45,10 +45,10 @@ For eksempel:\n \
       no: "Noen ekstra tanker eller notater?",
     },
     input: {
-      type: "text",
+      type: "textarea",
       placeholder: {
-        en: "Here you can share tips and tricks!",
-        no: "Her kan du dele tips og triks!",
+        en: "Here you can share tips and tricks about how to this dish, where to find special ingredients around Oslo, or just a fun fact!",
+        no: "Her kan du dele tips og triks om hvordan man lager retten, hvor man kan finne de beste ingrediensene i Oslo, eller bare en morsom fakta!",
       },
     },
   },

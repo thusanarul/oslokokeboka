@@ -47,13 +47,24 @@ const AdditionalInfo = ({ recipe, t }: RecipeSectionTypes) => {
     return null;
   }
 
+  const parsed = text.split("\n");
+
   return (
     <div className="flex flex-col gap-[2px]">
       <span className="bg-darkwine py-[20px] pl-[20px] pr-[40px]">
         <p className="text-[15px]">{t("additional-info")}</p>
       </span>
       <span className="bg-darkwine py-[20px] pl-[20px] pr-[40px]">
-        <p className="text-[17px] text-paper">{text}</p>
+        {parsed.map((value, index) => {
+          return (
+            <p
+              key={`additional_info-${index}`}
+              className="text-[17px] text-paper"
+            >
+              {value === "" ? <br /> : value}
+            </p>
+          );
+        })}
       </span>
     </div>
   );
