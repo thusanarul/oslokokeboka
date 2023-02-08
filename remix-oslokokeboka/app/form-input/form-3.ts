@@ -2,7 +2,7 @@ import { RecipeFormField } from "~/routes/create-recipe/$step";
 
 const form_3: RecipeFormField[] = [
   {
-    index: "08",
+    index: "09",
     name: "name",
     title: { en: "What's your name?", no: "Hva er navnet ditt?" },
     required: true,
@@ -12,7 +12,7 @@ const form_3: RecipeFormField[] = [
     },
   },
   {
-    index: "09",
+    index: "10",
     name: "email",
     title: { en: "What's your email?", no: "Hva er e-postadressen din?" },
     required: true,
@@ -22,7 +22,7 @@ const form_3: RecipeFormField[] = [
     },
   },
   {
-    index: "10",
+    index: "11",
     name: "neighbourhood",
     title: { en: "What's your neighbourhood?", no: "Hvor bor du?" }, // TODO: talk to shub about the "'"
     required: true,

@@ -5,7 +5,7 @@ import {
   redirect,
 } from "@remix-run/node";
 import { Form, Link, useActionData, useLoaderData } from "@remix-run/react";
-import { useRef, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { Prisma, InputType, RecipeSubmission } from "@prisma/client";
 
@@ -31,7 +31,7 @@ export type RecipeFormField = {
   name: string;
   title: i18nString;
   required?: boolean;
-  input: BasicInputField | ChoicesInputField;
+  input: BasicInputField | ChoicesInputField | ImageInputField;
 };
 
 export type RecipeFormFieldError = {
@@ -53,6 +53,12 @@ export type RecipeFilled = Record<string, RecipeFormFieldValue>;
 type BasicInputField = {
   type: "text" | "textarea" | "consent";
   placeholder: i18nString;
+};
+
+type ImageInputField = {
+  type: "image";
+  placeholder: i18nString;
+  kicker: i18nString;
 };
 
 type ChoicesInputField = {
@@ -89,6 +95,7 @@ const inputTypeMap = {
   dropdown: InputType.DROPDOWN,
   adder: InputType.ADDER,
   consent: InputType.CONSENT,
+  image: InputType.IMAGE,
 };
 
 // Next step: task 1 or 2
@@ -505,8 +512,12 @@ const InputField = ({
   field: RecipeFormField;
   t: TFunction<("create-recipe" | "common")[]>;
   lang: i18nKey;
-  onFocus: React.FocusEventHandler<InputHTMLElement> | undefined;
-  onHover: React.MouseEventHandler<InputHTMLElement> | undefined;
+  onFocus:
+    | React.FocusEventHandler<InputHTMLElement | HTMLLabelElement>
+    | undefined;
+  onHover:
+    | React.MouseEventHandler<InputHTMLElement | HTMLLabelElement>
+    | undefined;
   defaultValue: string | null;
 }) => {
   switch (field.input.type) {
@@ -640,8 +651,67 @@ const InputField = ({
           </div>
         </>
       );
+    case "image":
+      const [previews, setPreviews] = useState<string[]>([]);
+
+      // TODO: Finish this. atleast the frontend.
+      //       maybe dont save to state. maybe save to localstorage? since not making trip to server.
+      // find image hosting: cloudinary? how to dev locally?
+      // save urls to database in a sensible way
+
+      const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+        console.log(e);
+        if (e.target.files) {
+          const reader = new FileReader();
+
+          reader.onload = function (ev) {
+            if (!ev.target || !ev.target.result) {
+              return;
+            }
+            setPreviews([...previews, ev.target.result.toString()]);
+          };
+
+          console.log(e.target.files);
+          reader.readAsDataURL(e.target.files[0]);
+        }
+      };
+
+      return (
+        <>
+          <label
+            className="image-upload text-salmon"
+            htmlFor={field.name}
+            onFocus={onFocus}
+            onMouseOver={onHover}
+          >
+            {field.input.placeholder[lang]}
+          </label>
+          <input
+            id={field.name}
+            type="file"
+            name={field.name}
+            onChange={onChange}
+            accept="image/*"
+          />
+          <div className="mt-2">
+            {previews.map((v, i) => {
+              if (!v) {
+                return null;
+              }
+
+              return (
+                <img
+                  key={`preview-${field.name}-${i}`}
+                  src={v}
+                  className={"w-[70px] h-[70px]"}
+                />
+              );
+            })}
+          </div>
+        </>
+      );
     case "adder":
-      return <AdderInput field={field} onFocus={onFocus} onHover={onHover} />;
+      return null;
   }
 };
 

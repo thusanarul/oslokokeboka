@@ -36,6 +36,7 @@ enum InputType {
   DROPDOWN
   ADDER
   CONSENT
+  IMAGE
 }
 
 enum SubmissionState {

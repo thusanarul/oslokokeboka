@@ -46,6 +46,25 @@ const form_2: RecipeFormField[] = [
       ],
     },
   },
+  {
+    index: "08",
+    name: "images",
+    title: {
+      en: "Upload images",
+      no: "Last opp bilder",
+    },
+    input: {
+      type: "image",
+      placeholder: {
+        en: "Click to upload",
+        no: "Trykk for å laste opp",
+      },
+      kicker: {
+        en: "Select the thumbnail to pick you cover photo for the recipe",
+        no: "Trykk på et bilde for å velge cover bilde for oppskriften",
+      },
+    },
+  },
 ];
 
 export default form_2;

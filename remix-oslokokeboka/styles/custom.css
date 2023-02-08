@@ -64,6 +64,12 @@
     -moz-appearance: textfield;
   }
 
+  /* Reset file input */
+  input[type="file"] {
+    display: none;
+  }
+
+
   button {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -81,7 +87,7 @@
   input:not([type="checkbox"]),
   textarea,
   select {
-    @apply w-full bg-darkwine  border-b-salmon border-b-[1px] px-[16px] py-[16px] rounded-t-[4px];
+    @apply w-full bg-darkwine border-b-salmon border-b-[1px] px-[16px] py-[16px] rounded-t-[4px];
   }
 
   input:not([type="checkbox"]),
@@ -106,6 +112,7 @@
     background-position: center center;
     background-repeat: no-repeat;
   }
+
 
   @font-face {
     font-family: "UniversElse";
@@ -242,6 +249,14 @@
   ul[data-scroll="true"] > li {
     transition: transform 250ms ease;
     transform: translateX(calc(90% * var(--move-to) * -1 - (2% * var(--move-to))));
+  }
+
+  label.image-upload {
+    @apply w-full bg-darkwine border-b-salmon border-b-[1px] px-[16px] py-[16px] rounded-t-[4px];
+    background-position: right 20px top 50%;
+    background-image: theme("backgroundImage.plus");
+    background-repeat: no-repeat;
+    background-size: 15px 15px;
   }
 }
 

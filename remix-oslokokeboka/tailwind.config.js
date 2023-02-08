@@ -24,6 +24,7 @@ module.exports = {
         chevron: "url('/images/svg/chevron.svg')",
         check: "url('/images/svg/check.svg')",
         rectangle: "url('/images/svg/rectangle.svg')",
+        plus: "url('/images/svg/plus.svg')",
       },
     },
   },
