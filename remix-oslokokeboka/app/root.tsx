@@ -45,8 +45,20 @@ export const handle = {
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Oslo Kokeboka",
+  title: "Oslo Kokeboka | Byens historier gjennom oppskrifter",
+  "og:title": "Oslo Kokeboka | Byens historier gjennom oppskrifter",
   viewport: "width=device-width,initial-scale=1",
+  description:
+    "Vi samler historier gjennom oppskrifter til Oslos første kokebok, laget av Oslo. Vår drøm er å samle en oppskrift fra alle som bor i Oslo.",
+  "og:description":
+    "Vi samler historier gjennom oppskrifter til Oslos første kokebok, laget av Oslo",
+  keywords:
+    "Oslo Kokeboka, Oslo, Kokeboka, oslo, kokebok, historier, mat, oppskrifter",
+  "og:image": "https://oslokokeboka.no/images/food/ok-mango.png",
+  "og:image:type": "image/png",
+  "og:image:width": "2480",
+  "og:image:height": "1754",
+  "og:image:alt": "Mango | Oslo Kokeboka",
 });
 
 // useChangeLanguage from react-i18next ^v12.0.0 does not work: https://github.com/sergiodxa/remix-i18next/issues/107

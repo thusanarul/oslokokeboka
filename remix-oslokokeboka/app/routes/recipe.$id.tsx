@@ -1,5 +1,5 @@
 import { SubmissionState } from "@prisma/client";
-import { json, LoaderFunction } from "@remix-run/node";
+import { json, LoaderFunction, MetaFunction } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -36,6 +36,17 @@ export const loader: LoaderFunction = async ({ params }) => {
   }, {});
 
   return json(recipe);
+};
+
+export const meta: MetaFunction = ({ data }: { data: Recipe }) => {
+  const recipe = data;
+
+  const name = recipe["name-of-dish"].inputValue;
+
+  return {
+    title: `${name} | Oslo Kokeboka`,
+    "og:title": `${name} | Oslo Kokeboka`,
+  };
 };
 
 export default function RecipeSubmission() {
