@@ -5,7 +5,7 @@ import {
   redirect,
 } from "@remix-run/node";
 import { Form, Link, useActionData, useLoaderData } from "@remix-run/react";
-import { ChangeEvent, ChangeEventHandler, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { Prisma, InputType, RecipeSubmission } from "@prisma/client";
 
@@ -653,14 +653,23 @@ const InputField = ({
       );
     case "image":
       const [previews, setPreviews] = useState<string[]>([]);
+      const [chosenDefault, setChosenDefault] = useState<number | null>(null);
 
-      // TODO: Finish this. atleast the frontend.
-      //       maybe dont save to state. maybe save to localstorage? since not making trip to server.
+      // TODO:
+      // find a way to load stuff from localstorage to input. maybe input type hidden
       // find image hosting: cloudinary? how to dev locally?
       // save urls to database in a sensible way
 
+      useEffect(() => {
+        const saved = localStorage.getItem(`picture:${field.name}`);
+        if (!saved) {
+          return;
+        }
+
+        setPreviews(JSON.parse(saved));
+      }, []);
+
       const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        console.log(e);
         if (e.target.files) {
           const reader = new FileReader();
 
@@ -668,10 +677,16 @@ const InputField = ({
             if (!ev.target || !ev.target.result) {
               return;
             }
+
+            let items = [...previews, ev.target.result.toString()];
+
             setPreviews([...previews, ev.target.result.toString()]);
+            localStorage.setItem(
+              `picture:${field.name}`,
+              JSON.stringify(items)
+            );
           };
 
-          console.log(e.target.files);
           reader.readAsDataURL(e.target.files[0]);
         }
       };
@@ -685,25 +700,39 @@ const InputField = ({
             onMouseOver={onHover}
           >
             {field.input.placeholder[lang]}
+            <input
+              id={field.name}
+              type="file"
+              name={field.name}
+              onChange={onChange}
+              accept="image/*"
+              multiple={false}
+            />
           </label>
-          <input
-            id={field.name}
-            type="file"
-            name={field.name}
-            onChange={onChange}
-            accept="image/*"
-          />
-          <div className="mt-2">
-            {previews.map((v, i) => {
-              if (!v) {
-                return null;
+
+          <div className="flex gap-3 mt-2">
+            {[0, 1, 2].map((v) => {
+              if (!previews[v]) {
+                return (
+                  <div
+                    className={"w-[70px] h-[70px] bg-darkwine border rounded"}
+                    onClick={(ev) => ev.preventDefault()}
+                  />
+                );
               }
 
               return (
                 <img
-                  key={`preview-${field.name}-${i}`}
-                  src={v}
-                  className={"w-[70px] h-[70px]"}
+                  key={`preview-${field.name}-${v}`}
+                  src={previews[v]}
+                  data-default={chosenDefault === v}
+                  onClick={(ev) => {
+                    ev.preventDefault();
+                    setChosenDefault(v);
+                  }}
+                  className={
+                    "w-[70px] h-[70px] rounded border-salmon data-[default=true]:border-2"
+                  }
                 />
               );
             })}
