@@ -57,14 +57,22 @@ export const Header = () => {
     <header
       className={`flex items-center justify-between sticky top-0 py-6 mb-4 bg-darkestwine z-20 ${width} `}
     >
-      <Link
-        className={`fuzzy text-salmon transition-opacity ease-in-out duration-500 ${
-          hideHome && "opacity-0"
-        }`}
-        to={"/"}
-      >
-        OSLO KOKEBOKA
-      </Link>
+      {pathname === "/" ? (
+        <p
+          className={`fuzzy text-salmon transition-opacity ease-in-out duration-500 ${
+            hideHome && "opacity-0"
+          }`}
+        >
+          OSLO KOKEBOKA
+        </p>
+      ) : (
+        <Link
+          className={`fuzzy text-salmon transition-opacity ease-in-out duration-500`}
+          to={"/"}
+        >
+          OSLO KOKEBOKA
+        </Link>
+      )}
 
       <section className="w-fit flex" id="language-switch">
         {languages.map((el, i) => {
