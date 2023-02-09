@@ -1,6 +1,7 @@
 import { Link } from "@remix-run/react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { trackEvent } from "~/functions";
 
 export default function Index() {
   const { t } = useTranslation();
@@ -34,10 +35,18 @@ export default function Index() {
           }}
         />
         <div className="flex flex-row gap-2 justify-center">
-          <Link to={"/create-recipe/0"} className="fuzzy orange-button w-fit">
+          <Link
+            to={"/create-recipe/0"}
+            onClick={() => trackEvent("Create recipe", "click", "/")}
+            className="fuzzy orange-button w-fit"
+          >
             {t("submit-your-recipe")}
           </Link>
-          <Link to={"/recipes"} className="fuzzy orange-button bg-paper w-fit">
+          <Link
+            to={"/recipes"}
+            onClick={() => trackEvent("Explore recipes", "click", "/")}
+            className="fuzzy orange-button bg-paper w-fit"
+          >
             {t("explore-recipes")}
           </Link>
         </div>

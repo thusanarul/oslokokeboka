@@ -33,3 +33,9 @@ export const mapToSubmissionsObject = (
 
   return submissions;
 };
+
+export const trackEvent = (event: string, type: string, route: string) => {
+  if ((window as any).umami) {
+    (window as any).umami.trackEvent(event, type, route);
+  }
+};
