@@ -2,7 +2,8 @@ import { Link, useLocation } from "@remix-run/react";
 import { useMemo } from "react";
 import { boroughMap } from "~/maps";
 
-export type Submissions = Record<string, Record<string, string>>;
+type Submission = Record<string, string>;
+export type Submissions = Record<string, Submission>;
 
 const MasonrySubmissions = ({ submissions }: { submissions: Submissions }) => {
   const shuffledKeys = useMemo(
@@ -29,7 +30,7 @@ const MasonrySubmissions = ({ submissions }: { submissions: Submissions }) => {
               <Submission
                 key={"left-submission-" + i}
                 id={val}
-                submissions={submissions}
+                submission={submissions[val]}
               />
             );
           })}
@@ -40,7 +41,7 @@ const MasonrySubmissions = ({ submissions }: { submissions: Submissions }) => {
               <Submission
                 key={"right-submission-" + i}
                 id={val}
-                submissions={submissions}
+                submission={submissions[val]}
               />
             );
           })}
@@ -48,12 +49,12 @@ const MasonrySubmissions = ({ submissions }: { submissions: Submissions }) => {
       </div>
       {/* boring flat layout on mobile */}
       <div className="md:hidden flex flex-col gap-2">
-        {Object.keys(submissions).map((val, i) => {
+        {shuffledKeys.map((val, i) => {
           return (
             <Submission
               key={"flat-submission-" + i}
               id={val}
-              submissions={submissions}
+              submission={submissions[val]}
             />
           );
         })}
@@ -64,14 +65,14 @@ const MasonrySubmissions = ({ submissions }: { submissions: Submissions }) => {
 
 const Submission = ({
   id,
-  submissions,
+  submission,
 }: {
   id: string;
-  submissions: Submissions;
+  submission: Submission;
 }) => {
   const borough =
-    submissions[id]["neighbourhood"] != ""
-      ? boroughMap[submissions[id]["neighbourhood"]]
+    submission["neighbourhood"] != ""
+      ? boroughMap[submission["neighbourhood"]]
       : "No neighbourhood :(";
 
   const location = useLocation();
@@ -86,15 +87,13 @@ const Submission = ({
       to={linkTo}
     >
       <h2 className="fuzzy text-paper text-[22px] md:text-[29px]">
-        {submissions[id]["name-of-dish"] != ""
-          ? submissions[id]["name-of-dish"]
+        {submission["name-of-dish"] != ""
+          ? submission["name-of-dish"]
           : "No dish name :("}
       </h2>
       <span className="flex gap-2">
         <p className="text-ochre">
-          {submissions[id]["name"] != ""
-            ? submissions[id]["name"]
-            : "No name :("}
+          {submission["name"] != "" ? submission["name"] : "No name :("}
         </p>
         <p>{borough}</p>
       </span>
