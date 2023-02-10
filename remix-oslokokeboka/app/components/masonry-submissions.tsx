@@ -5,13 +5,18 @@ import { boroughMap } from "~/maps";
 export type Submissions = Record<string, Record<string, string>>;
 
 const MasonrySubmissions = ({ submissions }: { submissions: Submissions }) => {
-  const left = useMemo(
-    () => Object.keys(submissions).filter((_, i) => i % 2 !== 0),
+  const shuffledKeys = useMemo(
+    () => Object.keys(submissions).sort(() => Math.random() - 0.5),
     [submissions]
   );
+
+  const left = useMemo(
+    () => shuffledKeys.filter((_, i) => i % 2 !== 0),
+    [shuffledKeys]
+  );
   const right = useMemo(
-    () => Object.keys(submissions).filter((_, i) => i % 2 === 0),
-    [submissions]
+    () => shuffledKeys.filter((_, i) => i % 2 === 0),
+    [shuffledKeys]
   );
 
   return (
