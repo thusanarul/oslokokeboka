@@ -23,7 +23,7 @@ export const loader = async () => {
     return `
     <url>
       <loc>${rootUrl}/recipe/${val.id}}</loc>
-      <lastmod>${val.updatedAt}</lastmod>
+      <lastmod>${val.updatedAt.toISOString()}</lastmod>
       <priority>0.90</priority>
       </url>
     `;
