@@ -1,7 +1,7 @@
 // self-host prisma studio? https://github.com/prisma/studio-vercel-guide
 // need login. can try remix-auth: https://github.com/sergiodxa/remix-auth
 
-import { json, LoaderFunction, redirect } from "@remix-run/node";
+import { json, LoaderFunction } from "@remix-run/node";
 import { Form, Outlet, useLoaderData } from "@remix-run/react";
 import { getSession } from "~/session.server";
 

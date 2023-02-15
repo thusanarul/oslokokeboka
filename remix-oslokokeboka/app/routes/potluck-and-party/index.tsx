@@ -1,8 +1,13 @@
+import { MetaFunction } from "@remix-run/node";
 import { useTranslation } from "react-i18next";
 
 export let handle = {
   i18n: "potluck-and-party",
 };
+
+export const meta: MetaFunction = () => ({
+  robots: "noindex",
+});
 
 const spotifyLink =
   "https://open.spotify.com/playlist/5qPZ9PTa0Ym8YKLrZsHKS5?si=eb7dc070670845b7";

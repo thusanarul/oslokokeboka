@@ -3,6 +3,7 @@ import {
   ActionFunction,
   json,
   LoaderFunction,
+  MetaFunction,
   redirect,
 } from "@remix-run/node";
 import { Form, Link, useLoaderData, useNavigate } from "@remix-run/react";
@@ -82,6 +83,10 @@ export const action: ActionFunction = async ({ params, request }) => {
 export let handle = {
   i18n: "preview",
 };
+
+export const meta: MetaFunction = () => ({
+  robots: "noindex",
+});
 
 export default function RecipePreview() {
   const recipe: Recipe = useLoaderData();

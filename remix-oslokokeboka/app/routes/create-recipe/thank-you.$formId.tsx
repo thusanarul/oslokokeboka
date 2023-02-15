@@ -1,5 +1,5 @@
 import { SubmissionState } from "@prisma/client";
-import { json, LoaderFunction, redirect } from "@remix-run/node";
+import { json, LoaderFunction, MetaFunction, redirect } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -36,6 +36,10 @@ export const loader: LoaderFunction = async ({ params }) => {
 export let handle = {
   i18n: "thank-you",
 };
+
+export const meta: MetaFunction = () => ({
+  robots: "noindex",
+});
 
 export default function ThankYou() {
   const recipeInfo: { id: string; name: string } = useLoaderData();

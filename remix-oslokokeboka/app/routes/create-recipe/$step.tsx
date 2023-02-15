@@ -466,6 +466,7 @@ export default function RecipeStep() {
               <Link
                 to={"/"}
                 className="flex-auto text-center py-[16px] min-w-[120px] px-[28px] inverted-red-button fuzzy"
+                rel="nofollow"
               >
                 {t("cancel", { ns: "common" })}
               </Link>
@@ -474,6 +475,7 @@ export default function RecipeStep() {
               <Link
                 to={`/create-recipe/${currentStep - 1}`}
                 className="flex-auto text-center py-[16px] min-w-[120px] px-[28px] inverted-red-button fuzzy"
+                rel="nofollow"
               >
                 {t("previous", { ns: "common" })}
               </Link>
