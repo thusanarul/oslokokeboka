@@ -26,22 +26,26 @@ const MasonrySubmissions = ({ submissions }: { submissions: Submissions }) => {
       <div className="hidden md:flex gap-2">
         <div className="flex flex-col gap-2">
           {left.map((val, i) => {
+            const tabIndex = i * 2 + 2; // hardcoded according to
             return (
               <Submission
                 key={"left-submission-" + i}
                 id={val}
                 submission={submissions[val]}
+                tabIndex={tabIndex}
               />
             );
           })}
         </div>
         <div className="flex flex-col gap-2">
           {right.map((val, i) => {
+            const tabIndex = i * 2 + 3;
             return (
               <Submission
                 key={"right-submission-" + i}
                 id={val}
                 submission={submissions[val]}
+                tabIndex={tabIndex}
               />
             );
           })}
@@ -66,9 +70,11 @@ const MasonrySubmissions = ({ submissions }: { submissions: Submissions }) => {
 const Submission = ({
   id,
   submission,
+  tabIndex,
 }: {
   id: string;
   submission: Submission;
+  tabIndex?: number | null;
 }) => {
   const borough =
     submission["neighbourhood"] != ""
@@ -85,6 +91,7 @@ const Submission = ({
     <Link
       className="flex flex-col bg-darkwine min-w-min w-[280px] p-5 gap-3"
       to={linkTo}
+      tabIndex={tabIndex ?? undefined}
     >
       <h2 className="fuzzy text-paper text-[22px] md:text-[29px]">
         {submission["name-of-dish"] != ""
