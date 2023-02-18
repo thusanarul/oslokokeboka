@@ -65,7 +65,7 @@ export default function RecipesIndex() {
               }}
             >
               {showShare
-                ? t("share-this", { ns: "common" })
+                ? t("share-this-page", { ns: "common" })
                 : t("link-copied", { ns: "common" })}
             </button>
 

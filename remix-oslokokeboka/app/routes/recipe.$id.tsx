@@ -62,7 +62,7 @@ export default function RecipeSubmission() {
       >
         <Recipe recipe={recipe} />
       </section>
-      <div className="flex w-full justify-center gap-3">
+      <div className="flex w-full justify-center gap-3 px-3 md:px-0">
         <button
           type="button"
           className="w-fit fuzzy paper-button"
@@ -72,7 +72,7 @@ export default function RecipeSubmission() {
             setShowShare(false);
           }}
         >
-          {showShare ? t("share-this") : t("link-copied")}
+          {showShare ? t("share-this-recipe") : t("link-copied")}
         </button>
 
         <Link className="w-fit fuzzy orange-button" to={"/create-recipe/0"}>
