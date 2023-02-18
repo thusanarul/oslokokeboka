@@ -59,18 +59,22 @@ export const Header = () => {
     >
       {pathname === "/" ? (
         <p
-          className={`fuzzy text-salmon transition-opacity ease-in-out duration-500 ${
+          className={`fuzzy text-salmon text-center transition-opacity ease-in-out duration-500 leading-[87%] ${
             hideHome && "opacity-0"
           }`}
         >
-          OSLO KOKEBOKA
+          Oslo
+          <br />
+          Kokeboka
         </p>
       ) : (
         <Link
-          className={`fuzzy text-salmon transition-opacity ease-in-out duration-500`}
+          className={`fuzzy text-salmon text-center transition-opacity ease-in-out duration-500 leading-[87%]`}
           to={"/"}
         >
-          OSLO KOKEBOKA
+          Oslo
+          <br />
+          Kokeboka
         </Link>
       )}
 

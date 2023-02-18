@@ -179,21 +179,23 @@
   .body-text {
     @apply text-[17px] leading-[21px] tracking-[.01em];
   }
-
+  
   h1.fuzzy {
-    font-family: "FeeeelsFuzzyRegular", "UniversElse", system-ui, sans-serif;
-    @apply text-[33px] md:text-[42px] leading-[115%] text-center;
+    @apply text-[33px] md:text-[42px] text-center;
   }
 
   h2.fuzzy {
-    font-family: "FeeeelsFuzzyRegular", "UniversElse", system-ui, sans-serif;
-    @apply text-[24px] md:text-[29px] leading-[115%];
+    @apply text-[24px] md:text-[29px];
 
   }
 
   p.fuzzy, a.fuzzy, button.fuzzy {
+    @apply text-[15px] md:text-[17px];
+  }
+
+  .fuzzy {
     font-family: "FeeeelsFuzzyRegular", "UniversElse", system-ui, sans-serif;
-    @apply text-[15px] md:text-[17px] leading-[115%];
+    @apply leading-[115%];
   }
 }
 

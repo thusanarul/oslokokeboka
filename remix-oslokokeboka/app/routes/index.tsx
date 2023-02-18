@@ -1,29 +1,64 @@
 import { Link } from "@remix-run/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { trackEvent } from "~/functions";
+
+const infoComponents = [
+  {
+    id: "why-are-we-doing-this",
+    imgSrc: "images/food/blue-kitchen.png",
+    imgAlt: "pumpkin",
+  },
+  {
+    id: "what-are-we-looking-for",
+    imgSrc: "images/food/pink-dining-room.png",
+    imgAlt: "tuna",
+  },
+];
+
+const titleColors = [
+  "text-salmon",
+  "text-blue",
+  "text-ochre",
+  "text-green",
+] as const;
 
 export default function Index() {
   const { t } = useTranslation();
 
-  const infoComponents = [
-    {
-      id: "why-are-we-doing-this",
-      imgSrc: "images/food/blue-kitchen.png",
-      imgAlt: "pumpkin",
-    },
-    {
-      id: "what-are-we-looking-for",
-      imgSrc: "images/food/pink-dining-room.png",
-      imgAlt: "tuna",
-    },
-  ];
-
   const [infoBoxVisible, setInfoBoxVisible] = useState<number>(0);
+  const [currentTitleColor, setCurrentTitleColor] = useState(0);
+  const timerId = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    if (timerId.current !== null) {
+      return;
+    }
+    timerId.current = setInterval(() => {
+      let index = currentTitleColor + 1;
+      if (index > titleColors.length - 1) {
+        index = 0;
+      }
+
+      setCurrentTitleColor(index);
+    }, 5000);
+
+    return () => {
+      if (timerId.current === null) {
+        return;
+      }
+      clearInterval(timerId.current);
+      timerId.current = null;
+    };
+  }, [currentTitleColor]);
 
   return (
     <div className="flex flex-col gap-[52px] w-full md:w-[85%] md:max-w-[850px] md:mx-auto">
-      <h2 className="fuzzy text-salmon self-center">OSLO KOKEBOKA</h2>
+      <h2 className="fuzzy text-salmon self-center text-center leading-[87%]">
+        Oslo
+        <br />
+        Kokeboka
+      </h2>
       <section
         className="flex flex-col px-home gap-[30px]"
         id="what-is-kokeboka"
@@ -31,7 +66,9 @@ export default function Index() {
         <h1
           className="text-paper fuzzy text-center"
           dangerouslySetInnerHTML={{
-            __html: t("what-is-kokeboka"),
+            __html: t("what-is-kokeboka", {
+              title_color: titleColors[currentTitleColor],
+            }),
           }}
         />
         <div className="flex flex-row gap-2 justify-center">

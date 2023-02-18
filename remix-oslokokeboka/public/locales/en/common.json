@@ -9,7 +9,7 @@
   "explore-recipes": "Explore recipes",
   "share-this": "Share this recipe",
   "link-copied": "Link copied",
-  "what-is-kokeboka": "We are a collective harvesting stories through recipes to create <i>Oslo Kokeboka</i>. Our dream is to collect one recipe each that tells a story about the lives in Oslo.",
+  "what-is-kokeboka": "We are a collective harvesting stories through recipes to create <span class='{{title_color}}'>Oslo Kokeboka.</span> Our dream is to collect one recipe each that tells a story about the lives in Oslo.",
   "what-are-we-looking-for-header": "What are we looking for?",
   "what-are-we-looking-for-text": "One person, one Recipe! The recipe you submit can be whatever you want— all dishes, flavors and cuisines are accepted. The only requirement is that the dish you share is something you have cooked while living in Oslo and it's a food that you can share a story or memory about.",
   "why-are-we-doing-this-header": "Why are we doing this?",
