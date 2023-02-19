@@ -193,13 +193,8 @@ export const action: ActionFunction = async ({ params, request }) => {
 
     // This check is necessary because of custom handling of placeholders in textarea input field
     // Ideally this would happen client-side, but could not find a solution
-    if (s?.input.type === "textarea") {
-      if (
-        val.toString().trim() === s.input.placeholder.en ||
-        val.toString().trim() === s.input.placeholder.no
-      ) {
-        val = "";
-      }
+    if (s?.input.type === "textarea" && isInputPlaceholder(val, s)) {
+      val = "";
     }
 
     // more types of validation?
@@ -291,6 +286,12 @@ export const action: ActionFunction = async ({ params, request }) => {
         ...prevInput,
       },
     });
+
+    // This check is necessary because of custom handling of placeholders in textarea input field
+    // Ideally this would happen client-side, but could not find a solution
+    if (field.input.type === "textarea" && isInputPlaceholder(val, field)) {
+      val = "";
+    }
 
     const inputValue = val.toString();
 
@@ -522,8 +523,11 @@ const InputField = ({
         />
       );
     case "textarea":
-      const renderInitValue = defaultValue ?? field.input.placeholder[lang];
       const placeholder = field.input.placeholder[lang];
+      const renderInitValue =
+        defaultValue === "" || defaultValue === null
+          ? placeholder
+          : defaultValue;
 
       // The only reason this component became big is because the default placeholder would not render new-line breaks in mobile
       // Listens to a couple of events to mimic default placeholder behaviour
@@ -542,7 +546,7 @@ const InputField = ({
       return (
         <textarea
           name={field.name}
-          data-placeholder={defaultValue == null}
+          data-placeholder={defaultValue == null || defaultValue === ""}
           className={
             "data-[placeholder=true]:text-salmon data-[placeholder=false]:text-paper"
           }
@@ -641,6 +645,16 @@ const InputField = ({
     case "adder":
       return <AdderInput field={field} onFocus={onFocus} onHover={onHover} />;
   }
+};
+
+const isInputPlaceholder = (
+  val: FormDataEntryValue,
+  field: RecipeFormField
+) => {
+  return (
+    val.toString().trim() === field.input.placeholder.en ||
+    val.toString().trim() === field.input.placeholder.no
+  );
 };
 
 const steps: FormStep[] = [
