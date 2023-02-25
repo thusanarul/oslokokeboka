@@ -110,6 +110,7 @@ const inputTypeMap = {
 // task: Make opacity depended on scroll also. Have only implemented lazy version
 
 export const loader: LoaderFunction = async ({ params, request }) => {
+  console.log(`På loader route: ${params.step}`);
   invariant(params.step, `form step is required`);
   const currentStep: number = parseInt(params.step);
   const session = await getSession(request.headers.get("Cookie"));
@@ -274,7 +275,7 @@ export const action: ActionFunction = async ({ params, request }) => {
     const field = currentForm.find((field) => field.name === key);
 
     if (!field) {
-      return null;
+      return; // return in foreach is equivalent to continue
     }
 
     // Grab previous input if it exists
@@ -295,6 +296,14 @@ export const action: ActionFunction = async ({ params, request }) => {
     // Ideally this would happen client-side, but could not find a solution
     if (field.input.type === "textarea" && isInputPlaceholder(val, field)) {
       val = "";
+    }
+
+    if (field.input.type === "image") {
+      console.log("Image input");
+      console.log(val.toString());
+
+      // Probably want to handle image differently
+      return;
     }
 
     const inputValue = val.toString();
@@ -708,60 +717,63 @@ const InputField = ({
       };
 
       return (
-        <div className="flex gap-3 mt-2">
-          {[0, 1, 2].map((v) => {
-            if (!previews[v]) {
-              return (
-                <label
-                  key={`field.name-${v}`}
-                  className="flex flex-col gap-2 image-upload p-or-body w-[120px] h-[120px]"
-                  htmlFor={`field.name-${v}`}
-                  onFocus={onFocus}
-                  onMouseOver={onHover}
-                >
-                  {t("click-to-upload")}
-                  <br />
-                  <Plus className="self-center" />
-                  <input
-                    id={`field.name-${v}`}
-                    type="file"
-                    name={`field.name-${v}`}
-                    accept="image/*"
-                    multiple={false}
-                    onChange={onChange}
-                    className={" bg-darkwine border rounded"}
-                  />
-                </label>
-              );
-            }
+        <>
+          <input type="hidden" name={field.name} value={previews} />
+          <div className="flex gap-3 mt-2">
+            {[0, 1, 2].map((v) => {
+              if (!previews[v]) {
+                return (
+                  <label
+                    key={`field.name-${v}`}
+                    className="flex flex-col gap-2 image-upload p-or-body w-[120px] h-[120px]"
+                    htmlFor={`field.name-${v}`}
+                    onFocus={onFocus}
+                    onMouseOver={onHover}
+                  >
+                    {t("click-to-upload")}
+                    <br />
+                    <Plus className="self-center" />
+                    <input
+                      id={`field.name-${v}`}
+                      type="file"
+                      name={`field.name-${v}`}
+                      accept="image/*"
+                      multiple={false}
+                      onChange={onChange}
+                      className={" bg-darkwine border rounded"}
+                    />
+                  </label>
+                );
+              }
 
-            return (
-              <div className="flex flex-col gap-3">
-                <img
-                  key={`preview-${field.name}-${v}`}
-                  src={previews[v]}
-                  data-default={chosenDefault === v}
-                  onClick={(ev) => {
-                    ev.preventDefault();
-                    setChosenDefault(v);
-                  }}
-                  className={
-                    "w-[120px] h-[120px] rounded border-salmon data-[default=true]:border-2"
-                  }
-                />
-                <button
-                  type="button"
-                  className="inverted-red-button bg-darkwine p-1 w-[50%] self-center"
-                  onClick={() => {
-                    deleteImage(v);
-                  }}
-                >
-                  x
-                </button>
-              </div>
-            );
-          })}
-        </div>
+              return (
+                <div className="flex flex-col gap-3">
+                  <img
+                    key={`preview-${field.name}-${v}`}
+                    src={previews[v]}
+                    data-default={chosenDefault === v}
+                    onClick={(ev) => {
+                      ev.preventDefault();
+                      setChosenDefault(v);
+                    }}
+                    className={
+                      "w-[120px] h-[120px] rounded border-salmon data-[default=true]:border-2"
+                    }
+                  />
+                  <button
+                    type="button"
+                    className="inverted-red-button bg-darkwine p-1 w-[50%] self-center"
+                    onClick={() => {
+                      deleteImage(v);
+                    }}
+                  >
+                    x
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </>
       );
     case "adder":
       return null;
