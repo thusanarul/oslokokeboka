@@ -252,15 +252,19 @@
   }
 
   label.image-upload {
-    @apply w-full bg-darkwine border-b-salmon border-b-[1px] px-[16px] py-[16px] rounded-t-[4px];
-    background-position: right 20px top 50%;
+    @apply text-salmon text-center bg-darkwine p-or-body border-b-salmon border-b-[1px] px-[16px] py-[16px] rounded-t-[4px];
+    /* background-position: right 50% top 50%;
     background-image: theme("backgroundImage.plus");
     background-repeat: no-repeat;
-    background-size: 15px 15px;
+    background-size: 15px 15px; */
   }
 }
 
 @layer utilities {
+
+  .p-or-body {
+    @apply text-[15px] md:text-[17px]
+  }
 
   .px-home {
     @apply px-3 md:px-2;

@@ -21,6 +21,7 @@ import { InputHTMLElement } from "~/components/input-fields/shared";
 import Ellipse from "~/components/ellipse";
 import { TFunction, useTranslation } from "react-i18next";
 import RecipeInfoModal from "~/components/recipe-info-modal";
+import Plus from "~/components/plus";
 
 /*
 required trenger ikke å være nullable?
@@ -691,37 +692,51 @@ const InputField = ({
         }
       };
 
+      const deleteImage = (imageIndex: number) => {
+        console.log(imageIndex);
+        const saved = localStorage.getItem(`picture:${field.name}`);
+        console.log(saved);
+        if (!saved) {
+          return;
+        }
+
+        let items: string[] = JSON.parse(saved);
+        items = items.filter((_, index) => index != imageIndex);
+
+        setPreviews(items);
+        localStorage.setItem(`picture:${field.name}`, JSON.stringify(items));
+      };
+
       return (
-        <>
-          <label
-            className="image-upload text-salmon"
-            htmlFor={field.name}
-            onFocus={onFocus}
-            onMouseOver={onHover}
-          >
-            {field.input.placeholder[lang]}
-            <input
-              id={field.name}
-              type="file"
-              name={field.name}
-              onChange={onChange}
-              accept="image/*"
-              multiple={false}
-            />
-          </label>
-
-          <div className="flex gap-3 mt-2">
-            {[0, 1, 2].map((v) => {
-              if (!previews[v]) {
-                return (
-                  <div
-                    className={"w-[70px] h-[70px] bg-darkwine border rounded"}
-                    onClick={(ev) => ev.preventDefault()}
-                  />
-                );
-              }
-
+        <div className="flex gap-3 mt-2">
+          {[0, 1, 2].map((v) => {
+            if (!previews[v]) {
               return (
+                <label
+                  key={`field.name-${v}`}
+                  className="flex flex-col gap-2 image-upload p-or-body w-[120px] h-[120px]"
+                  htmlFor={`field.name-${v}`}
+                  onFocus={onFocus}
+                  onMouseOver={onHover}
+                >
+                  {t("click-to-upload")}
+                  <br />
+                  <Plus className="self-center" />
+                  <input
+                    id={`field.name-${v}`}
+                    type="file"
+                    name={`field.name-${v}`}
+                    accept="image/*"
+                    multiple={false}
+                    onChange={onChange}
+                    className={" bg-darkwine border rounded"}
+                  />
+                </label>
+              );
+            }
+
+            return (
+              <div className="flex flex-col gap-3">
                 <img
                   key={`preview-${field.name}-${v}`}
                   src={previews[v]}
@@ -731,13 +746,22 @@ const InputField = ({
                     setChosenDefault(v);
                   }}
                   className={
-                    "w-[70px] h-[70px] rounded border-salmon data-[default=true]:border-2"
+                    "w-[120px] h-[120px] rounded border-salmon data-[default=true]:border-2"
                   }
                 />
-              );
-            })}
-          </div>
-        </>
+                <button
+                  type="button"
+                  className="inverted-red-button bg-darkwine p-1 w-[50%] self-center"
+                  onClick={() => {
+                    deleteImage(v);
+                  }}
+                >
+                  x
+                </button>
+              </div>
+            );
+          })}
+        </div>
       );
     case "adder":
       return null;
