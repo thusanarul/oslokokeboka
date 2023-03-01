@@ -10,5 +10,27 @@ services:
       POSTGRES_DB: "oslokokeboka"
     volumes:
       - pg-data:/var/lib/postgresql/data/
+  minio:
+    image: quay.io/minio/minio:RELEASE.2023-02-27T18-10-45Z
+    ports:
+      - "9000:9000"
+      - "9090:9090"
+    environment:
+      MINIO_ROOT_USER: "minio"
+      MINIO_ROOT_PASSWORD: "minio123"
+    command: server --console-address :9090 /data
+    volumes:
+      - minio-data:/data
+  bucketcreator:
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set minio http://minio:9000 minio minio123;
+      /usr/bin/mc mb minio/oslokokeboka;
+      /usr/bin/mc policy set public minio/oslokokeboka;
+      exit 0;"
 volumes:
   pg-data:
+  minio-data:
