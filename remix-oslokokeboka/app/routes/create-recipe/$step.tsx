@@ -174,7 +174,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 };
 
 export const action: ActionFunction = async ({ params, request }) => {
-  console.log(`På route: ${params.step}`);
+  console.log(`På action route: ${params.step}`);
 
   invariant(params.step, `form step is required`);
   const currentStep: number = parseInt(params.step);
@@ -438,6 +438,7 @@ export default function RecipeStep() {
           className="h-full mb-[24px]"
           id="recipe-form"
           action={`/create-recipe/${currentStep}`}
+          encType="multipart/form-data" // because of images
         >
           <div className="flex flex-col gap-[48px]">
             {currentForm.map((field) => {
