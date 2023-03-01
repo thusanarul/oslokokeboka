@@ -9,7 +9,7 @@ from alpine as entrypoint
 COPY remix-oslokokeboka/entrypoint.sh /docker-entrypoint.sh
 RUN chmod uga+x /docker-entrypoint.sh
 
-from node:16.13-slim as builder
+from node:18.14-slim as builder
 
 # /usr/local/share/.cache/yarn/v6
 
@@ -30,7 +30,7 @@ RUN yarn build
 RUN --mount=type=cache,target=/usr/local/share/.cache/yarn/v6 \ 
     yarn install --prod --frozen-lockfile
 
-FROM node:16.13-slim as runner
+FROM node:18.14-slim as runner
 RUN apt-get update && apt-get install -y openssl
 
 COPY --from=entrypoint /docker-entrypoint.sh /docker-entrypoint.sh
