@@ -22,7 +22,7 @@ export const loader = async () => {
   const recipeUrls = recipeIds.map((val) => {
     return `
     <url>
-      <loc>${rootUrl}/recipe/${val.id}}</loc>
+      <loc>${rootUrl}/recipe/${val.id}</loc>
       <lastmod>${val.updatedAt.toISOString()}</lastmod>
       <priority>0.90</priority>
       </url>
