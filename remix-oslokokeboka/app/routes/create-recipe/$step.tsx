@@ -22,6 +22,7 @@ import Ellipse from "~/components/ellipse";
 import { TFunction, useTranslation } from "react-i18next";
 import RecipeInfoModal from "~/components/recipe-info-modal";
 import Plus from "~/components/plus";
+import { uploadImageToBucket } from "~/minio.server";
 
 /*
 required trenger ikke å være nullable?
@@ -301,6 +302,8 @@ export const action: ActionFunction = async ({ params, request }) => {
     if (field.input.type === "image") {
       console.log("Image input");
       console.log(val.toString());
+
+      await uploadImageToBucket(val.toString(), submission.id, "0");
 
       // Probably want to handle image differently
       return;
