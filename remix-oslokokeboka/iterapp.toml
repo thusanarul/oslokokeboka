@@ -6,7 +6,7 @@ from_to_www_redirect=true
 domains=["oslokokeboka.no"]
 
 [env.common]
-DATABASE_CONNECTION_LIMIT = "4"
+DATABASE_CONNECTION_LIMIT = "1"
 GOOGLE_CLIENT_ID = "301965539786-tne35pbi789cghioj9o1jv6t6l776gtq.apps.googleusercontent.com"
 GOOGLE_CLIENT_SECRET = { encrypted = "QWoZ8yThdSUHuktfgtep7m5o8XodeL0dejuYJb7DLwWUP9pavXsFbGufsXEEQh8F9xArv2i072qbESMz9fETnjixlP_k3vci-GcOThok57VS9hbNv8cvy68oXube-0tVasFxwP3HJ6KvAh-BZLGmWIzhfMnnapCE8dH_EJFb" }
 
