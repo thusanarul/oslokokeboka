@@ -118,6 +118,22 @@
     font-display: auto;
     src: url("/fonts/FeeeelsFuzzyRegular.woff2") format("woff2");
   }
+
+  mark {
+    @apply bg-ochre text-white px-2;
+  }
+
+  mark[data-animate="true"] {
+    background-color: none;
+    background: linear-gradient(90deg, theme("colors.ochre") 50%, theme("colors.darkestwine") 50%);
+    background-size: 200%;
+    background-position: 100% 0;
+    animation: 2s highlight-fade-in 0.5s ease-in-out forwards;
+  }
+
+  @keyframes highlight-fade-in {
+    100% { background-position: 0 0; }
+  }
 }
 
 @layer components {

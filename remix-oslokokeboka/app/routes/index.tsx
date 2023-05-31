@@ -66,11 +66,9 @@ export default function Index() {
         <h1
           className="text-paper fuzzy text-center"
           dangerouslySetInnerHTML={{
-            __html: t("what-is-kokeboka", {
-              title_color: titleColors[currentTitleColor],
-            }),
+            __html: t("what-is-kokeboka"),
           }}
-        />
+        ></h1>
         <div className="flex flex-row gap-2 justify-center">
           <Link
             to={"/create-recipe/0"}
