@@ -16,41 +16,10 @@ const infoComponents = [
   },
 ];
 
-const titleColors = [
-  "text-salmon",
-  "text-blue",
-  "text-ochre",
-  "text-green",
-] as const;
-
 export default function Index() {
   const { t } = useTranslation();
 
   const [infoBoxVisible, setInfoBoxVisible] = useState<number>(0);
-  const [currentTitleColor, setCurrentTitleColor] = useState(0);
-  const timerId = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  useEffect(() => {
-    if (timerId.current !== null) {
-      return;
-    }
-    timerId.current = setInterval(() => {
-      let index = currentTitleColor + 1;
-      if (index > titleColors.length - 1) {
-        index = 0;
-      }
-
-      setCurrentTitleColor(index);
-    }, 5000);
-
-    return () => {
-      if (timerId.current === null) {
-        return;
-      }
-      clearInterval(timerId.current);
-      timerId.current = null;
-    };
-  }, [currentTitleColor]);
 
   return (
     <div className="flex flex-col gap-[52px] w-full md:w-[85%] md:max-w-[850px] md:mx-auto">
