@@ -148,8 +148,10 @@ export const CatchBoundary: CatchBoundaryComponent = () => {
   );
 };
 
-export const ErrorBoundary: ErrorBoundaryComponent = () => {
+export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
   let { t } = useTranslation("");
+
+  console.error(error);
 
   return (
     <html>
