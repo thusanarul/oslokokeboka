@@ -21,6 +21,14 @@
     color: theme("colors.salmon");
   }
 
+  h3 {
+    font-size: 19px;
+    line-height: 122%;
+    letter-spacing: 2%;
+    color: theme("colors.darkestwine");
+    @apply fuzzy;
+  }
+
   p {
     font-size: 17px;
     line-height: 21px;
@@ -137,6 +145,10 @@
 }
 
 @layer components {
+  #recipe-info {
+    top: var(--middle);
+  }
+
   .tooltip {
     @apply rounded-t-[4px] border-b-ochre bg-ochre border-b-[1px] px-[20px] py-[30px] transition delay-150 ease-in-out;
   }

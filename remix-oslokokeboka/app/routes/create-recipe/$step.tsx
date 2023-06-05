@@ -20,6 +20,7 @@ import TextInput from "~/components/input-fields/text-input";
 import { InputHTMLElement } from "~/components/input-fields/shared";
 import Ellipse from "~/components/ellipse";
 import { TFunction, useTranslation } from "react-i18next";
+import RecipeInfoModal from "~/components/recipe-info-modal";
 
 /*
 required trenger ikke å være nullable?
@@ -376,6 +377,7 @@ export default function RecipeStep() {
 
   return (
     <div className="w-[85%] max-w-[550px] flex flex-col mx-auto self-start">
+      <RecipeInfoModal />
       {/* Either fetch from localstorage, associate with form value or render the default text */}
 
       <h1 className="fuzzy text-paper">{titleHeader}</h1>
