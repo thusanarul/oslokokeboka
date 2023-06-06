@@ -22,9 +22,17 @@
   }
 
   h3 {
+    font-size: 22px;
+    line-height: 122%;
+    letter-spacing: 0.02em;
+    color: theme("colors.darkestwine");
+    @apply fuzzy;
+  }
+
+  h4 {
     font-size: 19px;
     line-height: 122%;
-    letter-spacing: 2%;
+    letter-spacing: 0.02em;
     color: theme("colors.darkestwine");
     @apply fuzzy;
   }
@@ -223,7 +231,7 @@
 
   .fuzzy {
     font-family: "FeeeelsFuzzyRegular", "UniversElse", system-ui, sans-serif;
-    @apply leading-[115%];
+    @apply leading-[122%];
   }
 }
 

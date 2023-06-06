@@ -51,13 +51,28 @@ const RenderInfoOverlay = ({}) => {
   } as React.CSSProperties;
 
   return (
-    <div
+    <section
       id="recipe-info"
       style={style}
-      className="text-white absolute z-30 left-[25%] w-[50%] bg-ochre rounded-lg flex flex-col items-center px-2"
+      className="text-white absolute z-30 w-full bg-ochre rounded-lg flex flex-col gap-4 px-5 py-4"
     >
-      <h3>Your cookbook contribution (approx. 17min)</h3>
-    </div>
+      <h4 className="whitespace-nowrap w-fit">
+        Your cookbook contribution (approx. 17min)
+      </h4>
+      <ul className="w-fit">
+        <li>
+          <article className="flex flex-col w-[200px] h-[200px] rounded-lg bg-darkestwine">
+            <div className="w-full flex gap-2 pl-5 pt-5 overflow-visible">
+              <span className="form-indicator w-[70%] bg-salmon" />
+              <span className="form-indicator w-[30%]" />
+            </div>
+            <h3 className="pl-5 fuzzy mt-3 text-[22px] text-salmon">
+              The story
+            </h3>
+          </article>
+        </li>
+      </ul>
+    </section>
   );
 };
 
