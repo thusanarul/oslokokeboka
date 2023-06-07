@@ -154,7 +154,7 @@
 
 @layer components {
   #recipe-info {
-    top: var(--middle);
+    top: calc(var(--middle) + 25vh);
   }
 
   .tooltip {
@@ -221,8 +221,13 @@
   }
 
   h2.fuzzy {
-    @apply text-[24px] md:text-[29px];
+    font-size: 24px;
+  }
 
+  @screen md {
+    h2.fuzzy {
+      font-size: 29px;
+    }
   }
 
   p.fuzzy, a.fuzzy, button.fuzzy {
