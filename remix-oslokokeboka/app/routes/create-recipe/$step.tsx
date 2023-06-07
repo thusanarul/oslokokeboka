@@ -332,7 +332,7 @@ export const action: ActionFunction = async ({ params, request }) => {
 };
 
 export let handle = {
-  i18n: "create-recipe",
+  i18n: ["create-recipe", "recipe-info-modal"],
 };
 
 export default function RecipeStep() {
