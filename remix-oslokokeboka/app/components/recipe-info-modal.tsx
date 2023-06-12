@@ -79,7 +79,10 @@ const RenderInfoOverlay = ({}) => {
                 !isCurrentEl ? "opacity-80" : ""
               }`}
             >
-              <button onClick={() => setCurrentElIndex(index)}>
+              <button
+                className="flex flex-col h-full w-full items-start"
+                onClick={() => setCurrentElIndex(index)}
+              >
                 <div className="w-full flex gap-2 pl-5 pt-5 overflow-visible">
                   {isFirst ? (
                     <>
