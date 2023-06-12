@@ -238,6 +238,11 @@
     font-family: "FeeeelsFuzzyRegular", "UniversElse", system-ui, sans-serif;
     @apply leading-[122%];
   }
+
+  ul[data-scroll="true"] > li {
+    transition: transform 250ms ease;
+    transform: translateX(calc(90% * var(--move-to) * -1 - (2% * var(--move-to))));
+  }
 }
 
 @layer utilities {
