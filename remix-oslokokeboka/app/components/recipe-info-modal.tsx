@@ -105,6 +105,20 @@ const RenderInfoOverlay = ({}) => {
           );
         })}
       </ul>
+      <ul className="flex gap-2">
+        {info.map((el, index) => {
+          const isCurrentEl = currentElIndex === index;
+
+          return (
+            <button
+              className={`rounded-full h-4 w-4 ${
+                isCurrentEl ? "bg-darkestwine" : "bg-white"
+              }`}
+              onClick={() => setCurrentElIndex(index)}
+            />
+          );
+        })}
+      </ul>
       <h2 className="fuzzy md:w-[75%] !text-[35px] text-darkwine">
         {t(info[currentElIndex].headerTitle)}
       </h2>
