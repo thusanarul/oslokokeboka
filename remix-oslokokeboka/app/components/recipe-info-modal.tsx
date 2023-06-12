@@ -30,6 +30,8 @@ const RenderInfoOverlay = ({}) => {
     return <></>;
   }
 
+  const [closeInfoOverlay, setCloseInfoOverlay] = useState(false);
+
   const [scrollY, setScrollY] = useState(0);
 
   const handleScroll = () => {
@@ -56,13 +58,17 @@ const RenderInfoOverlay = ({}) => {
     "--middle": middle,
   } as React.CSSProperties;
 
+  if (closeInfoOverlay) {
+    return <></>;
+  }
+
   return (
     <section
       id="recipe-info"
       style={style}
       className="text-white absolute z-30 w-[85%] max-w-[550px] bg-ochre rounded-lg flex flex-col gap-4 pl-5 py-4"
     >
-      <h4 className="whitespace-nowrap w-full pr-5">{t("intro-header")}</h4>
+      <h4 className="md:whitespace-nowrap w-full pr-5">{t("intro-header")}</h4>
       <ul
         data-scroll
         style={{ "--move-to": currentElIndex } as React.CSSProperties}
@@ -114,8 +120,9 @@ const RenderInfoOverlay = ({}) => {
 
           return (
             <button
+              key={index}
               className={`rounded-full h-4 w-4 ${
-                isCurrentEl ? "bg-darkestwine" : "bg-white"
+                isCurrentEl ? "bg-darkestwine" : "bg-paper"
               }`}
               onClick={() => setCurrentElIndex(index)}
             />
@@ -125,6 +132,12 @@ const RenderInfoOverlay = ({}) => {
       <h2 className="fuzzy md:w-[75%] !text-[35px] text-darkwine">
         {t(info[currentElIndex].headerTitle)}
       </h2>
+      <button
+        onClick={() => setCloseInfoOverlay(true)}
+        className="bg-paper rounded-full fuzzy w-fit !text-[19px] text-darkestwine py-4 px-6"
+      >
+        {t("get-started")}
+      </button>
     </section>
   );
 };
