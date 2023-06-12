@@ -69,6 +69,7 @@ const RenderInfoOverlay = ({}) => {
           const isFirst = index === 0;
           return (
             <li
+              key={index}
               className={`flex flex-col min-w-[200px] h-[200px] rounded-lg bg-darkestwine ${
                 !isCurrentEl ? "opacity-80" : ""
               }`}

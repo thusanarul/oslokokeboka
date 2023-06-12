@@ -1,0 +1,112 @@
+# Deploys a new Namespace for the MinIO Pod
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: minio-dev # Change this value if you want a different namespace name
+  labels:
+    name: minio-dev # Change this value to match metadata.name
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio
+  labels:
+    app: minio
+spec:
+  clusterIP: None
+  ports:
+    - name: minio
+      port: 9000
+    - name: console
+      port: 9090
+  selector:
+    app: minio
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: minio
+  name: minio
+  namespace: minio-dev # has to match the namespace metadata.name
+spec:
+  selector:
+    matchLabels: # not sure why I need this
+      app: minio
+  serviceName: minio
+  replicas: 4
+  template: # this has to be the pod template. i think...
+    metadata:
+      labels:
+        app: minio
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: k3d-local-server-0
+      containers:
+        - name: minio
+          env:
+            - name: MINIO_SERVER_URL
+              value: http://storage.localhost
+            - name: MINIO_BROWSER_REDIRECT_URL
+              value: http://storage-console.localhost/login
+            - name: MINIO_ACCESS_KEY
+              value: "minio"
+            - name: MINIO_SECRET_KEY
+              value: "minio123"
+          image: quay.io/minio/minio:RELEASE.2023-02-27T18-10-45Z
+          args:
+            - server
+            # <StatefulSet>-<Ordinal>.<Service>.<Namespace>.svc.cluster.local
+            - http://minio-{0...3}.minio.minio-dev.svc.cluster.local/data
+            - "--console-address=:9090"
+          ports:
+            - name: minio
+              containerPort: 9000
+            - name: console
+              containerPort: 9090
+            # hostPort: 9000 # commenting this out made it work...?
+          # These volume mounts are persistent. Each pod in the StatefulSet
+          # gets a volume mounted based on this field.
+          volumeMounts:
+            - name: data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: "local-path"
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: object-storage-ingress
+  namespace: minio-dev
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+spec:
+  rules:
+    - host: "storage.localhost"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: minio
+                port:
+                  number: 9000
+    - host: "storage-console.localhost"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: minio
+                port:
+                  number: 9090
