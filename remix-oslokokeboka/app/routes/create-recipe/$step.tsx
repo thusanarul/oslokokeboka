@@ -156,12 +156,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     });
   }
 
-  return json<{
-    step: number;
-    form: RecipeFormField[];
-    filled: RecipeFilled;
-    recipeTitle: string | null;
-  }>({
+  return json({
     step: currentStep,
     form: steps[currentStep].form,
     filled: filled,
@@ -336,15 +331,16 @@ export let handle = {
 };
 
 export default function RecipeStep() {
-  const loaderData: {
+  const loaderData = useLoaderData<{
     step: number;
     form: RecipeFormField[];
     filled: RecipeFilled;
     recipeTitle: string | null;
-  } = useLoaderData();
-  const actionData:
-    | { step: number; form: RecipeFormField[]; errors: RecipeErrors }
-    | undefined = useActionData();
+  }>();
+
+  const actionData = useActionData<
+    { step: number; form: RecipeFormField[]; errors: RecipeErrors } | undefined
+  >();
   const { t, i18n } = useTranslation(["create-recipe", "common"]);
   const lang = i18n.language as i18nKey; // Nothing gets rendered if this fails. Maybe a type cast?
 

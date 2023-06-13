@@ -130,15 +130,18 @@ export default function Admin() {
         </div>
       </section>
 
-      <div className="px-2" id="submissions-switch">
+      <ul
+        className="px-2 flex h-full items-center justify-center"
+        id="submissions-switch"
+      >
         {submissionsView.map((el, i) => {
           const disabled = el.type === currentSubmissionView;
           const last = i == submissionsView.length - 1;
 
           return (
-            <>
+            <li key={i} className="">
               <button
-                className={`fuzzy ${disabled && "underline"}`}
+                className={`fuzzy ${disabled ? "underline" : ""}`}
                 onClick={() => {
                   setCurrentSubmissionsView(el.type);
                 }}
@@ -153,10 +156,10 @@ export default function Admin() {
                   |
                 </span>
               )}
-            </>
+            </li>
           );
         })}
-      </div>
+      </ul>
 
       <section
         data-visible={
