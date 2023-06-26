@@ -73,7 +73,7 @@ export const action: ActionFunction = async ({ params, request }) => {
   // saved in localstorage in /thank-you route
   session.unset("formId");
 
-  return redirect(`create-recipe/thank-you/${formId}`, {
+  return redirect(`/create-recipe/thank-you/${formId}`, {
     headers: {
       "Set-Cookie": await commitSession(session),
     },
