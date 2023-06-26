@@ -6,12 +6,12 @@ import { trackEvent } from "~/functions";
 const infoComponents = [
   {
     id: "why-are-we-doing-this",
-    imgSrc: "images/food/blue-kitchen.png",
+    imgSrc: "/images/food/blue-kitchen.png",
     imgAlt: "pumpkin",
   },
   {
     id: "what-are-we-looking-for",
-    imgSrc: "images/food/pink-dining-room.png",
+    imgSrc: "/images/food/pink-dining-room.png",
     imgAlt: "tuna",
   },
 ];

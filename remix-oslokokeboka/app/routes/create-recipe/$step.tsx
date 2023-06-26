@@ -314,9 +314,9 @@ export const action: ActionFunction = async ({ params, request }) => {
     });
   });
 
-  let nextStep = `create-recipe/${currentStep + 1}`;
+  let nextStep = `/create-recipe/${currentStep + 1}`;
   if (steps[currentStep].nextStep === "preview") {
-    nextStep = `create-recipe/preview`;
+    nextStep = `/create-recipe/preview`;
   }
 
   return redirect(nextStep, {
