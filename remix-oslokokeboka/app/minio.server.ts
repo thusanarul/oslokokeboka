@@ -16,7 +16,7 @@ const setup = () => {
 
   const minioClient = new Minio.Client({
     endPoint: S3_ENDPOINT,
-    port: 9000,
+    // port: 9000,
     useSSL: false,
     accessKey: S3_ACCESS_KEY_ID,
     secretKey: S3_SECRET_ACCESS_KEY,
