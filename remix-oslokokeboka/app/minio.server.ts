@@ -43,7 +43,7 @@ export async function uploadImageToBucket(
   base64: string,
   recipeId: string,
   imageIndex: string
-) {
+): Promise<string | null> {
   if (!minioClient) {
     console.error("Minio client not initialized. Not uploading image");
     return null;
@@ -53,7 +53,7 @@ export async function uploadImageToBucket(
 
   const type = base64.split(";")[0].split("/")[1];
 
-  const filename = `${recipeId}/${imageIndex}`;
+  const filename = `${recipeId}/${imageIndex}.${type}`;
 
   const metaData: Minio.ItemBucketMetadata = {
     "Content-Type": `image/${type}`,
@@ -68,4 +68,6 @@ export async function uploadImageToBucket(
   );
 
   console.log(res);
+
+  return `http://${S3_ENDPOINT}/${S3_BUCKET}/${filename}`;
 }

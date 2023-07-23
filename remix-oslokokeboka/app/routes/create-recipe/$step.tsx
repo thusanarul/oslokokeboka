@@ -303,7 +303,16 @@ export const action: ActionFunction = async ({ params, request }) => {
       console.log("Image input");
       console.log(val.toString());
 
-      await uploadImageToBucket(val.toString(), submission.id, "0");
+      const imageUrl = await uploadImageToBucket(
+        val.toString(),
+        submission.id,
+        "0"
+      );
+
+      if (imageUrl == null) {
+        // Minio client was not initialized. I want errors as type :(
+        return;
+      }
 
       // Probably want to handle image differently
       return;
