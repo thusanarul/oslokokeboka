@@ -23,10 +23,10 @@ spec:
   containers:
     - name: minio
       env:
-        - name: MINIO_SERVER_URL
-          value: http://storage.localhost
-        - name: MINIO_BROWSER_REDIRECT_URL
-          value: http://storage-console.localhost/login
+        # - name: MINIO_SERVER_URL
+        #   value: http://storage.localhost
+        # - name: MINIO_BROWSER_REDIRECT_URL
+        #   value: http://storage-console.localhost/login
         - name: MINIO_ACCESS_KEY
           value: "minio"
         - name: MINIO_SECRET_KEY
@@ -42,6 +42,10 @@ spec:
           name: localvolume # Corresponds to the `spec.volumes` Persistent Volume
       ports:
         - containerPort: 9000
+      resources:
+        limits:
+          cpu: 250m
+          memory: 512Mi
       # Readiness probe detects situations when MinIO server instance
       # is not ready to accept traffic. Kubernetes doesn't forward
       # traffic to the pod while readiness checks fail.
@@ -99,7 +103,7 @@ spec:
                 name: object-storage
                 port:
                   number: 9000
-    - host: "storage-console.localhost"
+    - host: "console.storage.localhost"
       http:
         paths:
           - pathType: Prefix
