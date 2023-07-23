@@ -310,7 +310,14 @@ export const action: ActionFunction = async ({ params, request }) => {
         return;
       }
 
-      // Probably want to handle image differently
+      // Save image url to database
+      await db.recipeImage.create({
+        data: {
+          url: imageUrl,
+          recipeSubmissionId: submission.id,
+        },
+      });
+
       return;
     }
 
