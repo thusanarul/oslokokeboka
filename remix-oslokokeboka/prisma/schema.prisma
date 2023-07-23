@@ -12,11 +12,12 @@ datasource db {
 
 // prolly need visible flag or something
 model RecipeSubmission {
-  id        String          @id @default(uuid())
-  fields    RecipeField[]
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
-  state     SubmissionState @default(STARTED)
+  id          String          @id @default(uuid())
+  fields      RecipeField[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  state       SubmissionState @default(STARTED)
+  RecipeImage RecipeImage[]
 }
 
 model RecipeField {
@@ -26,6 +27,14 @@ model RecipeField {
   name               String
   inputType          InputType
   inputValue         String
+  RecipeSubmission   RecipeSubmission? @relation(fields: [recipeSubmissionId], references: [id])
+  recipeSubmissionId String?
+}
+
+model RecipeImage {
+  id                 String            @id @default(uuid())
+  url                String            @unique
+  default            Boolean           @default(false)
   RecipeSubmission   RecipeSubmission? @relation(fields: [recipeSubmissionId], references: [id])
   recipeSubmissionId String?
 }
