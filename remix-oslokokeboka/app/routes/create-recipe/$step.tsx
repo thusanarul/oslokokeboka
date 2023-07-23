@@ -100,13 +100,9 @@ const inputTypeMap = {
   image: InputType.IMAGE,
 };
 
-// Next step: task 1 or 2
-
 // TODO
-// task: Make the rest of the form, and make sure redirecting and saving the form works.
 // task: save highest form step filled to localstorage or something
-// task: Create admin panel to view submitted recipes. Can be pretty simple.
-// task: Create image upload and consent input
+// task: Create image upload
 // task: edit ingredients submission.
 // task: Make opacity depended on scroll also. Have only implemented lazy version
 
