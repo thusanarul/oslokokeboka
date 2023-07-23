@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: minio-dev # Change this value if you want a different namespace name
+  name: minio # Change this value if you want a different namespace name
   labels:
-    name: minio-dev # Change this value to match metadata.name
+    name: minio # Change this value to match metadata.name
 ---
 apiVersion: v1
 kind: Service
@@ -22,13 +22,43 @@ spec:
   selector:
     app: minio
 ---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: object-storage-ingress
+  namespace: minio
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+spec:
+  rules:
+    - host: "storage.localhost"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: minio
+                port:
+                  number: 9000
+    - host: "console.storage.localhost"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: minio
+                port:
+                  number: 9090
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   labels:
     app: minio
   name: minio
-  namespace: minio-dev # has to match the namespace metadata.name
+  namespace: minio # has to match the namespace metadata.name
 spec:
   selector:
     matchLabels: # not sure why I need this
@@ -45,19 +75,19 @@ spec:
       containers:
         - name: minio
           env:
-            - name: MINIO_SERVER_URL
-              value: http://storage.localhost
-            - name: MINIO_BROWSER_REDIRECT_URL
-              value: http://storage-console.localhost/login
+            # - name: MINIO_SERVER_URL
+            #   value: http://storage.localhost
+            # - name: MINIO_BROWSER_REDIRECT_URL
+            #   value: http://storage-console.localhost/login
             - name: MINIO_ACCESS_KEY
               value: "minio"
             - name: MINIO_SECRET_KEY
               value: "minio123"
-          image: quay.io/minio/minio:RELEASE.2023-02-27T18-10-45Z
+          image: quay.io/minio/minio:RELEASE.2023-07-21T21-12-44Z
           args:
             - server
             # <StatefulSet>-<Ordinal>.<Service>.<Namespace>.svc.cluster.local
-            - http://minio-{0...3}.minio.minio-dev.svc.cluster.local/data
+            - http://minio-{0...3}.minio.minio.svc.cluster.local/data
             - "--console-address=:9090"
           ports:
             - name: minio
@@ -81,32 +111,40 @@ spec:
           requests:
             storage: 1Gi
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: object-storage-ingress
-  namespace: minio-dev
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+  name: minio-bucketcreator
+  namespace: minio
 spec:
-  rules:
-    - host: "storage.localhost"
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: minio
-                port:
-                  number: 9000
-    - host: "storage-console.localhost"
-      http:
-        paths:
-          - pathType: Prefix
-            path: /
-            backend:
-              service:
-                name: minio
-                port:
-                  number: 9090
+  ttlSecondsAfterFinished: 100
+  backoffLimit: 6 # default is 6
+  template:
+    spec:
+      containers:
+      - name: minio-bucketcreator
+        image: minio/mc
+        command: ["/bin/sh", "/run/scripts/minio-bucketcreator.sh"]
+        volumeMounts:
+          - name: scripts
+            mountPath: "/run/scripts"
+      restartPolicy: OnFailure
+      volumes:
+        - name: scripts
+          configMap:
+            name: minio-bucketcreator
+            defaultMode: 0500
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minio-bucketcreator
+data:
+  minio-bucketcreator.sh: |
+    #!/bin/sh
+    /usr/bin/mc alias set minio http://minio:9000 minio minio123 || exit 1;
+    /usr/bin/mc mb minio/oslokokeboka;
+    /usr/bin/mc policy set public minio/oslokokeboka;
+    exit 0;
+
+
