@@ -15,7 +15,6 @@ import form_0 from "~/form-input/form-0";
 import form_1 from "~/form-input/form-1";
 import form_2 from "~/form-input/form-2";
 import form_3 from "~/form-input/form-3";
-import AdderInput from "~/components/input-fields/adder";
 import TextInput from "~/components/input-fields/text-input";
 import { InputHTMLElement } from "~/components/input-fields/shared";
 import Ellipse from "~/components/ellipse";
@@ -683,8 +682,6 @@ const InputField = ({
 
       // TODO:
       // find a way to load stuff from localstorage to input. maybe input type hidden
-      // find image hosting: cloudinary? how to dev locally?
-      // save urls to database in a sensible way
 
       useEffect(() => {
         const saved = localStorage.getItem(`picture:${field.name}`);
