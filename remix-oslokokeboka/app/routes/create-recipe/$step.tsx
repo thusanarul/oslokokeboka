@@ -735,7 +735,11 @@ const InputField = ({
       return (
         <>
           <input type="hidden" name={field.name} value={previews} />
-          <div className="flex gap-3 mt-2">
+          <div
+            className="flex gap-3 mt-2"
+            onMouseOver={onHover}
+            onFocus={onFocus}
+          >
             {[0, 1, 2].map((v) => {
               if (!previews[v]) {
                 return (
@@ -743,8 +747,6 @@ const InputField = ({
                     key={`field.name-${v}`}
                     className="flex flex-col gap-2 image-upload p-or-body w-[120px] h-[120px]"
                     htmlFor={`field.name-${v}`}
-                    onFocus={onFocus}
-                    onMouseOver={onHover}
                   >
                     {t("click-to-upload")}
                     <br />
