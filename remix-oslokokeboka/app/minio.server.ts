@@ -40,7 +40,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 export async function uploadImageToBucket(
-  base64: string,
+  image: Base64Image,
   recipeId: string,
   imageIndex: string
 ): Promise<string | null> {
@@ -49,25 +49,49 @@ export async function uploadImageToBucket(
     return null;
   }
 
-  const data = Buffer.from(base64.split(",")[1], "base64");
-
-  const type = base64.split(";")[0].split("/")[1];
-
-  const filename = `${recipeId}/${imageIndex}.${type}`;
+  const filename = `${recipeId}/${imageIndex}.${image.type}`;
 
   const metaData: Minio.ItemBucketMetadata = {
-    "Content-Type": `image/${type}`,
+    "Content-Type": `image/${image.type}`,
     "Content-Encoding": `base64`,
   };
 
   const res = await minioClient.putObject(
     config.bucket,
     filename,
-    data,
+    image.data,
     metaData
   );
 
   console.log(res);
 
   return `http://${S3_ENDPOINT}/${S3_BUCKET}/${filename}`;
+}
+
+type Base64Image = {
+  type: string;
+  data: Buffer;
+};
+
+export function getBase64ImagesFromFormValue(val: string): Base64Image[] {
+  // val format example: 'data:image/png;base64,iVBOR...,data:image/png;base64,iVOOJ...'
+  // Split string into array that looks like this: [<type>, <data>, <type>, <data>]
+  const split = val.split(",");
+
+  const base64Array: Base64Image[] = [];
+
+  for (let i = 0; i < split.length; i += 2) {
+    // type format: data:image/png;base64
+    const type = split[i].split(";")[0].split("/")[1];
+
+    // data is a base64 string
+    const data = Buffer.from(split[i + 1], "base64");
+
+    base64Array.push({
+      type,
+      data,
+    });
+  }
+
+  return base64Array;
 }

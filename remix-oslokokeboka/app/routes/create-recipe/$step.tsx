@@ -21,7 +21,10 @@ import Ellipse from "~/components/ellipse";
 import { TFunction, useTranslation } from "react-i18next";
 import RecipeInfoModal from "~/components/recipe-info-modal";
 import Plus from "~/components/plus";
-import { uploadImageToBucket } from "~/minio.server";
+import {
+  getBase64ImagesFromFormValue,
+  uploadImageToBucket,
+} from "~/minio.server";
 
 /*
 required trenger ikke å være nullable?
@@ -295,27 +298,35 @@ export const action: ActionFunction = async ({ params, request }) => {
     }
 
     if (field.input.type === "image") {
-      console.log("Image input");
-      console.log(val.toString());
+      const images = getBase64ImagesFromFormValue(val.toString());
 
-      const imageUrl = await uploadImageToBucket(
-        val.toString(),
-        submission.id,
-        "0"
-      );
+      for (let i = 0; i < images.length; i++) {
+        const image = images[i];
+        const imageUrl = await uploadImageToBucket(
+          image,
+          submission.id,
+          i.toString()
+        );
 
-      if (imageUrl == null) {
-        // Minio client was not initialized. I want errors as type :(
-        return;
+        if (imageUrl == null) {
+          // Minio client was not initialized. I want errors as type :(
+          return;
+        }
+
+        // Save image url to database
+        await db.recipeImage.upsert({
+          where: {
+            url: imageUrl,
+          },
+          create: {
+            url: imageUrl,
+            recipeSubmissionId: submission.id,
+          },
+          update: {
+            url: imageUrl,
+          },
+        });
       }
-
-      // Save image url to database
-      await db.recipeImage.create({
-        data: {
-          url: imageUrl,
-          recipeSubmissionId: submission.id,
-        },
-      });
 
       return;
     }
