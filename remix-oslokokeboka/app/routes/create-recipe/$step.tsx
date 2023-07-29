@@ -102,6 +102,11 @@ const inputTypeMap = {
   image: InputType.IMAGE,
 };
 
+type ImageFormData = {
+  images: string;
+  defaultImage: number | null;
+};
+
 // TODO
 // task: save highest form step filled to localstorage or something
 // task: Create image upload
@@ -298,7 +303,8 @@ export const action: ActionFunction = async ({ params, request }) => {
     }
 
     if (field.input.type === "image") {
-      const images = getBase64ImagesFromFormValue(val.toString());
+      const imageFormData: ImageFormData = JSON.parse(val.toString());
+      const images = getBase64ImagesFromFormValue(imageFormData.images);
 
       for (let i = 0; i < images.length; i++) {
         const image = images[i];
@@ -313,7 +319,9 @@ export const action: ActionFunction = async ({ params, request }) => {
           return;
         }
 
-        // Save image url to database
+        const defaultImage = imageFormData.defaultImage === i;
+
+        // Upsert image url to database
         await db.recipeImage.upsert({
           where: {
             url: imageUrl,
@@ -321,9 +329,11 @@ export const action: ActionFunction = async ({ params, request }) => {
           create: {
             url: imageUrl,
             recipeSubmissionId: submission.id,
+            default: defaultImage,
           },
           update: {
             url: imageUrl,
+            default: defaultImage,
           },
         });
       }
@@ -689,7 +699,7 @@ const InputField = ({
       );
     case "image":
       const [previews, setPreviews] = useState<string[]>([]);
-      const [chosenDefault, setChosenDefault] = useState<number | null>(null);
+      const [defaultImage, setImageDefault] = useState<number | null>(null);
 
       // TODO:
       // find a way to load stuff from localstorage to input. maybe input type hidden
@@ -740,9 +750,18 @@ const InputField = ({
         localStorage.setItem(`picture:${field.name}`, JSON.stringify(items));
       };
 
+      const formData: ImageFormData = {
+        images: previews.join(","),
+        defaultImage: defaultImage,
+      };
+
       return (
         <>
-          <input type="hidden" name={field.name} value={previews} />
+          <input
+            type="hidden"
+            name={field.name}
+            value={JSON.stringify(formData)}
+          />
           <div
             className="flex gap-3 mt-2"
             onMouseOver={onHover}
@@ -777,10 +796,10 @@ const InputField = ({
                   <img
                     key={`preview-${field.name}-${v}`}
                     src={previews[v]}
-                    data-default={chosenDefault === v}
+                    data-default={defaultImage === v}
                     onClick={(ev) => {
                       ev.preventDefault();
-                      setChosenDefault(v);
+                      setImageDefault(v);
                     }}
                     className={
                       "w-[120px] h-[120px] rounded border-salmon data-[default=true]:border-2"
