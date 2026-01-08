@@ -1,0 +1,9 @@
+version: 2
+updates:
+  # generated because appling "remix-oslokokeboka" was found
+  - package-ecosystem: "docker"
+    directory: "/remix-oslokokeboka"
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: "docker: "
